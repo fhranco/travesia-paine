@@ -34,17 +34,6 @@
         </nav>
         
         <div class="header-actions">
-            <!-- Weather Live Capsule (Header Integrado) -->
-            <div class="weather-badge-container" id="weather-paine-badge" title="Datos meteorológicos en vivo Parque Nacional Torres del Paine">
-                <span class="weather-dot"></span>
-                <span class="weather-item weather-item-location">📍 Torres del Paine:</span>
-                <span class="weather-item" id="weather-temp" style="font-weight: 700; color: #FFF;">7°C</span>
-                <span class="weather-divider">|</span>
-                <span class="weather-item" id="weather-wind">💨 22 km/h</span>
-                <span class="weather-divider">|</span>
-                <span class="weather-item" id="weather-status" style="color: #4ADE80; font-weight: 600;">🌤️ Parcialmente nublado</span>
-            </div>
-
             <!-- Selector de Idiomas -->
             <div class="lang-switch">
                 <button type="button" class="lang-btn active" data-lang="es">ES</button>
@@ -733,12 +722,20 @@
             document.body.style.overflow = 'auto';
         }
 
-        function closeTourModal(event) {
-            if (event.target.id === 'tour-modal') {
-                closeTourModalDirect();
-            }
-        }
-    </script>
+    <!-- Burbuja Flotante de Clima en Vivo Torres del Paine -->
+    <div class="floating-weather-widget">
+        <div class="floating-weather-bubble" id="weather-paine-badge" title="Clima en tiempo real en Torres del Paine (Open-Meteo)">
+            <span class="weather-dot"></span>
+            <span class="floating-weather-badge">En Vivo</span>
+            <span class="weather-item weather-item-location">🏔️ Paine:</span>
+            <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #4ADE80;">7°C</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-wind">💨 22 km/h</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-status" style="font-weight: 600;">🌤️ Parcialmente nublado</span>
+        </div>
+    </div>
+
     <script src="js/i18n.js"></script>
     <script src="main.js"></script>
 </body>

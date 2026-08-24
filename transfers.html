@@ -71,17 +71,6 @@
         </nav>
         
         <div class="header-actions">
-            <!-- Weather Live Capsule (Header Integrado) -->
-            <div class="weather-badge-container" id="weather-paine-badge" title="Datos meteorológicos en vivo Parque Nacional Torres del Paine">
-                <span class="weather-dot"></span>
-                <span class="weather-item weather-item-location">📍 Torres del Paine:</span>
-                <span class="weather-item" id="weather-temp" style="font-weight: 700; color: #FFF;">7°C</span>
-                <span class="weather-divider">|</span>
-                <span class="weather-item" id="weather-wind">💨 22 km/h</span>
-                <span class="weather-divider">|</span>
-                <span class="weather-item" id="weather-status" style="color: #4ADE80; font-weight: 600;">🌤️ Parcialmente nublado</span>
-            </div>
-
             <!-- Selector de Idiomas -->
             <div class="lang-switch">
                 <button type="button" class="lang-btn active" data-lang="es">ES</button>
@@ -375,6 +364,20 @@
         <a href="https://wa.me/56987654321?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Contactar por WhatsApp">
             <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
         </a>
+    </div>
+
+    <!-- Burbuja Flotante de Clima en Vivo Torres del Paine -->
+    <div class="floating-weather-widget">
+        <div class="floating-weather-bubble" id="weather-paine-badge" title="Clima en tiempo real en Torres del Paine (Open-Meteo)">
+            <span class="weather-dot"></span>
+            <span class="floating-weather-badge">En Vivo</span>
+            <span class="weather-item weather-item-location">🏔️ Paine:</span>
+            <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #4ADE80;">7°C</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-wind">💨 22 km/h</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-status" style="font-weight: 600;">🌤️ Parcialmente nublado</span>
+        </div>
     </div>
 
     <!-- Hidden form for Webpay POST redirection -->
