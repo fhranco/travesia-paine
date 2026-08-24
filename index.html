@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travesía Paine - Tours y Transfers en Torres del Paine | Empresa Familiar</title>
+    <meta name="description" content="Tours y traslados de bajo costo en Torres del Paine. Full Day y Trekking Base Torres con tarifas convenientes y atención directa familiar.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+        <a href="index.html" class="logo-container" id="logo">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-text">
+                Travesía
+                <span>Paine</span>
+            </div>
+        </a>
+        
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html" class="active" data-i18n="navHome">Inicio</a></li>
+                <li><a href="#excursiones" data-i18n="navTours">Excursiones</a></li>
+                <li><a href="#empresa-familiar" data-i18n="navAbout">Quiénes Somos</a></li>
+                <li><a href="#reserva-online" data-i18n="navBook">Reserva Online</a></li>
+                <li><a href="#politicas" data-i18n="navPolicies">Políticas</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <!-- Language Switcher -->
+            <div class="lang-switch">
+                <button type="button" class="lang-btn active" data-lang="es">ES</button>
+                <button type="button" class="lang-btn" data-lang="en">EN</button>
+                <button type="button" class="lang-btn" data-lang="pt">PT</button>
+            </div>
+
+            <a href="transfers.html" class="cta-nav" id="cta-book" data-i18n="navBookTransfer">Reservar Ahora</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sticky Weather Bar Torres del Paine (En Vivo) -->
+    <div class="weather-sticky-bar" id="weather-paine-badge" title="Datos meteorológicos en vivo Parque Nacional Torres del Paine">
+        <div class="weather-badge-container">
+            <span class="weather-dot"></span>
+            <span class="weather-item weather-item-location">📍 Torres del Paine:</span>
+            <span class="weather-item" id="weather-temp" style="font-weight: 700; color: #FFF;">7°C</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-wind">💨 22 km/h</span>
+            <span class="weather-divider">|</span>
+            <span class="weather-item" id="weather-status" style="color: #4ADE80; font-weight: 600;">🌤️ Parcialmente nublado</span>
+        </div>
+    </div>
+
+    <!-- Hero Section con Buscador Estilo Recorrido.cl -->
+    <section class="hero" id="home">
+        <div class="hero-content" style="max-width: 1020px;">
+            <span class="section-tag" data-i18n="heroTag">Temporada 2026 / 2027 Disponible</span>
+            <h1 data-i18n="heroTitle">Descubre Torres del Paine con Tarifas Convenientes</h1>
+            <p data-i18n="heroSubtitle" style="margin-bottom: 1.5rem;">
+                Somos una empresa familiar de turismo en Puerto Natales. Ofrecemos traslados y excursiones accesibles, responsables y directas hacia los rincones más impresionantes de la Patagonia.
+            </p>
+
+            <!-- Buscador de Pasajes y Asientos (Recorrido.cl Style) -->
+            <div class="hero-search-box">
+                <div class="search-tabs">
+                    <button type="button" class="search-tab-btn active">
+                        🚐 <span data-i18n="searchTabTours">Excursiones y Pasajes de Bus</span>
+                    </button>
+                    <span style="font-size: 0.8rem; color: #4ADE80; margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
+                        ● <span data-i18n="searchLiveStatus">Salidas Confirmadas Diarias</span>
+                    </span>
+                </div>
+
+                <form id="hero-search-form" onsubmit="handleHeroSearch(event)">
+                    <div class="search-inputs-grid">
+                        
+                        <!-- Destino / Excursión -->
+                        <div class="search-field">
+                            <label><span data-i18n="searchLabelDest">🏔️ Excursión / Destino</span></label>
+                            <select id="search-tour-select" required>
+                                <option value="fullday">Full Day Torres del Paine ($38.000 CLP)</option>
+                                <option value="basetorres">Trekking Base Torres ($35.000 CLP)</option>
+                            </select>
+                        </div>
+
+                        <!-- Fecha de Salida -->
+                        <div class="search-field">
+                            <label><span data-i18n="searchLabelDate">📅 Fecha de Salida</span></label>
+                            <input type="date" id="search-date-input" required>
+                        </div>
+
+                        <!-- Botón Buscar Asientos -->
+                        <div class="search-submit-col">
+                            <button type="submit" class="btn-search-bus">
+                                🔍 <span data-i18n="searchBtnSubmit">Buscar Asientos</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="search-trust-pills">
+                    <span>⚡ <strong style="color: #FFF;" data-i18n="searchPill1">Elección de Asiento en Vivo</strong></span>
+                    <span>🛡️ <strong style="color: #FFF;" data-i18n="searchPill2">Pago Seguro Webpay Plus</strong></span>
+                    <span>🎫 <strong style="color: #FFF;" data-i18n="searchPill3">Pasaje Digital Inmediato</strong></span>
+                    <span>🚐 <strong style="color: #FFF;" data-i18n="searchPill4">Bus Máx. 12 Pasajeros</strong></span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Stats Ribbon -->
+    <section class="stats-ribbon">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 data-i18n="stat1Num">07:00 AM</h3>
+                    <p data-i18n="stat1Text">Pick-up en tu Alojamiento</p>
+                </div>
+                <div class="stat-item">
+                    <h3 data-i18n="stat2Num">100%</h3>
+                    <p data-i18n="stat2Text">Empresa Familiar Local</p>
+                </div>
+                <div class="stat-item">
+                    <h3 data-i18n="stat3Num">Bajo Costo</h3>
+                    <p data-i18n="stat3Text">Tarifas Justas y Accesibles</p>
+                </div>
+                <div class="stat-item">
+                    <h3 data-i18n="stat4Num">Webpay</h3>
+                    <p data-i18n="stat4Text">Pago Seguro y Pasaje Digital</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Excursiones (Cards Compactas & Llamativas) -->
+    <section class="section-padding bg-surface" id="excursiones">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag" data-i18n="toursTag">Nuestras Rutas</span>
+                <h2 class="section-title" data-i18n="toursTitle">Excursiones y Traslados</h2>
+                <p class="section-subtitle" data-i18n="toursSubtitle">Tarifas claras, salidas diarias desde Puerto Natales y reserva directa de asientos.</p>
+            </div>
+
+            <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 960px; margin: 0 auto;">
+                
+                <!-- Tour Card Compact 1: FULL DAY TORRES DEL PAINE -->
+                <div class="tour-card-compact">
+                    <div class="img-container">
+                        <img src="trek_w_circuit.jpg" alt="Full Day Torres del Paine">
+                        <span class="badge-top-left" data-i18n="tour1Badge">Bajo Costo</span>
+                        <div class="price-floating-badge">$38.000 CLP</div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div style="color: var(--color-accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;" data-i18n="tour1Time">
+                                ⏱ Salida 07:00 AM · Todo el Día
+                            </div>
+                            <h3 data-i18n="tour1Title">Full Day Torres del Paine</h3>
+                            <h4 data-i18n="tour1Desc">Una alternativa económica para conocer el Parque Nacional y Cueva del Milodón.</h4>
+                        </div>
+
+                        <div class="card-actions-compact">
+                            <button type="button" class="btn-details-popup" onclick="openTourModal('fullday')" data-i18n="tour1BtnDetails">
+                                ℹ️ Ver Detalles
+                            </button>
+                            <a href="transfers.html" class="btn btn-accent btn-sm" style="flex: 1; text-align: center;" data-i18n="tour1BtnBook">
+                                Reservar Asiento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour Card Compact 2: TREKKING BASE TORRES -->
+                <div class="tour-card-compact">
+                    <div class="img-container">
+                        <img src="trek_base_torres.jpg" alt="Trekking Base Torres">
+                        <span class="badge-top-left" style="background: rgba(179,113,76,0.95);" data-i18n="tour2Badge">Transporte Directo</span>
+                        <div class="price-floating-badge">$35.000 CLP</div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div style="color: var(--color-accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;" data-i18n="tour2Time">
+                                ⏱ Salida 06:30 AM · Retorno 18:30 PM
+                            </div>
+                            <h3 data-i18n="tour2Title">Trekking Base Torres</h3>
+                            <h4 data-i18n="tour2Desc">Transporte ida y vuelta para realizar el sendero autoguiado al Mirador Base Torres.</h4>
+                        </div>
+
+                        <div class="card-actions-compact">
+                            <button type="button" class="btn-details-popup" onclick="openTourModal('basetorres')" data-i18n="tour2BtnDetails">
+                                ℹ️ Ver Detalles
+                            </button>
+                            <a href="transfers.html" class="btn btn-accent btn-sm" style="flex: 1; text-align: center;" data-i18n="tour2BtnBook">
+                                Reservar Asiento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Quiénes Somos: Empresa Familiar -->
+    <section class="section-padding" id="empresa-familiar">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: center;">
+                <div>
+                    <span class="section-tag" data-i18n="aboutTag">Nuestra Identidad</span>
+                    <h2 class="section-title" data-i18n="aboutTitle">Somos una Empresa Familiar</h2>
+                    <p style="font-size: 1.1rem; color: var(--color-text-light); margin-bottom: 1.2rem; font-weight: 500;" data-i18n="aboutDesc1">
+                        Somos una empresa familiar de turismo, lo que nos permite ofrecer tarifas más convenientes al administrar directamente gran parte de nuestra operación.
+                    </p>
+                    <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;" data-i18n="aboutDesc2">
+                        Nosotros mismos nos encargamos de la atención de nuestros pasajeros, reservas, coordinación, logística y transporte, buscando entregar un servicio cercano, responsable y a un precio accesible.
+                    </p>
+                    <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.2rem 1.5rem; border-left: 4px solid #4ADE80;">
+                        <h4 style="color: #4ADE80; font-size: 1.05rem; margin-bottom: 0.4rem;" data-i18n="aboutGoalTitle">Nuestro Objetivo</h4>
+                        <p style="color: var(--color-text-muted); font-size: 0.92rem; margin: 0;" data-i18n="aboutGoalText">
+                            Que más personas puedan conocer y disfrutar de los increíbles paisajes de la Patagonia sin pagar de más.
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <img src="guides_team.jpg" alt="Equipo Familiar Travesía Paine" style="width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-soft);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Reserva Online: 3 Cards Horizontales con los Pasos -->
+    <section class="section-padding bg-surface-elevated" id="reserva-online">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag" data-i18n="stepsTag">Fácil y Rápido</span>
+                <h2 class="section-title" data-i18n="stepsTitle">Reserva Online</h2>
+                <p class="section-subtitle" data-i18n="stepsSubtitle">Asegura tus asientos en la van en 3 simples pasos con confirmación instantánea.</p>
+            </div>
+
+            <!-- 3 Horizontal Step Cards -->
+            <div class="steps-horizontal-grid">
+                
+                <!-- Card Paso 1 -->
+                <div class="step-card-horizontal">
+                    <div class="step-num-bubble">1</div>
+                    <div class="step-content">
+                        <h4 data-i18n="step1Title">Elige Tour y Asientos</h4>
+                        <p data-i18n="step1Desc">Selecciona tu excursión, fecha y tus ubicaciones preferidas en el mapa interactivo de 12 asientos de nuestro bus.</p>
+                    </div>
+                </div>
+
+                <!-- Card Paso 2 -->
+                <div class="step-card-horizontal">
+                    <div class="step-num-bubble">2</div>
+                    <div class="step-content">
+                        <h4 data-i18n="step2Title">Datos y Alojamiento</h4>
+                        <p data-i18n="step2Desc">Ingresa los datos de tus pasajeros y la dirección de tu alojamiento en Puerto Natales para coordinar tu horario exacto de pick-up.</p>
+                    </div>
+                </div>
+
+                <!-- Card Paso 3 -->
+                <div class="step-card-horizontal">
+                    <div class="step-num-bubble">3</div>
+                    <div class="step-content">
+                        <h4 data-i18n="step3Title">Pago Seguro & Pasaje Digital</h4>
+                        <p data-i18n="step3Desc">Paga con Webpay Plus y descarga tu comprobante digital. El chofer verificará directamente tus datos con su manifiesto de abordaje.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="transfers.html" class="btn btn-accent" style="font-size: 1.05rem; padding: 1.1rem 3rem;" data-i18n="heroBtnBook">
+                    ¡Comenzar Reserva Online Ahora!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Políticas (Ocultas / Desplegables en Acordeón) -->
+    <section class="section-padding bg-surface" id="politicas">
+        <div class="container">
+            <div class="section-title-wrap" style="margin-bottom: 2rem;">
+                <span class="section-tag" data-i18n="policiesTag">Términos y Condiciones</span>
+                <h2 class="section-title" data-i18n="policiesTitle">Políticas de Reserva, Cancelación y Reembolso</h2>
+                <p class="section-subtitle" data-i18n="policiesSubtitle">Haz clic en cada sección para desplegar y revisar los términos del servicio.</p>
+            </div>
+
+            <div class="policy-accordion-container">
+                
+                <!-- Acordeón 1: Política de Reservas -->
+                <div class="accordion-item" id="policy-item-1">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-1')">
+                        <span data-i18n="pol1Header">1. Política de Reservas</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol1Body">
+                            <p>El cliente podrá realizar la reserva y/o compra de nuestros servicios a través de nuestra página web o mediante los enlaces de reserva disponibles en ella.</p>
+                            <p>Para realizar una reserva, el cliente deberá proporcionar la siguiente información:</p>
+                            <ul style="padding-left: 1.2rem; margin: 0.5rem 0;">
+                                <li>Excursión o servicio que desea contratar.</li>
+                                <li>Fecha de la excursión.</li>
+                                <li>Cantidad de pasajeros.</li>
+                                <li>Nombre y datos de contacto del responsable de la reserva.</li>
+                                <li>Lugar de alojamiento en Puerto Natales, cuando corresponda, para coordinar el horario y lugar de pick-up.</li>
+                            </ul>
+                            <p>Una vez realizada la reserva, el cliente deberá revisar y verificar que los datos proporcionados sean correctos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordeón 2: Política de Cancelaciones -->
+                <div class="accordion-item" id="policy-item-2">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-2')">
+                        <span data-i18n="pol2Header">2. Política de Cancelaciones</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol2Body">
+                            <p>El cliente podrá cancelar su reserva de acuerdo con los siguientes plazos y condiciones:</p>
+                            <ul style="padding-left: 1.2rem; margin: 0.5rem 0;">
+                                <li><strong>Cancelación con 7 días o más de anticipación:</strong> Reembolso del 100% del valor pagado, sin penalización.</li>
+                                <li><strong>Cancelación con 4 días de anticipación:</strong> Se aplicará una penalización correspondiente al 50% del valor pagado.</li>
+                                <li><strong>Cancelación con 2 días o menos de anticipación:</strong> No se realizará reembolso del servicio contratado.</li>
+                            </ul>
+                            <p>La misma condición de no reembolso se aplicará en caso de no presentación (No Show) o cuando el pasajero decida no utilizar el servicio una vez contratado.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordeón 3: Política de Reembolso por Condiciones Climáticas -->
+                <div class="accordion-item" id="policy-item-3">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-3')">
+                        <span data-i18n="pol3Header">3. Política de Reembolso por Condiciones Climáticas</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol3Body">
+                            <p>En caso de que una excursión sea cancelada por condiciones climáticas adversas, y dicha cancelación sea determinada por el proveedor del servicio antes del inicio de la actividad, se realizará el reembolso del 100% del valor pagado, según corresponda.</p>
+                            <div style="background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;">
+                                <strong style="color: var(--color-accent);">Trekking Base Torres:</strong> En el caso específico del Trekking Base Torres, si la actividad es cancelada por condiciones climáticas o de seguridad por CONAF durante el desarrollo de la excursión, no se realizará reembolso. Esta situación puede producirse in situ, en un punto del sendero determinado por la autoridad competente, sin previo aviso y una vez que la actividad ya se encuentra en desarrollo. En estos casos, la decisión corresponde a CONAF y está fuera del control de nuestra empresa.
+                            </div>
+                            <p>Los reembolsos que correspondan serán gestionados en un plazo de hasta 7 días, de acuerdo con el medio de pago utilizado y las condiciones aplicables.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordeón 4: Medios de Pago Online -->
+                <div class="accordion-item" id="policy-item-4">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-4')">
+                        <span data-i18n="pol4Header">4. Medios de Pago Online</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol4Body">
+                            <p>Nuestros servicios podrán ser pagados mediante:</p>
+                            <ul style="padding-left: 1.2rem; margin: 0.5rem 0;">
+                                <li>Tarjetas de crédito y débito (vía Webpay Plus).</li>
+                                <li>Transferencia bancaria.</li>
+                                <li>PayPal.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordeón 5: No Presentación (No Show) -->
+                <div class="accordion-item" id="policy-item-5">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-5')">
+                        <span data-i18n="pol5Header">5. No Presentación (No Show)</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol5Body">
+                            <p>Si el pasajero no se presenta, no se encuentra disponible o no está preparado para realizar el tour en el horario previamente informado y coordinado por nuestra agencia, el servicio será considerado como No Presentación (No Show) y no tendrá derecho a reembolso.</p>
+                            <p>El pasajero deberá encontrarse preparado y disponible en el lugar de recogida y dentro del horario informado previamente por nuestra agencia. Cualquier retraso ocasionado por el pasajero que impida realizar el servicio, incluyendo no encontrarse disponible al momento del pick-up, será registrado como No Presentación (No Show).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acordeón 6: Aceptación de las Políticas -->
+                <div class="accordion-item" id="policy-item-6">
+                    <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-6')">
+                        <span data-i18n="pol6Header">6. Aceptación de las Políticas</span>
+                        <span class="icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div data-i18n="pol6Body">
+                            <p>Al realizar una reserva y/o efectuar el pago del servicio, el cliente declara haber leído, comprendido y aceptado las presentes Políticas de Reserva, Cancelación y Reembolso.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (2 Columnas: Marca & Reserva Directa / WhatsApp) -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <!-- Columna 1: Marca & Propósito -->
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-container">
+                        <svg class="logo-svg" viewBox="0 0 100 100">
+                            <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+                        </svg>
+                        <div class="logo-text">
+                            Travesía
+                            <span>Paine</span>
+                        </div>
+                    </a>
+                    <p data-i18n="footerAboutText">
+                        Empresa familiar de turismo en Puerto Natales. Excursiones y traslados de bajo costo al Parque Nacional Torres del Paine.
+                    </p>
+                    <div style="font-size: 0.88rem; color: var(--color-text-muted);" data-i18n="footerHours">
+                        ⏱ Atención diaria: 07:00 - 21:00 hrs
+                    </div>
+                </div>
+
+                <!-- Columna 2: Reserva Directa & WhatsApp -->
+                <div class="footer-contact-card" style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+                    <a href="transfers.html" class="btn btn-accent" style="text-align: center; padding: 0.95rem 1.5rem; font-size: 1rem; width: 100%;" data-i18n="navBookTransfer">
+                        🚐 Reservar Asiento en Bus
+                    </a>
+                    
+                    <a href="https://wa.me/56987654321?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="footer-whatsapp-btn" data-i18n="btnFooterWa">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
+                        <span>WhatsApp Directo Chofer / Base</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div data-i18n="footerCopy">&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS. EMPRESA FAMILIAR DE TURISMO.</div>
+                <div class="footer-socials">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" fill="currentColor" stroke-width="2"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Widget Flotante de WhatsApp en Vivo -->
+    <div class="floating-whatsapp-widget">
+        <span class="floating-whatsapp-badge" data-i18n="floatingWaBadge">💬 ¿Dudas? Escríbenos</span>
+        <a href="https://wa.me/56987654321?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Contactar por WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
+        </a>
+    </div>
+
+    <!-- MODAL / POPUP: DETALLES DEL TOUR -->
+    <div class="modal-overlay" id="tour-modal" onclick="closeTourModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeTourModalDirect()" aria-label="Cerrar modal">✕</button>
+            <div id="modal-content-container">
+                <!-- Se inyecta dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Tour Details Content Store
+        const tourDetails = {
+            fullday: {
+                title: "Full Day Torres del Paine – Bajo Costo",
+                tagline: "Una alternativa económica para conocer el Parque Nacional Torres del Paine",
+                price: "$38.000 CLP",
+                time: "Salida: 07:00 AM · Retorno Vespertino",
+                body: `
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
+                        Comenzamos nuestro recorrido a las <strong>07:00 horas</strong>, realizando el pick-up de nuestros pasajeros en sus alojamientos de Puerto Natales, para luego dirigirnos hacia el Parque Nacional Torres del Paine.
+                    </p>
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
+                        Durante el recorrido visitaremos diferentes puntos de interés del parque, realizando diversas paradas para que nuestros pasajeros puedan disfrutar de los paisajes y tomar fotografías de la impresionante naturaleza de la Patagonia.
+                    </p>
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
+                        Además, visitaremos el <strong>Monumento Natural Cueva del Milodón</strong>, uno de los principales atractivos turísticos de la zona.
+                    </p>
+                    
+                    <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+                        <h4 style="color: var(--color-accent); font-size: 0.95rem; margin-bottom: 0.4rem;">📍 Ingreso al Parque</h4>
+                        <p style="font-size: 0.88rem; color: var(--color-text-light); margin: 0; line-height: 1.5;">
+                            El recorrido podrá realizarse ingresando por <strong>Portería Laguna Amarga</strong> o <strong>Portería Serrano</strong>. La ruta y el orden de los lugares a visitar serán determinados por nuestro equipo al inicio de la excursión, considerando principalmente condiciones climáticas, estado de caminos y condiciones operacionales del día.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(179, 113, 76, 0.12); border-left: 4px solid var(--color-accent); border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; margin-bottom: 1.5rem;">
+                        <strong style="color: var(--color-accent); font-size: 0.9rem;">⚠️ Importante – Modalidad Bajo Costo:</strong>
+                        <p style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.3rem; line-height: 1.4;">
+                            Esta excursión corresponde a una modalidad de tour de bajo costo y <strong>no contempla servicio de guía turístico</strong>. El servicio está orientado principalmente al transporte y recorrido por los principales puntos de interés, realizando las mismas paradas contempladas en nuestra modalidad de tour regular.
+                        </p>
+                    </div>
+                `
+            },
+            basetorres: {
+                title: "Trekking Base Torres",
+                tagline: "Vive uno de los trekkings más emblemáticos de la Patagonia",
+                price: "$35.000 CLP",
+                time: "Salida: 06:30 AM · Espera hasta: 18:30 PM",
+                body: `
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
+                        Comenzamos nuestro servicio a las <strong>06:30 horas</strong>, realizando el pick-up de nuestros pasajeros en sus alojamientos de Puerto Natales.
+                    </p>
+                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
+                        Desde allí nos dirigiremos hacia la <strong>Portería Laguna Amarga</strong>, donde los pasajeros deberán presentar sus entradas y cumplir con los controles correspondientes para ingresar al Parque Nacional Torres del Paine. Posteriormente, continuaremos hasta el <strong>Centro de Bienvenida</strong>, lugar desde donde comenzarán por cuenta propia el trekking hacia Base Torres.
+                    </p>
+
+                    <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+                        <h4 style="color: #4ADE80; font-size: 0.95rem; margin-bottom: 0.4rem;">⏱ Tiempo para realizar el trekking</h4>
+                        <p style="font-size: 0.88rem; color: var(--color-text-light); margin: 0; line-height: 1.5;">
+                            El vehículo permanecerá esperando hasta las <strong>18:30 horas</strong> en el Centro de Bienvenida, horario establecido para iniciar el retorno hacia Puerto Natales.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(179, 113, 76, 0.12); border-left: 4px solid var(--color-accent); border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; margin-bottom: 1.5rem;">
+                        <strong style="color: var(--color-accent); font-size: 0.9rem;">⚠️ Importante:</strong>
+                        <p style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.3rem; line-height: 1.4;">
+                            Este servicio corresponde <strong>exclusivamente al transporte de ida y regreso y no incluye guía de trekking</strong>. Cada pasajero será responsable de realizar el trekking por cuenta propia, respetando las normas, indicaciones y restricciones establecidas por CONAF.
+                        </p>
+                    </div>
+                `
+            }
+        };
+
+        function openTourModal(tourKey) {
+            const lang = typeof currentLang !== 'undefined' ? currentLang : 'es';
+            
+            const i18nModalContent = {
+                fullday: {
+                    es: {
+                        tag: "Itinerario & Detalles",
+                        title: "Full Day Torres del Paine – Bajo Costo",
+                        tagline: "Una alternativa económica para conocer el Parque Nacional Torres del Paine",
+                        price: "$38.000 CLP",
+                        time: "Salida: 07:00 AM · Retorno Vespertino",
+                        p1: "Comenzamos nuestro recorrido a las <strong>07:00 horas</strong>, realizando el pick-up de nuestros pasajeros en sus alojamientos de Puerto Natales, para luego dirigirnos hacia el Parque Nacional Torres del Paine.",
+                        p2: "Durante el recorrido visitaremos diferentes puntos de interés del parque, realizando diversas paradas para que nuestros pasajeros puedan disfrutar de los paisajes y tomar fotografías de la impresionante naturaleza de la Patagonia.",
+                        p3: "Además, visitaremos el <strong>Monumento Natural Cueva del Milodón</strong>, uno de los principales atractivos turísticos de la zona.",
+                        boxTitle: "📍 Ingreso al Parque",
+                        boxText: "El recorrido podrá realizarse ingresando por <strong>Portería Laguna Amarga</strong> o <strong>Portería Serrano</strong>. La ruta y el orden de los lugares a visitar serán determinados por nuestro equipo al inicio de la excursión, considerando condiciones climáticas y operacionales.",
+                        warnTitle: "⚠️ Importante – Modalidad Bajo Costo:",
+                        warnText: "Esta excursión corresponde a una modalidad de tour de bajo costo y <strong>no contempla servicio de guía turístico</strong>. El servicio está orientado principalmente al transporte y recorrido por los principales puntos de interés con las paradas de un tour regular.",
+                        btnBook: "Reservar Asiento en el Bus"
+                    },
+                    en: {
+                        tag: "Itinerary & Details",
+                        title: "Full Day Torres del Paine – Budget Option",
+                        tagline: "An affordable way to experience Torres del Paine National Park",
+                        price: "$38,000 CLP",
+                        time: "Departure: 07:00 AM · Evening Return",
+                        p1: "We start at <strong>07:00 AM</strong> with hotel pick-up in Puerto Natales before heading towards Torres del Paine National Park.",
+                        p2: "During the trip, we will stop at various panoramic viewpoints to enjoy the landscape and take photographs of Patagonia's wild beauty.",
+                        p3: "We will also visit the famous <strong>Milodon Cave Natural Monument</strong>.",
+                        boxTitle: "📍 Park Entrance",
+                        boxText: "Entry may take place through <strong>Laguna Amarga</strong> or <strong>Serrano Gate</strong> based on daily weather and road conditions.",
+                        warnTitle: "⚠️ Important – Low Cost Format:",
+                        warnText: "This tour corresponds to a budget format and <strong>does not include a tour guide</strong>. It focuses on comfortable transport and sightseeing at all regular stops.",
+                        btnBook: "Book Seat on Bus"
+                    },
+                    pt: {
+                        tag: "Roteiro & Detalhes",
+                        title: "Full Day Torres del Paine – Econômico",
+                        tagline: "Uma alternativa econômica para conhecer o Parque Nacional Torres del Paine",
+                        price: "$38.000 CLP",
+                        time: "Saída: 07:00 AM · Retorno Vespertino",
+                        p1: "Iniciamos às <strong>07:00 horas</strong> com o pick-up nos hotéis em Puerto Natales em direção ao Parque Nacional.",
+                        p2: "Visitaremos os principais mirantes do parque com paradas fotográficas nas mais belas paisagens da Patagônia.",
+                        p3: "Também visitaremos o <strong>Monumento Natural Caverna do Milodón</strong>.",
+                        boxTitle: "📍 Entrada no Parque",
+                        boxText: "A entrada poderá ser pela <strong>Portaria Laguna Amarga</strong> ou <strong>Serrano</strong> dependendo do clima.",
+                        warnTitle: "⚠️ Importante – Modalidade Econômica:",
+                        warnText: "Este passeio é focado em transporte e contemplação e <strong>não inclui guia turístico</strong>.",
+                        btnBook: "Reservar Assento no Ônibus"
+                    }
+                },
+                basetorres: {
+                    es: {
+                        tag: "Itinerario & Detalles",
+                        title: "Trekking Base Torres",
+                        tagline: "Vive uno de los trekkings más emblemáticos de la Patagonia",
+                        price: "$35.000 CLP",
+                        time: "Salida: 06:30 AM · Espera hasta: 18:30 PM",
+                        p1: "Comenzamos nuestro servicio a las <strong>06:30 horas</strong> con pick-up en alojamientos de Puerto Natales.",
+                        p2: "Nos dirigiremos a Portería Laguna Amarga y luego al Centro de Bienvenida, inicio del sendero hacia el Mirador Base Torres.",
+                        p3: "El sendero es autoguiado y está completamente señalizado por CONAF.",
+                        boxTitle: "⏱ Tiempo para realizar el trekking",
+                        boxText: "El vehículo permanecerá esperando hasta las <strong>18:30 horas</strong> en el Centro de Bienvenida para retornar a Puerto Natales.",
+                        warnTitle: "⚠️ Importante:",
+                        warnText: "Corresponde <strong>exclusivamente al transporte de ida y regreso y no incluye guía de trekking</strong>. Cada pasajero camina a su propio ritmo.",
+                        btnBook: "Reservar Asiento en el Bus"
+                    },
+                    en: {
+                        tag: "Itinerary & Details",
+                        title: "Base Torres Trekking Transport",
+                        tagline: "Experience the most iconic day hike in Patagonia",
+                        price: "$35,000 CLP",
+                        time: "Departure: 06:30 AM · Waiting until: 18:30 PM",
+                        p1: "We pick you up at your Puerto Natales accommodation at <strong>06:30 AM</strong>.",
+                        p2: "Direct transport to Laguna Amarga and Welcome Center, the trailhead for the Base Torres viewpoint hike.",
+                        p3: "The trail is self-guided, well-marked, and maintained by CONAF.",
+                        boxTitle: "⏱ Trekking Duration",
+                        boxText: "The bus waits at the Welcome Center until <strong>18:30 PM (6:30 PM)</strong> for the return to Puerto Natales.",
+                        warnTitle: "⚠️ Important:",
+                        warnText: "This service provides <strong>roundtrip transport only (no trekking guide)</strong>. Hikers proceed at their own pace.",
+                        btnBook: "Book Seat on Bus"
+                    },
+                    pt: {
+                        tag: "Roteiro & Detalhes",
+                        title: "Trekking Base Torres",
+                        tagline: "Viva um dos trekkings mais emblemáticos da Patagônia",
+                        price: "$35.000 CLP",
+                        time: "Saída: 06:30 AM · Espera até: 18:30 PM",
+                        p1: "Iniciamos o pick-up às <strong>06:30 horas</strong> nos hotéis de Puerto Natales.",
+                        p2: "Transporte direto até o Centro de Boas-Vindas para início da trilha autoguiada ao Mirante Base Torres.",
+                        p3: "Trilha autoguiada e totalmente sinalizada pela CONAF.",
+                        boxTitle: "⏱ Tempo de Trilha",
+                        boxText: "O ônibus aguardará até as <strong>18:30 horas</strong> para retorno a Puerto Natales.",
+                        warnTitle: "⚠️ Importante:",
+                        warnText: "Serviço de <strong>transporte de ida e volta sem guia de caminhada</strong>.",
+                        btnBook: "Reservar Assento no Ônibus"
+                    }
+                }
+            };
+
+            const data = (i18nModalContent[tourKey] && i18nModalContent[tourKey][lang]) || (i18nModalContent[tourKey] && i18nModalContent[tourKey]['es']);
+            if (!data) return;
+
+            const container = document.getElementById('modal-content-container');
+            container.innerHTML = `
+                <span class="section-tag" style="font-size: 0.7rem; margin-bottom: 0.5rem;">${data.tag}</span>
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: #FFF; margin-bottom: 0.3rem;">${data.title}</h2>
+                <h4 style="color: var(--color-accent); font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem;">${data.tagline}</h4>
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <span style="background: rgba(74, 222, 128, 0.15); border: 1px solid #4ADE80; color: #4ADE80; padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 800; font-size: 1.1rem;">
+                        ${data.price}
+                    </span>
+                    <span style="color: var(--color-text-muted); font-size: 0.85rem; font-weight: 600;">
+                        ⏱ ${data.time}
+                    </span>
+                </div>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">${data.p1}</p>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">${data.p2}</p>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">${data.p3}</p>
+                
+                <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+                    <h4 style="color: var(--color-accent); font-size: 0.95rem; margin-bottom: 0.4rem;">${data.boxTitle}</h4>
+                    <p style="font-size: 0.88rem; color: var(--color-text-light); margin: 0; line-height: 1.5;">${data.boxText}</p>
+                </div>
+
+                <div style="background: rgba(179, 113, 76, 0.12); border-left: 4px solid var(--color-accent); border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; margin-bottom: 1.5rem;">
+                    <strong style="color: var(--color-accent); font-size: 0.9rem;">${data.warnTitle}</strong>
+                    <p style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.3rem; line-height: 1.4;">${data.warnText}</p>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <a href="transfers.html" class="btn btn-accent" style="flex: 1; text-align: center; padding: 0.9rem;">
+                        ${data.btnBook}
+                    </a>
+                </div>
+            `;
+
+            const modal = document.getElementById('tour-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Buscador Estilo Recorrido.cl
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInput = document.getElementById('search-date-input');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                const minDate = `${yyyy}-${mm}-${dd}`;
+                dateInput.min = minDate;
+                dateInput.value = minDate;
+            }
+        });
+
+        function handleHeroSearch(e) {
+            e.preventDefault();
+            const tourSelect = document.getElementById('search-tour-select');
+            const dateInput = document.getElementById('search-date-input');
+            
+            const tourVal = tourSelect ? tourSelect.value : 'fullday';
+            const dateVal = dateInput ? dateInput.value : '';
+
+            // Redirigir a transfers.html con los parámetros seleccionados
+            window.location.href = `transfers.html?tour=${encodeURIComponent(tourVal)}&date=${encodeURIComponent(dateVal)}`;
+        }
+
+        function togglePolicyAccordion(itemId) {
+            const item = document.getElementById(itemId);
+            if (!item) return;
+            const wasActive = item.classList.contains('active');
+            
+            // Cerrar otros
+            document.querySelectorAll('.policy-accordion-container .accordion-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        function closeTourModalDirect() {
+            const modal = document.getElementById('tour-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeTourModal(event) {
+            if (event.target.id === 'tour-modal') {
+                closeTourModalDirect();
+            }
+        }
+    </script>
+    <script src="js/i18n.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto & Reserva - Travesía Paine | Torres del Paine</title>
+    <meta name="description" content="Cotiza tu expedición en Torres del Paine con Travesía Paine. Contáctanos por formulario o WhatsApp para coordinar fechas y disponibilidad.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+        <a href="index.html" class="logo-container" id="logo">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-text">
+                Travesía
+                <span>Paine</span>
+            </div>
+        </a>
+        
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="treks.html">Treks</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="transfers.html">Transfers (Van)</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+            </div>
+            <a href="transfers.html" class="cta-nav" id="cta-book" data-i18n="navBookTransfer">Reservar Transfer</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner" style="background-image: url('background.jpg');">
+        <div class="page-banner-content">
+            <span class="section-tag">Hablemos de tu Viaje</span>
+            <h1>Contacto & Reserva de Fechas</h1>
+            <p>Escríbenos para armar tu itinerario a medida o resolver cualquier duda antes de emprender rumbo al sur.</p>
+        </div>
+    </section>
+
+    <!-- Contact & Booking Section -->
+    <section class="section-padding bg-surface">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: start;">
+                <!-- Contact Information Column -->
+                <div>
+                    <span class="section-tag">Base Operativa</span>
+                    <h2 class="section-title">Estamos en Puerto Natales</h2>
+                    <p style="color: var(--color-text-muted); margin-bottom: 2rem;">
+                        Nuestra oficina principal se encuentra a pasos del centro de Puerto Natales, puerta de entrada al Parque Nacional Torres del Paine.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem;">
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="feature-icon" style="margin-bottom: 0; width: 44px; height: 44px;">📍</div>
+                            <div>
+                                <h4 style="font-size: 1rem;">Oficina Central</h4>
+                                <p style="color: var(--color-text-muted); font-size: 0.9rem;">Manuel Bulnes 450, Puerto Natales, Región de Magallanes, Chile</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="feature-icon" style="margin-bottom: 0; width: 44px; height: 44px;">✉️</div>
+                            <div>
+                                <h4 style="font-size: 1rem;">Correo Electrónico</h4>
+                                <p style="color: var(--color-text-muted); font-size: 0.9rem;">expediciones@travesiapaine.cl</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="feature-icon" style="margin-bottom: 0; width: 44px; height: 44px;">💬</div>
+                            <div>
+                                <h4 style="font-size: 1rem;">WhatsApp Directo</h4>
+                                <p style="color: var(--color-text-muted); font-size: 0.9rem;">+56 9 8765 4321 (Respuesta en menos de 2 horas)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/" target="_blank" class="btn btn-accent" style="width: 100%; justify-content: center;">
+                        <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.979-.275-.1-.476-.15-.677.15-.2.301-.776.979-.952 1.18-.175.201-.351.226-.652.075s-1.272-.469-2.423-1.496c-.896-.798-1.501-1.784-1.677-2.085-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.176.2-.301.301-.501.101-.201.05-.376-.025-.527-.075-.15-.677-1.631-.928-2.233-.244-.587-.492-.507-.677-.517l-.578-.01c-.2 0-.527.075-.802.376s-1.053 1.028-1.053 2.508 1.078 2.909 1.229 3.11c.15.201 2.122 3.241 5.141 4.545.718.31 1.279.496 1.716.635.722.23 1.378.197 1.897.12.578-.087 1.78-.727 2.031-1.43.251-.703.251-1.305.176-1.43-.076-.125-.276-.201-.577-.351z"/>
+                        </svg>
+                        Escribir por WhatsApp Ahora
+                    </a>
+                </div>
+
+                <!-- Interactive Booking Form Column -->
+                <div class="form-container">
+                    <h3 style="font-size: 1.6rem; margin-bottom: 0.5rem;">Formulario de Cotización</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Ingresa tus datos y uno de nuestros guías te enviará la propuesta detallada con disponibilidad exacta.</p>
+
+                    <form id="booking-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Nombre Completo *</label>
+                                <input type="text" id="name" class="form-control" placeholder="Ej: María González" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico *</label>
+                                <input type="email" id="email" class="form-control" placeholder="tu@email.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Teléfono / WhatsApp *</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+56 9 1234 5678" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="trek">Circuito de Interés *</label>
+                                <select id="trek" class="form-control" required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="circuito-w">Circuito W Clásico (5 Días)</option>
+                                    <option value="circuito-o">Circuito O Macizo Completo (8 Días)</option>
+                                    <option value="base-torres">Mirador Base Torres Sunrise (1 Día)</option>
+                                    <option value="glaciar-grey">Glaciar Grey Ice Trekking (2 Días)</option>
+                                    <option value="custom">A Medida / Expedición Privada</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dates">Mes o Fechas Estimadas</label>
+                                <input type="text" id="dates" class="form-control" placeholder="Ej: Diciembre 2026">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="travelers">Número de Pasajeros</label>
+                                <select id="travelers" class="form-control">
+                                    <option value="1">1 Persona (Individual)</option>
+                                    <option value="2" selected>2 Personas (Pareja/Dúo)</option>
+                                    <option value="3-4">3 - 4 Personas</option>
+                                    <option value="5+">5+ Personas (Grupo)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-full">
+                                <label for="comments">Comentarios o Requerimientos Especiales</label>
+                                <textarea id="comments" class="form-control" placeholder="Indícanos si tienes restricciones alimentarias, si prefieres refugios o domos, o cualquier consulta adicional..."></textarea>
+                            </div>
+
+                            <div class="form-full" style="margin-top: 1rem;">
+                                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 0.95rem;">Enviar Solicitud de Reserva</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="section-padding" id="faqs">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Dudas Habituales</span>
+                <h2 class="section-title">Preguntas Frecuentes (FAQ)</h2>
+                <p class="section-subtitle">Todo lo que necesitas saber antes de tu viaje a las Torres del Paine.</p>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-item active">
+                    <button class="accordion-header">
+                        <span>¿Con cuánta anticipación debo reservar mi circuito?</span>
+                        <span class="accordion-icon">▼</span>
+                    </button>
+                    <div class="accordion-content" style="max-height: 200px;">
+                        Recomendamos reservar con entre 4 y 6 meses de anticipación para la temporada alta (Noviembre a Febrero), ya que CONAF y las concesionarias de refugios agotan los cupos rápidamente.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>¿Qué nivel de condición física necesito para el Circuito W u O?</span>
+                        <span class="accordion-icon">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        Para el Circuito W se requiere una condición física moderada: capacidad de caminar de 5 a 8 horas diarias con desniveles de hasta 800m. Para el Circuito O se requiere experiencia previa en caminatas de larga distancia y buena resistencia aeróbica.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>¿Cómo llego a Puerto Natales?</span>
+                        <span class="accordion-icon">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        Puedes volar directamente desde Santiago de Chile al Aeropuerto de Puerto Natales (PNT) durante la temporada estival, o volar a Punta Arenas (PUQ) y tomar un bus regular de 3 horas hacia Puerto Natales.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>¿Qué pasa si el clima es adverso o cierran un sendero?</span>
+                        <span class="accordion-icon">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                        Nuestros guías WFR y directores de expedición evalúan diariamente los reportes meteorológicos y las alertas de CONAF. Si un paso de montaña (como John Gardner) se cierra por ráfagas extremas, activamos rutas alternativas de seguridad para proteger al grupo.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-container">
+                        <svg class="logo-svg" viewBox="0 0 100 100">
+                            <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+                        </svg>
+                        <div class="logo-text">
+                            Travesía
+                            <span>Paine</span>
+                        </div>
+                    </a>
+                    <p>Especialistas en expediciones de montaña y trekking guiado en el Parque Nacional Torres del Paine, Magallanes, Patagonia Chilena.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Circuitos</h4>
+                    <ul>
+                        <li><a href="treks.html#circuito-w">Circuito W</a></li>
+                        <li><a href="treks.html#circuito-o">Circuito O</a></li>
+                        <li><a href="treks.html#base-torres">Base Torres Sunrise</a></li>
+                        <li><a href="treks.html#glaciar-grey">Glaciar Grey Ice Trek</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Compañía</h4>
+                    <ul>
+                        <li><a href="story.html">Nuestra Historia</a></li>
+                        <li><a href="story.html#guias">Guías Certificados</a></li>
+                        <li><a href="packages.html">Paquetes All-Inclusive</a></li>
+                        <li><a href="contact.html#faqs">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contacto & Base</h4>
+                    <ul>
+                        <li>📍 Manuel Bulnes 450, Puerto Natales</li>
+                        <li>✉️ expediciones@travesiapaine.cl</li>
+                        <li>📞 +56 9 8765 4321</li>
+                        <li>⏱ Lun - Dom: 08:00 - 20:00 CLT</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS.</div>
+                <div class="footer-socials">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" fill="currentColor" stroke-width="2"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

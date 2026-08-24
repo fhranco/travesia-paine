@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paquetes All-Inclusive - Travesía Paine | Torres del Paine</title>
+    <meta name="description" content="Paquetes turísticos completos en Torres del Paine: Aventura Esencial, Refugios Clásicos y Patagonia VIP Glamping con traslados y comidas incluidas.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+        <a href="index.html" class="logo-container" id="logo">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-text">
+                Travesía
+                <span>Paine</span>
+            </div>
+        </a>
+        
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="treks.html">Treks</a></li>
+                <li><a href="packages.html" class="active">Packages</a></li>
+                <li><a href="transfers.html">Transfers (Van)</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+            </div>
+            <a href="transfers.html" class="cta-nav" id="cta-book" data-i18n="navBookTransfer">Reservar Transfer</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner" style="background-image: url('trek_o_circuit.jpg');">
+        <div class="page-banner-content">
+            <span class="section-tag">Experiencias Todo Incluido</span>
+            <h1>Paquetes & Tarifas All-Inclusive</h1>
+            <p>Logística integral: alojamientos asegurados, comidas en ruta, guías certificados y traslados privados desde Puerto Natales.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Cards Section -->
+    <section class="section-padding bg-surface">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Elige tu Estilo</span>
+                <h2 class="section-title">Programas Diseñados a tu Medida</h2>
+                <p class="section-subtitle">Tarifas por persona para grupos reducidos. Salidas semanales entre Octubre y Abril.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Plan 1: Esencial -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Aventura Esencial</h3>
+                        <p>Para montañistas autónomos que buscan una experiencia auténtica y ligera en campamentos equipados.</p>
+                        <div class="price-amount">$1,450 <span>USD / pers.</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Guía bilingüe certificado WFR
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Campamentos armados (carpa, colchoneta, saco)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Pensión completa (Desayuno, Box Lunch, Cena)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Ticket Catamarán Pehoé
+                        </li>
+                        <li class="disabled">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Alojamiento en Refugios de Montaña
+                        </li>
+                        <li class="disabled">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Servicio de porteador personal
+                        </li>
+                    </ul>
+                    <a href="contact.html?plan=esencial" class="btn btn-outline">Solicitar Fechas</a>
+                </div>
+
+                <!-- Plan 2: Clásico Refugios (Featured) -->
+                <div class="pricing-card featured">
+                    <div class="featured-ribbon">Recomendado</div>
+                    <div class="pricing-header">
+                        <h3>Refugios Clásicos</h3>
+                        <p>El balance perfecto entre el reto del sendero y el confort de una cama abrigada en los refugios del parque.</p>
+                        <div class="price-amount">$1,980 <span>USD / pers.</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Guía UIAGM / WFR exclusivo (grupo máx 8)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Noches en cama armada en Refugios
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Pensión completa con opciones vegetarianas/veganas
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Navegación Lago Grey & Catamarán Pehoé
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Transfer privado Puerto Natales ida y vuelta
+                        </li>
+                        <li class="disabled">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Servicio de porteador personal
+                        </li>
+                    </ul>
+                    <a href="contact.html?plan=refugios" class="btn btn-accent">Solicitar Disponibilidad</a>
+                </div>
+
+                <!-- Plan 3: VIP Glamping -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>VIP & Luxury Glamping</h3>
+                        <p>La máxima sofisticación en el fin del mundo. Domos geodésicos privados con vista al macizo y servicio premium.</p>
+                        <div class="price-amount">$3,200 <span>USD / pers.</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Guía privado 1:2 o 1:4 exclusivo
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Domos Glamping de lujo con baño privado
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Gastronomía de autor & Maridaje de Vinos
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Porteador para equipaje principal incluido
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Traslados en camionetas 4x4 privadas
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Kit técnico de bienvenida Travesía Paine
+                        </li>
+                    </ul>
+                    <a href="contact.html?plan=glamping" class="btn btn-outline">Solicitar VIP</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inclusions & Add-ons Grid -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Transparencia Total</span>
+                <h2 class="section-title">Qué Incluyen Nuestros Paquetes</h2>
+                <p class="section-subtitle">Sin sorpresas ni gastos ocultos en el parque.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3 style="color: var(--color-success); margin-bottom: 1rem;">✓ Siempre Incluido</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.92rem; color: var(--color-text-muted);">
+                        <li>• Entrada oficial CONAF al Parque Nacional</li>
+                        <li>• Briefing técnico el día previo en Puerto Natales</li>
+                        <li>• Comunicación satelital y botiquín de primeros auxilios</li>
+                        <li>• Asesoramiento personalizado antes del viaje</li>
+                        <li>• Custodia de equipaje sobrante en Puerto Natales</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem;">+ Extensiones Opcionales</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.92rem; color: var(--color-text-muted);">
+                        <li>• Extensión a El Chaltén & Glaciar Perito Moreno (Argentina)</li>
+                        <li>• Navegación a Glaciares Balmaceda y Serrano</li>
+                        <li>• Alquiler de equipo técnico (bastones, mochilas, sacos)</li>
+                        <li>• Noches adicionales en hotel de Puerto Natales o Punta Arenas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-container">
+                        <svg class="logo-svg" viewBox="0 0 100 100">
+                            <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+                        </svg>
+                        <div class="logo-text">
+                            Travesía
+                            <span>Paine</span>
+                        </div>
+                    </a>
+                    <p>Especialistas en expediciones de montaña y trekking guiado en el Parque Nacional Torres del Paine, Magallanes, Patagonia Chilena.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Circuitos</h4>
+                    <ul>
+                        <li><a href="treks.html#circuito-w">Circuito W</a></li>
+                        <li><a href="treks.html#circuito-o">Circuito O</a></li>
+                        <li><a href="treks.html#base-torres">Base Torres Sunrise</a></li>
+                        <li><a href="treks.html#glaciar-grey">Glaciar Grey Ice Trek</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Compañía</h4>
+                    <ul>
+                        <li><a href="story.html">Nuestra Historia</a></li>
+                        <li><a href="story.html#guias">Guías Certificados</a></li>
+                        <li><a href="packages.html">Paquetes All-Inclusive</a></li>
+                        <li><a href="contact.html#faqs">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contacto & Base</h4>
+                    <ul>
+                        <li>📍 Manuel Bulnes 450, Puerto Natales</li>
+                        <li>✉️ expediciones@travesiapaine.cl</li>
+                        <li>📞 +56 9 8765 4321</li>
+                        <li>⏱ Lun - Dom: 08:00 - 20:00 CLT</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS.</div>
+                <div class="footer-socials">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" fill="currentColor" stroke-width="2"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

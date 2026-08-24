@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Reserva - Travesía Paine</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .result-card {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .status-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+        }
+        .status-icon.success {
+            background: rgba(42, 125, 79, 0.2);
+            color: #4ADE80;
+            border: 2px solid var(--color-success);
+        }
+        .status-icon.error {
+            background: rgba(220, 38, 38, 0.2);
+            color: #F87171;
+            border: 2px solid var(--color-danger);
+        }
+        .ticket-details {
+            background: var(--color-bg-dark);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+        }
+        .detail-row span { color: var(--color-text-muted); }
+        .detail-row strong { color: var(--color-text-light); }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <a href="index.html" class="logo-brand">
+            <svg class="logo-icon" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-title">
+                Travesía Paine
+                <span>Transfers & Expediciones</span>
+            </div>
+        </a>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="result-card" id="loading-card">
+            <div class="status-icon success" style="animation: spin 1.5s linear infinite; border-style: dashed;">⏳</div>
+            <h2>Validando Transacción con Webpay...</h2>
+            <p style="color: var(--color-text-muted); margin-top: 0.5rem;">Por favor espera un instante mientras confirmamos tu pago con Transbank.</p>
+        </div>
+
+        <!-- Success View -->
+        <div class="result-card" id="success-card" style="display: none;">
+            <div class="status-icon success">✓</div>
+            <h2 style="color: #4ADE80; font-size: 1.8rem; margin-bottom: 0.4rem;">¡Pago Aprobado con Éxito!</h2>
+            <p style="color: var(--color-text-muted);">Tu asiento ha sido confirmado en la van. Tu voucher oficial se descargará automáticamente.</p>
+
+            <div class="ticket-details" id="ticket-details">
+                <div class="detail-row">
+                    <span>Código de Reserva:</span>
+                    <strong id="res-code">-</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Orden de Compra:</span>
+                    <strong id="res-order">-</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Monto Pagado:</span>
+                    <strong id="res-amount" style="color: #4ADE80;">-</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Código Autorización:</span>
+                    <strong id="res-auth">-</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Tarjeta:</span>
+                    <strong id="res-card">-</strong>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <a id="btn-download-pdf" href="#" class="btn-webpay" style="background: var(--color-accent); text-decoration: none;">
+                    📄 Descargar Voucher PDF de Embarque
+                </a>
+                <a href="index.html" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem;">
+                    Volver a la Página Principal
+                </a>
+            </div>
+        </div>
+
+        <!-- Failure View -->
+        <div class="result-card" id="error-card" style="display: none;">
+            <div class="status-icon error">✕</div>
+            <h2 style="color: #F87171; font-size: 1.8rem; margin-bottom: 0.4rem;">Transacción No Completada</h2>
+            <p id="error-message" style="color: var(--color-text-muted); margin-bottom: 1.5rem;">El pago fue cancelado o rechazado por la pasarela de pagos.</p>
+            <a href="index.html" class="btn-webpay" style="background: var(--color-primary); text-decoration: none;">
+                Volver a Intentar
+            </a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token_ws = urlParams.get('token_ws');
+            const TBK_TOKEN = urlParams.get('TBK_TOKEN');
+
+            if (!token_ws && !TBK_TOKEN) {
+                showError('No se recibió información de la pasarela de pago.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/bookings/commit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token_ws, TBK_TOKEN })
+                });
+
+                const json = await res.json();
+
+                if (json.success && (json.isApproved || json.alreadyCommitted)) {
+                    showSuccess(json.data);
+                } else {
+                    showError(json.message || 'El pago fue rechazado por el banco emisor.');
+                }
+            } catch (err) {
+                console.error(err);
+                showError('Error de comunicación al verificar el estado de la transacción.');
+            }
+        });
+
+        function showSuccess(data) {
+            document.getElementById('loading-card').style.display = 'none';
+            document.getElementById('success-card').style.display = 'block';
+
+            const tickets = data.tickets || data.tokens || [];
+            const firstTicket = tickets[0] || {};
+
+            document.getElementById('res-code').textContent = tickets.map(t => `${t.passengerName} (Asiento ${t.seatNumber})`).join(', ') || data.bookingCode || 'TP-CONFIRMED';
+            document.getElementById('res-order').textContent = data.buyOrder || '-';
+            document.getElementById('res-amount').textContent = data.amount ? `$${data.amount.toLocaleString('es-CL')} CLP` : '-';
+            document.getElementById('res-auth').textContent = data.authorizationCode || 'N/A';
+            document.getElementById('res-card').textContent = data.cardNumber ? `**** ${data.cardNumber}` : 'Tarjeta de Crédito/Débito';
+
+            const pdfContainer = document.getElementById('btn-download-pdf').parentElement;
+            if (tickets.length > 1) {
+                pdfContainer.innerHTML = `
+                    <div style="font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem;">📄 Vouchers de Embarque (${tickets.length} Pasajeros):</div>
+                    ${tickets.map(t => `
+                        <a href="/api/voucher/${t.securityToken}/pdf" class="btn-webpay" style="background: var(--color-accent); text-decoration: none; margin-bottom: 0.4rem; padding: 0.8rem; font-size: 0.9rem;" target="_blank">
+                            📥 Descargar Voucher: ${t.passengerName} (Asiento N° ${t.seatNumber})
+                        </a>
+                    `).join('')}
+                    <a href="index.html" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem; margin-top: 0.5rem;">
+                        Volver a la Página Principal
+                    </a>
+                `;
+            } else if (firstTicket.securityToken) {
+                const pdfUrl = `/api/voucher/${firstTicket.securityToken}/pdf`;
+                const btnDownload = document.getElementById('btn-download-pdf');
+                btnDownload.href = pdfUrl;
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading-card').style.display = 'none';
+            document.getElementById('error-card').style.display = 'block';
+            document.getElementById('error-message').textContent = message;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "travesia-paine-transfer-booking",
+  "version": "1.0.0",
+  "description": "Sistema de venta directa y reserva de asientos de transfer con Webpay Plus, Voucher PDF con QR firmado y PWA Chofer",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "transfers",
+    "torres-del-paine",
+    "webpay",
+    "transbank",
+    "qr-tickets",
+    "pwa-driver"
+  ],
+  "author": "Travesia Paine",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pdfkit": "^0.16.0",
+    "qrcode": "^1.5.4",
+    "transbank-sdk": "^4.0.0"
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Portal Chofer & Escáner QR - Travesía Paine</title>
+    <meta name="theme-color" content="#12241E">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- html5-qrcode library for mobile camera QR scanning -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        .driver-card {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .scanner-viewport {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 1rem;
+        }
+        .btn-action {
+            background: var(--color-primary);
+            color: #FFF;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+        .btn-action:hover {
+            background: var(--color-primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="driver-header">
+        <a href="index.html" class="logo-brand">
+            <svg class="logo-icon" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-title">
+                Travesía Paine
+                <span>Portal Chofer / Asistente</span>
+            </div>
+        </a>
+        <div style="font-size: 0.75rem; color: #4ADE80; font-weight: 700;">
+            ● En Línea
+        </div>
+    </header>
+
+    <main class="main-wrapper" style="max-width: 1400px; width: 95%; margin: 1.5rem auto;">
+        
+        <!-- Tour & Calendar Date Selector for Driver -->
+        <div class="driver-card">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; align-items: flex-end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="driver-tour-select">Excursión o Servicio:</label>
+                    <select id="driver-tour-select" class="form-select" style="background: var(--color-bg-dark);">
+                        <option value="" disabled selected>Cargando excursiones...</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="driver-date-picker">Fecha del Recorrido (Calendario):</label>
+                    <input type="date" id="driver-date-picker" class="form-input" style="color-scheme: dark; font-size: 1rem; cursor: pointer;">
+                </div>
+            </div>
+            <small id="driver-date-info" style="display: block; margin-top: 0.6rem; color: #4ADE80; font-size: 0.85rem;">
+                📅 Selecciona la fecha en el calendario para cargar la lista de pasajeros.
+            </small>
+        </div>
+
+        <!-- Live Statistics Counter -->
+        <div class="driver-stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="driver-stat-box">
+                <div class="driver-stat-val" id="stat-capacity">12</div>
+                <div class="driver-stat-label">Capacidad Minibús</div>
+            </div>
+            <div class="driver-stat-box">
+                <div class="driver-stat-val" id="stat-paid" style="color: #4ADE80;">0</div>
+                <div class="driver-stat-label">Pasajeros Confirmados</div>
+            </div>
+        </div>
+
+        <!-- Passenger Manifest Table -->
+        <div class="driver-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
+                <div>
+                    <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--color-accent);">📋 Manifiesto Oficial de Pasajeros</h3>
+                    <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.2rem;">
+                        Lista de pasajeros confirmados y hoteles de pick-up para el recorrido del chofer.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <a id="btn-export-pdf" href="#" class="btn-action" style="background: #DC2626;" target="_blank">
+                        📄 Exportar PDF (Ancho Completo)
+                    </a>
+                    <a id="btn-export-csv" href="#" class="btn-action" style="background: #2563EB;">
+                        📥 Exportar Excel (CSV)
+                    </a>
+                </div>
+            </div>
+
+            <div class="manifest-table-wrap">
+                <table class="manifest-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Asiento</th>
+                            <th>Pasajero (Edad)</th>
+                            <th>RUT / Pasaporte</th>
+                            <th>Teléfono / WhatsApp</th>
+                            <th>Alojamiento (Lugar de Pick-up)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manifest-tbody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">
+                                Selecciona un tour para cargar el manifiesto.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/driver.js"></script>
+</body>
+</html>

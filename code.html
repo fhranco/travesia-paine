@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patagonia Expeditions - Inicio</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#55675c",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c4c7c7",
+                        "surface": "#faf9f9",
+                        "inverse-surface": "#303031",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-surface-variant": "#444748",
+                        "secondary-fixed": "#d4e7d9",
+                        "on-secondary-fixed-variant": "#3a4b40",
+                        "on-tertiary-container": "#668995",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f5f3f3",
+                        "secondary-container": "#d1e4d6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "secondary-fixed-dim": "#b8cbbe",
+                        "on-tertiary-fixed": "#001f27",
+                        "inverse-primary": "#c8c6c5",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-surface": "#1b1c1c",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-tint": "#5f5e5e",
+                        "surface-bright": "#faf9f9",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#858383",
+                        "tertiary-fixed-dim": "#a8ccd9",
+                        "background": "#faf9f9",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efeded",
+                        "primary-container": "#1c1b1b",
+                        "surface-container-high": "#e9e8e7",
+                        "outline": "#747878",
+                        "surface-container-highest": "#e3e2e2",
+                        "primary": "#000000",
+                        "on-background": "#1b1c1c",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#284b56",
+                        "tertiary-container": "#001f27",
+                        "surface-variant": "#e3e2e2",
+                        "secondary": "#516257",
+                        "on-secondary-fixed": "#0f1f16",
+                        "tertiary-fixed": "#c4e8f6",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dbdad9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "section-gap": "120px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.8", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Subtle image hover zoom for editorial style */
+        .img-hover-zoom {
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .card-container:hover .img-hover-zoom {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter py-4 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 transition-all duration-300 ease-in-out">
+<a class="font-headline-md text-headline-md font-bold tracking-tighter text-primary dark:text-primary" href="#">
+            PATAGONIA
+        </a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:opacity-80" href="#">Full Day</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:opacity-80" href="#">Base Torres</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:opacity-80" href="#">Nosotros</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:opacity-80" href="#">FAQs</a>
+</div>
+<div class="flex items-center">
+<button class="font-label-caps text-label-caps bg-primary text-on-primary px-6 py-3 rounded-DEFAULT hover:opacity-80 transition-opacity">
+                Reservar Ahora
+            </button>
+</div>
+</nav>
+<main class="w-full">
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-center justify-center pt-24 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full object-cover" data-alt="A spectacular, cinematic wide-angle photograph of the Torres del Paine massif in Patagonia, Chile. The granite horns pierce a dramatic, cloudy sky, bathed in the soft, golden light of early morning. The scene is vast and awe-inspiring, shot with an editorial, high-end landscape photography style, emphasizing deep blacks, pristine whites, and the rugged texture of the mountains. A minimalist, safe visual identity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5FmIxZtINqZ_DIU-NM_C-sSJQRy_DQkgscT1i_gBWtzSNJOIGjOLnMx0ZmLglHo_TsvLOzrYFECqGRkWkzvkTDnDOxzuJpVgGL2HBlKiclnb4tHQq5nnqPfT0rvqBkHOiXinn3AKgqY4wdHWgnpi5cqZH1rPCRMZmNv0rSfhZ_YZF0MTCxOaArr4az0KJ1MfbF7OGA0jH8locIdtMQtO4OQCo8XqFZTJAc3VEXOA7z0yecaN4cMQ')"></div>
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto px-gutter w-full flex flex-col items-center text-center mt-12">
+<h1 class="font-display-lg text-display-lg text-white max-w-4xl mx-auto drop-shadow-sm mb-6">
+                    TORRES DEL PAINE SIN COMPLICACIONES.
+                </h1>
+<p class="font-body-lg text-body-lg text-white/90 max-w-2xl mx-auto mb-10">
+                    Viaja desde Puerto Natales con una empresa local y familiar.
+                </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 mb-16">
+<button class="w-full sm:w-auto font-label-caps text-label-caps bg-white text-primary px-8 py-4 rounded-DEFAULT hover:bg-surface-container-highest transition-colors">
+                        VER EXPERIENCIAS
+                    </button>
+<button class="w-full sm:w-auto font-label-caps text-label-caps bg-transparent border border-white text-white px-8 py-4 rounded-DEFAULT hover:bg-white/10 transition-colors">
+                        RESERVAR
+                    </button>
+</div>
+<div class="flex flex-wrap justify-center items-center gap-6 font-label-caps text-label-caps text-white/80 border-t border-white/20 pt-6 px-4">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span> Desde Puerto Natales</span>
+<span class="hidden sm:inline text-white/30">·</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="directions_car">directions_car</span> Pick-up en tu alojamiento</span>
+<span class="hidden sm:inline text-white/30">·</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm" data-icon="confirmation_number">confirmation_number</span> Reserva online</span>
+</div>
+</div>
+</section>
+<!-- Tours Section -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-12 gap-gutter mb-12">
+<div class="col-span-12 md:col-span-8">
+<h2 class="font-headline-lg text-headline-lg text-primary">Dos formas de vivir Torres del Paine</h2>
+</div>
+</div>
+<div class="flex flex-col gap-8">
+<!-- Card 1 -->
+<article class="card-container group relative flex flex-col md:flex-row w-full border border-outline-variant/30 bg-surface-container-lowest overflow-hidden rounded-DEFAULT">
+<div class="w-full md:w-1/2 h-64 md:h-auto overflow-hidden relative">
+<div class="img-hover-zoom absolute inset-0 bg-cover bg-center w-full h-full" data-alt="A breathtaking landscape photograph of the Salto Grande waterfall in Torres del Paine National Park, with the Cuernos del Paine in the background. The water is a vibrant turquoise, contrasting with the dark rock and sparse green vegetation. Editorial style, high contrast, clean minimalist framing." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPLLvAj8ZB6tnfPcrCnb0Czm1S7VAlOQu7CiJV5pCkOhsshR4IL3f7H0yc6ZgCV4BcHq1vtt1IdKGlCtX_ZrZfAQpOMKaTI2KPgpaAGbxpquoBvjivQsCSJ3YRUH0oZu8wR6knLeBVCltTioBqe5Dg2uDui4-M30mU-3Bbbs7ekB-lDV0mfzFHVyVUtQ22QlboTLnEcaHzl5C616lZ6muksPdBkFaWLk2hB0FtBsk7L5YZVaww5zw')"></div>
+</div>
+<div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-surface-container-lowest">
+<div class="flex items-center gap-3 mb-4">
+<span class="font-label-caps text-label-caps bg-surface-variant text-on-surface px-3 py-1 rounded-sm">TOUR GUIADO</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">DURACIÓN: 10 HORAS</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">FULL DAY TORRES DEL PAINE</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">
+                            La experiencia completa. Recorre los miradores más icónicos del parque nacional en un vehículo cómodo, con paradas estratégicas y explicaciones de guías expertos locales.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-caps text-label-caps text-primary hover:text-secondary transition-colors w-max group-hover:gap-3 transition-all" href="#">
+                            VER DETALLES <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="card-container group relative flex flex-col md:flex-row-reverse w-full border border-outline-variant/30 bg-surface-container-lowest overflow-hidden rounded-DEFAULT">
+<div class="w-full md:w-1/2 h-64 md:h-auto overflow-hidden relative">
+<div class="img-hover-zoom absolute inset-0 bg-cover bg-center w-full h-full" data-alt="A striking editorial photograph of a hiker looking out over the Base of the Towers (Base Torres) viewpoint in Patagonia. The three massive granite pillars dominate the background, with a bright blue glacial lagoon in the foreground. High-end outdoor photography, muted natural tones, sharp focus, conveying a sense of achievement and scale." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcs5vtO2jE9K8hzqkI7lvaZFATxjmj6HfIGbxaJNEB-J8OVyVBTWEN5cs9xcgsX__gXu4DMpZW8_AnAgmxgQaMz4-BPYygwSKx3YSuVqGgBWh9GE0ah0T4GeUfAFs06cdaOCRHzb3LUPkzLIkmO5KQKuV3w3uDARV2XzilGgCCNP2ha8yIwIiIoCb4PqIxCHhTnH0xtq2Bmw9Dxc2LroLn4woxXBxogvEcj8yEBeObt4_Jxabug4Q')"></div>
+</div>
+<div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-surface-container-lowest">
+<div class="flex items-center gap-3 mb-4">
+<span class="font-label-caps text-label-caps bg-surface-variant text-on-surface px-3 py-1 rounded-sm">TREKKING EXIGENTE</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">DURACIÓN: 12 HORAS</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">BASE TORRES</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">
+                            El trekking más famoso de la Patagonia. Una ruta exigente que te lleva directamente a los pies de las imponentes agujas de granito, acompañados de guías especializados en la ruta.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-caps text-label-caps text-primary hover:text-secondary transition-colors w-max group-hover:gap-3 transition-all" href="#">
+                            VER DETALLES <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<!-- Editorial Section -->
+<section class="w-full py-section-gap bg-surface-container-lowest border-y border-outline-variant/30">
+<div class="max-w-container-max mx-auto px-gutter">
+<div class="grid grid-cols-12 gap-gutter items-center">
+<div class="col-span-12 lg:col-span-5 flex flex-col justify-center pr-0 lg:pr-12 mb-12 lg:mb-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-6 inline-flex items-center gap-2">
+                            Puerto Natales <span class="material-symbols-outlined text-sm" data-icon="east">east</span> Torres del Paine
+                        </span>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight">
+                            No necesitas un tour complicado para conocer un lugar extraordinario.
+                        </h2>
+</div>
+<div class="col-span-12 lg:col-span-7">
+<div class="relative w-full aspect-[16/9] border border-outline-variant/30 p-1">
+<div class="w-full h-full bg-cover bg-center" data-alt="A wide panoramic shot of the vast Patagonian steppe leading up to the mountains. Golden pampas grass blows in the wind in the foreground, with the distant, snow-capped peaks forming a dramatic horizon under a vast, open sky. Minimalist, cinematic framing, emphasizing the immense scale and raw beauty of the landscape." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1qwyGWSobd7Vc08nOVX_qXjLxhSpiqixXB1gjXJyCKR1IFmdCM7BY0RYp2UF5EP1Ts7Zg5HqpeFSR0vbluYH1a69djf0Z8foBh_6dAvAjvq1I1_rmsHZhI_SF8MfsrtsqJ06CvwQr8gaTeu7yAJ9YtczyBWmC13F19nnm58Q-88kyUTkGFRx4v7yvIRjezwcKkkBgPOvNsY80ovKkZOsuxuugOqY8rx2hLO16QTNO4rUbKefsnwI')"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Family Business Section -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-12 gap-gutter items-center">
+<div class="col-span-12 md:col-span-6 relative">
+<div class="w-full aspect-[4/5] border border-outline-variant/30 p-2">
+<div class="w-full h-full bg-cover bg-center" data-alt="An authentic, high-quality editorial portrait of a small team or family in outdoor gear, standing in front of a modern transport van in Puerto Natales. They are smiling genuinely, projecting trustworthiness and local expertise. Natural, flattering light, clean composition, avoiding overly staged poses." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAi5sw3-35lvwRjsfdnfvTkkMvIBjARM_7NcVY38l7HBytYeJgQw5PJvIozygufbLkU4AR3IvL6EFksp3-bCHNbyydjBNu2p_FLFT8aDXS2ppn7d8jlpUz6KhQ36hkbJv9PG60-abHbXQCHrhGZ5WREztnJj8M_OGxxarCk68drXGnjeWbDopEDYXPaPnNxgSHD4kNSC3LC58GSTa3-jBmOaGJBim20-nVnPrH5-KQovRYawgiPHV4')"></div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-5 md:col-start-8 flex flex-col justify-center mt-12 md:mt-0">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Somos locales. Somos una empresa familiar.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                        Nacimos y crecimos en esta región. Conocemos cada curva del camino y los mejores horarios para visitar cada mirador.
+                    </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+                        Al operar directamente nuestros vehículos y excursiones, evitamos intermediarios. Esto nos permite garantizar un servicio cercano, seguro y mantener tarifas accesibles para que más personas puedan disfrutar de la Patagonia.
+                    </p>
+<button class="font-label-caps text-label-caps bg-transparent border border-primary text-primary px-8 py-4 rounded-DEFAULT hover:bg-surface-variant transition-colors w-max">
+                        CONÓCENOS
+                    </button>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-section-gap px-gutter bg-surface-container-low border-t border-outline-variant/30">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-primary text-center mb-16">CÓMO FUNCIONA</h2>
+<div class="relative">
+<!-- Horizontal Line (Desktop) -->
+<div class="hidden md:block absolute top-6 left-[12%] right-[12%] h-[1px] bg-outline-variant/50 z-0"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center mb-6">
+<span class="font-label-caps text-label-caps text-primary">01</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary text-lg mb-2">Reserva</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Elige tu tour y fecha directamente en nuestra web.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center mb-6">
+<span class="font-label-caps text-label-caps text-primary">02</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary text-lg mb-2">Alojamiento</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Indícanos dónde te hospedas en Puerto Natales.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center mb-6">
+<span class="font-label-caps text-label-caps text-primary">03</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary text-lg mb-2">Te buscamos</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Pasamos por ti temprano en la mañana el día del tour.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-6">
+<span class="font-label-caps text-label-caps text-on-primary">04</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary text-lg mb-2">Torres del Paine</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Disfruta de la maravilla patagónica sin preocupaciones.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-surface border-t border-outline-variant/30 flat no shadows fade-in duration-200">
+<div class="mb-8 md:mb-0">
+<span class="font-headline-md text-headline-md font-bold text-primary block mb-4">PATAGONIA</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs text-sm">
+                © 2024 PATAGONIA EXPEDITIONS. TODOS LOS DERECHOS RESERVADOS.
+            </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-8 sm:gap-16">
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Términos</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Contacto</a>
+</div>
+<div class="flex flex-col gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Facebook</a>
+</div>
+</div>
+</footer>
+</body></html>

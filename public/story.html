@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia & Guías - Travesía Paine | Torres del Paine</title>
+    <meta name="description" content="Conoce al equipo de Travesía Paine: guías locales certificados UIAGM/WFR, nuestra filosofía de conservación y compromiso con la Patagonia.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+        <a href="index.html" class="logo-container" id="logo">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+            </svg>
+            <div class="logo-text">
+                Travesía
+                <span>Paine</span>
+            </div>
+        </a>
+        
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="treks.html">Treks</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="transfers.html">Transfers (Van)</a></li>
+                <li><a href="story.html" class="active">Our Story</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+            </div>
+            <a href="transfers.html" class="cta-nav" id="cta-book" data-i18n="navBookTransfer">Reservar Transfer</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner" style="background-image: url('guides_team.jpg');">
+        <div class="page-banner-content">
+            <span class="section-tag">Nuestra Pasión</span>
+            <h1>Guardianes de la Patagonia</h1>
+            <p>Nacidos en el extremo sur de Chile con la misión de compartir la grandeza de Torres del Paine de forma respetuosa y segura.</p>
+        </div>
+    </section>
+
+    <!-- Story Philosophy Section -->
+    <section class="section-padding bg-surface">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center;">
+                <div>
+                    <span class="section-tag">Desde 2014</span>
+                    <h2 class="section-title">Más Que un Viaje, Una Conexión Vital</h2>
+                    <p style="color: var(--color-text-muted); margin-bottom: 1.5rem; font-size: 1.05rem;">
+                        <strong>Travesía Paine</strong> nació del sueño de un grupo de guías magallánicos apasionados por el montañismo y la conservación ambiental. Entendemos que cruzar un paso de montaña o contemplar el amanecer en la Base Torres no es solo una actividad física: es un punto de inflexión vital.
+                    </p>
+                    <p style="color: var(--color-text-muted); margin-bottom: 2rem;">
+                        Priorizamos el tiempo de contemplación, la interpretación de la geología, la flora y fauna endémica, y el respeto irrestricto por el ritmo natural de la montaña y de cada integrante de la cordada.
+                    </p>
+                    <div style="display: flex; gap: 2rem;">
+                        <div>
+                            <h3 style="color: var(--color-accent); font-size: 2.2rem; font-weight: 800;">100%</h3>
+                            <p style="font-size: 0.85rem; color: var(--color-text-muted); text-transform: uppercase;">Guías Locales</p>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--color-accent); font-size: 2.2rem; font-weight: 800;">0%</h3>
+                            <p style="font-size: 0.85rem; color: var(--color-text-muted); text-transform: uppercase;">Huella Plástica</p>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--color-accent); font-size: 2.2rem; font-weight: 800;">1:8</h3>
+                            <p style="font-size: 0.85rem; color: var(--color-text-muted); text-transform: uppercase;">Ratio Guía / Pasajero</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--color-border); box-shadow: var(--shadow-soft);">
+                    <img src="guides_team.jpg" alt="Equipo de Guías Travesía Paine" style="width: 100%; height: auto; display: block;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet The Guides Section -->
+    <section class="section-padding" id="guias">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Expertos de Montaña</span>
+                <h2 class="section-title">Conoce a Nuestro Equipo Líder</h2>
+                <p class="section-subtitle">Profesionales certificados con miles de kilómetros recorridos y formación en primeros auxilios en áreas remotas (WFR).</p>
+            </div>
+
+            <div class="team-grid">
+                <!-- Guide 1 -->
+                <div class="team-card">
+                    <div class="team-card-img">
+                        <img src="guides_team.jpg" alt="Matías Valenzuela - Guía Líder" style="object-position: center;">
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Matías Valenzuela</h3>
+                        <div class="guide-role">Director de Expedición & Guía UIAGM</div>
+                        <p>Nativo de Puerto Natales, más de 15 años guiando en el Macizo Paine y Campo de Hielo Sur. Especialista en meteorología patagónica.</p>
+                    </div>
+                </div>
+
+                <!-- Guide 2 -->
+                <div class="team-card">
+                    <div class="team-card-img">
+                        <img src="trek_base_torres.jpg" alt="Valentina Sepúlveda - Guía de Flora y Fauna" style="object-position: center;">
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Valentina Sepúlveda</h3>
+                        <div class="guide-role">Bióloga & Guía WFR</div>
+                        <p>Especialista en ecología andina y avifauna. Su pasión es enseñar la historia geológica y los secretos botánicos del bosque de lengas.</p>
+                    </div>
+                </div>
+
+                <!-- Guide 3 -->
+                <div class="team-card">
+                    <div class="team-card-img">
+                        <img src="trek_o_circuit.jpg" alt="Diego Almonacid - Guía Glaciar" style="object-position: center;">
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Diego Almonacid</h3>
+                        <div class="guide-role">Guía Glaciar & Rescatista</div>
+                        <p>Especialista en rescate en grietas y progresión sobre hielo en el Glaciar Grey. Experto en primeros auxilios en zonas extremas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability & Ethics Section -->
+    <section class="section-padding bg-surface-elevated">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Compromiso Ético</span>
+                <h2 class="section-title">Protegemos la Patagonia Que Amamos</h2>
+                <p class="section-subtitle">Nuestras operaciones siguen los más altos estándares mundiales de ecoturismo responsable.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">🌿</div>
+                    <h3>Principios 'No Deje Rastro'</h3>
+                    <p>Todo residuo generado en la ruta regresa a Puerto Natales para su correcto reciclaje y compostaje.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Economía Circular Local</h3>
+                    <p>Adquirimos todos los alimentos, insumos y servicios de pequeños productores de Magallanes.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">💧</div>
+                    <h3>Cero Plásticos de Un Solo Uso</h3>
+                    <p>Fomentamos el uso de botellas reutilizables recargables directamente de las vertientes de agua pura del parque.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-container">
+                        <svg class="logo-svg" viewBox="0 0 100 100">
+                            <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <polygon points="65,40 40,85 90,85" fill="currentColor"/>
+                        </svg>
+                        <div class="logo-text">
+                            Travesía
+                            <span>Paine</span>
+                        </div>
+                    </a>
+                    <p>Especialistas en expediciones de montaña y trekking guiado en el Parque Nacional Torres del Paine, Magallanes, Patagonia Chilena.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Circuitos</h4>
+                    <ul>
+                        <li><a href="treks.html#circuito-w">Circuito W</a></li>
+                        <li><a href="treks.html#circuito-o">Circuito O</a></li>
+                        <li><a href="treks.html#base-torres">Base Torres Sunrise</a></li>
+                        <li><a href="treks.html#glaciar-grey">Glaciar Grey Ice Trek</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Compañía</h4>
+                    <ul>
+                        <li><a href="story.html">Nuestra Historia</a></li>
+                        <li><a href="story.html#guias">Guías Certificados</a></li>
+                        <li><a href="packages.html">Paquetes All-Inclusive</a></li>
+                        <li><a href="contact.html#faqs">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contacto & Base</h4>
+                    <ul>
+                        <li>📍 Manuel Bulnes 450, Puerto Natales</li>
+                        <li>✉️ expediciones@travesiapaine.cl</li>
+                        <li>📞 +56 9 8765 4321</li>
+                        <li>⏱ Lun - Dom: 08:00 - 20:00 CLT</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS.</div>
+                <div class="footer-socials">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" fill="currentColor" stroke-width="2"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
