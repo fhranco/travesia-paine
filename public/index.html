@@ -34,7 +34,18 @@
         </nav>
         
         <div class="header-actions">
-            <!-- Language Switcher -->
+            <!-- Weather Live Capsule (Header Integrado) -->
+            <div class="weather-badge-container" id="weather-paine-badge" title="Datos meteorológicos en vivo Parque Nacional Torres del Paine">
+                <span class="weather-dot"></span>
+                <span class="weather-item weather-item-location">📍 Torres del Paine:</span>
+                <span class="weather-item" id="weather-temp" style="font-weight: 700; color: #FFF;">7°C</span>
+                <span class="weather-divider">|</span>
+                <span class="weather-item" id="weather-wind">💨 22 km/h</span>
+                <span class="weather-divider">|</span>
+                <span class="weather-item" id="weather-status" style="color: #4ADE80; font-weight: 600;">🌤️ Parcialmente nublado</span>
+            </div>
+
+            <!-- Selector de Idiomas -->
             <div class="lang-switch">
                 <button type="button" class="lang-btn active" data-lang="es">ES</button>
                 <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -51,19 +62,6 @@
             </button>
         </div>
     </header>
-
-    <!-- Sticky Weather Bar Torres del Paine (En Vivo) -->
-    <div class="weather-sticky-bar" id="weather-paine-badge" title="Datos meteorológicos en vivo Parque Nacional Torres del Paine">
-        <div class="weather-badge-container">
-            <span class="weather-dot"></span>
-            <span class="weather-item weather-item-location">📍 Torres del Paine:</span>
-            <span class="weather-item" id="weather-temp" style="font-weight: 700; color: #FFF;">7°C</span>
-            <span class="weather-divider">|</span>
-            <span class="weather-item" id="weather-wind">💨 22 km/h</span>
-            <span class="weather-divider">|</span>
-            <span class="weather-item" id="weather-status" style="color: #4ADE80; font-weight: 600;">🌤️ Parcialmente nublado</span>
-        </div>
-    </div>
 
     <!-- Hero Section con Buscador Estilo Recorrido.cl -->
     <section class="hero" id="home">
