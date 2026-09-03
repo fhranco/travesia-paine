@@ -22,34 +22,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Accordions (Policies & FAQs)
-    document.addEventListener('click', (e) => {
-        const header = e.target.closest('.accordion-header');
-        if (header) {
-            e.preventDefault();
-            const item = header.closest('.accordion-item');
-            if (!item) return;
 
-            const wasActive = item.classList.contains('active');
-            
-            // Cerrar otros acordeones si se desea comportamiento único
-            const parentContainer = item.closest('.policy-accordion-container, .accordion');
-            if (parentContainer) {
-                parentContainer.querySelectorAll('.accordion-item').forEach(el => {
-                    if (el !== item) el.classList.remove('active');
-                });
-            }
-
-            if (wasActive) {
-                item.classList.remove('active');
-            } else {
-                item.classList.add('active');
-            }
-        }
-    });
 
     // 4. Clima en Vivo en Torres del Paine (Open-Meteo API)
     fetchPaineWeather();
+
+    // 5. Trek Filter Buttons
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const trekCards = document.querySelectorAll('.trek-card');
+    if (filterBtns.length && trekCards.length) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filterValue = btn.getAttribute('data-filter');
+                trekCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    if (filterValue === 'all' || category.includes(filterValue)) {
+                        card.style.display = 'flex';
+                        card.style.animation = 'fadeInUp 0.5s ease forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // 6. Booking / Contact Form Interactive Feedback
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const submitBtn = bookingForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando solicitud...';
+            
+            setTimeout(() => {
+                bookingForm.innerHTML = `
+                    <div style="text-align: center; padding: 3rem 1rem;">
+                        <svg style="width: 60px; height: 60px; color: var(--color-success); margin-bottom: 1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 0.8rem;">¡Solicitud de Aventura Recibida!</h3>
+                        <p style="color: var(--color-text-muted); max-width: 500px; margin: 0 auto 2rem;">
+                            Uno de nuestros guías certificados revisará la disponibilidad de fechas y se pondrá en contacto contigo vía WhatsApp / Email en menos de 24 horas.
+                        </p>
+                        <a href="index.html" class="btn btn-primary">Volver al Inicio</a>
+                    </div>
+                `;
+            }, 1000);
+        });
+    }
 });
 
 let lastWeatherData = null;
@@ -148,51 +176,3 @@ function renderWeatherWidget() {
         statusEl.textContent = condition;
     }
 }
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filterValue = btn.getAttribute('data-filter');
-            trekCards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                if (filterValue === 'all' || category.includes(filterValue)) {
-                    card.style.display = 'flex';
-                    card.style.animation = 'fadeInUp 0.5s ease forwards';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    // 5. Booking / Contact Form Interactive Feedback
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const submitBtn = bookingForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando solicitud...';
-            
-            setTimeout(() => {
-                bookingForm.innerHTML = `
-                    <div style="text-align: center; padding: 3rem 1rem;">
-                        <svg style="width: 60px; height: 60px; color: var(--color-success); margin-bottom: 1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        <h3 style="font-size: 1.8rem; margin-bottom: 0.8rem;">¡Solicitud de Aventura Recibida!</h3>
-                        <p style="color: var(--color-text-muted); max-width: 500px; margin: 0 auto 2rem;">
-                            Uno de nuestros guías certificados revisará la disponibilidad de fechas y se pondrá en contacto contigo vía WhatsApp / Email en menos de 24 horas.
-                        </p>
-                        <a href="index.html" class="btn btn-primary">Volver al Inicio</a>
-                    </div>
-                `;
-            }, 1000);
-        });
-    }
-});

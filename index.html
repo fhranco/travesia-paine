@@ -67,7 +67,7 @@
                     <button type="button" class="search-tab-btn active">
                         🚐 <span data-i18n="searchTabTours">Excursiones y Pasajes de Bus</span>
                     </button>
-                    <span style="font-size: 0.8rem; color: #4ADE80; margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
+                    <span style="font-size: 0.8rem; color: #4ade80; margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
                         ● <span data-i18n="searchLiveStatus">Salidas Confirmadas Diarias</span>
                     </span>
                 </div>
@@ -93,17 +93,17 @@
                         <!-- Botón Buscar Asientos -->
                         <div class="search-submit-col">
                             <button type="submit" class="btn-search-bus">
-                                🔍 <span data-i18n="searchBtnSubmit">Buscar Asientos</span>
+                                🔍 <span data-i18n="searchBtnSubmit">Consultar Cupos</span>
                             </button>
                         </div>
                     </div>
                 </form>
 
                 <div class="search-trust-pills">
-                    <span>⚡ <strong style="color: #FFF;" data-i18n="searchPill1">Elección de Asiento en Vivo</strong></span>
+                    <span>⚡ <strong style="color: #FFF;" data-i18n="searchPill1">Disponibilidad de Cupos en Vivo</strong></span>
                     <span>🛡️ <strong style="color: #FFF;" data-i18n="searchPill2">Pago Seguro Webpay Plus</strong></span>
                     <span>🎫 <strong style="color: #FFF;" data-i18n="searchPill3">Pasaje Digital Inmediato</strong></span>
-                    <span>🚐 <strong style="color: #FFF;" data-i18n="searchPill4">Bus Máx. 12 Pasajeros</strong></span>
+                    <span>🚐 <strong style="color: #FFF;" data-i18n="searchPill4">Van Máx. 16 Pasajeros</strong></span>
                 </div>
             </div>
 
@@ -216,8 +216,8 @@
                     <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;" data-i18n="aboutDesc2">
                         Nosotros mismos nos encargamos de la atención de nuestros pasajeros, reservas, coordinación, logística y transporte, buscando entregar un servicio cercano, responsable y a un precio accesible.
                     </p>
-                    <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.2rem 1.5rem; border-left: 4px solid #4ADE80;">
-                        <h4 style="color: #4ADE80; font-size: 1.05rem; margin-bottom: 0.4rem;" data-i18n="aboutGoalTitle">Nuestro Objetivo</h4>
+                    <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.2rem 1.5rem; border-left: 4px solid #2e8b57;">
+                        <h4 style="color: #2e8b57; font-size: 1.05rem; margin-bottom: 0.4rem;" data-i18n="aboutGoalTitle">Nuestro Objetivo</h4>
                         <p style="color: var(--color-text-muted); font-size: 0.92rem; margin: 0;" data-i18n="aboutGoalText">
                             Que más personas puedan conocer y disfrutar de los increíbles paisajes de la Patagonia sin pagar de más.
                         </p>
@@ -246,8 +246,8 @@
                 <div class="step-card-horizontal">
                     <div class="step-num-bubble">1</div>
                     <div class="step-content">
-                        <h4 data-i18n="step1Title">Elige Tour y Asientos</h4>
-                        <p data-i18n="step1Desc">Selecciona tu excursión, fecha y tus ubicaciones preferidas en el mapa interactivo de 12 asientos de nuestro bus.</p>
+                        <h4 data-i18n="step1Title">Elige Tour y Pasajeros</h4>
+                        <p data-i18n="step1Desc">Selecciona tu excursión, fecha y cantidad de pasajeros con disponibilidad de cupos en tiempo real (Van de 16 asientos).</p>
                     </div>
                 </div>
 
@@ -517,7 +517,7 @@
                     </p>
 
                     <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
-                        <h4 style="color: #4ADE80; font-size: 0.95rem; margin-bottom: 0.4rem;">⏱ Tiempo para realizar el trekking</h4>
+                        <h4 style="color: #2e8b57; font-size: 0.95rem; margin-bottom: 0.4rem;">⏱ Tiempo para realizar el trekking</h4>
                         <p style="font-size: 0.88rem; color: var(--color-text-light); margin: 0; line-height: 1.5;">
                             El vehículo permanecerá esperando hasta las <strong>18:30 horas</strong> en el Centro de Bienvenida, horario establecido para iniciar el retorno hacia Puerto Natales.
                         </p>
@@ -639,10 +639,10 @@
             const container = document.getElementById('modal-content-container');
             container.innerHTML = `
                 <span class="section-tag" style="font-size: 0.7rem; margin-bottom: 0.5rem;">${data.tag}</span>
-                <h2 style="font-size: 1.6rem; font-weight: 800; color: #FFF; margin-bottom: 0.3rem;">${data.title}</h2>
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--color-text-light); margin-bottom: 0.3rem;">${data.title}</h2>
                 <h4 style="color: var(--color-accent); font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem;">${data.tagline}</h4>
                 <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <span style="background: rgba(74, 222, 128, 0.15); border: 1px solid #4ADE80; color: #4ADE80; padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 800; font-size: 1.1rem;">
+                    <span style="background: rgba(46, 139, 87, 0.1); border: 1px solid #2e8b57; color: #2e8b57; padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 800; font-size: 1.1rem;">
                         ${data.price}
                     </span>
                     <span style="color: var(--color-text-muted); font-size: 0.85rem; font-weight: 600;">
@@ -721,6 +721,7 @@
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
+    </script>
 
     <!-- Burbuja Flotante de Clima en Vivo Torres del Paine -->
     <div class="floating-weather-widget">
@@ -728,7 +729,7 @@
             <span class="weather-dot"></span>
             <span class="floating-weather-badge">En Vivo</span>
             <span class="weather-item weather-item-location">🏔️ Paine:</span>
-            <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #4ADE80;">7°C</span>
+            <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #2e8b57;">7°C</span>
             <span class="weather-divider">|</span>
             <span class="weather-item" id="weather-wind">💨 22 km/h</span>
             <span class="weather-divider">|</span>
@@ -736,7 +737,5 @@
         </div>
     </div>
 
-    <script src="js/i18n.js"></script>
-    <script src="main.js"></script>
 </body>
 </html>

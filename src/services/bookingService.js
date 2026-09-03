@@ -1,13 +1,13 @@
 const db = require('../db/database');
 const crypto = require('crypto');
 
-const LOCK_TIMEOUT_MINUTES = 15;
+const LOCK_TIMEOUT_MINUTES = 10;
 
 /**
- * Limpia automáticamente todos los asientos cuyo bloqueo haya superado los 15 minutos.
+ * Limpia automáticamente todos los asientos cuyo bloqueo haya superado los 10 minutos.
  */
 function cleanupExpiredLocks() {
-    const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+    const now = new Date().toISOString();
     
     const stmt = db.prepare(`
         UPDATE seats
@@ -49,8 +49,8 @@ function lockSeat(tourDateId, seatNumber, sessionId) {
             throw new Error(`El asiento N° ${seatNumber} está siendo reservado por otro usuario en este momento.`);
         }
 
-        const lockedUntil = new Date(now.getTime() + LOCK_TIMEOUT_MINUTES * 60 * 1000)
-            .toISOString().replace('T', ' ').substring(0, 19);
+        const expMs = now.getTime() + LOCK_TIMEOUT_MINUTES * 60 * 1000;
+        const lockedUntil = new Date(expMs).toISOString();
 
         db.prepare(`
             UPDATE seats
@@ -64,7 +64,8 @@ function lockSeat(tourDateId, seatNumber, sessionId) {
             id: seat.id,
             seat_number: seatNumber,
             status: 'LOCKED',
-            locked_until: lockedUntil
+            locked_until: lockedUntil,
+            locked_until_ts: expMs
         };
     });
 
@@ -82,8 +83,7 @@ function releaseSeat(tourDateId, seatNumber, sessionId) {
             lock_session_id = NULL
         WHERE tour_date_id = ? AND seat_number = ? AND lock_session_id = ? AND status = 'LOCKED'
     `);
-    const result = stmt.run(tourDateId, seatNumber, sessionId);
-    return result.changes > 0;
+    return stmt.run(tourDateId, seatNumber, sessionId).changes > 0;
 }
 
 /**
@@ -117,6 +117,153 @@ function getSeatsForDate(tourDateId, sessionId) {
             locked_until: seat.locked_until
         };
     });
+}
+
+/**
+ * Bloquea atómicamente una cantidad de cupos para una sesión durante 15 minutos.
+ */
+function lockQuantity(tourDateId, quantity, sessionId) {
+    cleanupExpiredLocks();
+    const qty = parseInt(quantity, 10);
+    if (isNaN(qty) || qty < 1 || qty > 16) {
+        throw new Error('La cantidad de pasajeros debe estar entre 1 y 16.');
+    }
+
+    const lockTransaction = db.transaction(() => {
+        const now = new Date();
+        const expMs = now.getTime() + LOCK_TIMEOUT_MINUTES * 60 * 1000;
+        const lockedUntil = new Date(expMs).toISOString();
+
+        // 1. Obtener todos los asientos de la fecha
+        const allSeats = db.prepare(`
+            SELECT id, seat_number, status, locked_until, lock_session_id
+            FROM seats
+            WHERE tour_date_id = ?
+            ORDER BY seat_number ASC
+        `).all(tourDateId);
+
+        // 2. Identificar mis asientos ya bloqueados y asientos disponibles
+        const myLockedSeats = [];
+        const availableSeats = [];
+
+        for (const seat of allSeats) {
+            if (seat.status === 'PAID') continue;
+
+            const isLocked = seat.status === 'LOCKED' && new Date(seat.locked_until) > now;
+            if (isLocked) {
+                if (seat.lock_session_id === sessionId) {
+                    myLockedSeats.push(seat);
+                }
+            } else {
+                availableSeats.push(seat);
+            }
+        }
+
+        const totalUsable = myLockedSeats.length + availableSeats.length;
+        if (totalUsable < qty) {
+            throw new Error(`Solo quedan ${totalUsable} cupos disponibles para esta fecha.`);
+        }
+
+        // 3. Ajustar cantidad: si ya tengo más de los que pido, liberar los sobrantes
+        if (myLockedSeats.length > qty) {
+            const toRelease = myLockedSeats.slice(qty);
+            for (const s of toRelease) {
+                db.prepare(`
+                    UPDATE seats
+                    SET status = 'AVAILABLE', locked_until = NULL, lock_session_id = NULL
+                    WHERE id = ?
+                `).run(s.id);
+            }
+            myLockedSeats.length = qty;
+        }
+
+        // 4. Si necesito más, tomar de los disponibles
+        const needed = qty - myLockedSeats.length;
+        if (needed > 0) {
+            const toLock = availableSeats.slice(0, needed);
+            for (const s of toLock) {
+                db.prepare(`
+                    UPDATE seats
+                    SET status = 'LOCKED', locked_until = ?, lock_session_id = ?
+                    WHERE id = ?
+                `).run(lockedUntil, sessionId, s.id);
+                myLockedSeats.push(s);
+            }
+        }
+
+        // 5. Renovar timestamp para todos los míos
+        for (const s of myLockedSeats) {
+            db.prepare(`
+                UPDATE seats
+                SET status = 'LOCKED', locked_until = ?, lock_session_id = ?
+                WHERE id = ?
+            `).run(lockedUntil, sessionId, s.id);
+        }
+
+        return {
+            tourDateId,
+            quantity: qty,
+            lockedSeats: myLockedSeats.map(s => s.seat_number),
+            locked_until: lockedUntil,
+            locked_until_ts: expMs
+        };
+    });
+
+    return lockTransaction();
+}
+
+/**
+ * Libera todos los bloqueos de una sesión en una fecha específica.
+ */
+function releaseSessionLocks(tourDateId, sessionId) {
+    const stmt = db.prepare(`
+        UPDATE seats
+        SET status = 'AVAILABLE', locked_until = NULL, lock_session_id = NULL
+        WHERE tour_date_id = ? AND lock_session_id = ? AND status = 'LOCKED'
+    `);
+    return stmt.run(tourDateId, sessionId).changes;
+}
+
+/**
+ * Retorna la disponibilidad resumida y lista de cupos para una fecha.
+ */
+function getAvailabilityForDate(tourDateId, sessionId) {
+    cleanupExpiredLocks();
+
+    const seats = db.prepare(`
+        SELECT id, seat_number, status, locked_until, lock_session_id
+        FROM seats
+        WHERE tour_date_id = ?
+        ORDER BY seat_number ASC
+    `).all(tourDateId);
+
+    const now = new Date();
+    let totalCapacity = seats.length;
+    let availableCount = 0;
+    let myLockedSeats = [];
+
+    seats.forEach(seat => {
+        if (seat.status === 'PAID') {
+            // Asiento definitivamente pagado y comprado: ya NO está disponible
+            return;
+        }
+
+        const isCurrentlyLocked = seat.status === 'LOCKED' && new Date(seat.locked_until) > now;
+        if (seat.status === 'AVAILABLE' || !isCurrentlyLocked) {
+            availableCount++;
+        } else if (isCurrentlyLocked && seat.lock_session_id === sessionId) {
+            availableCount++;
+            myLockedSeats.push(seat.seat_number);
+        }
+    });
+
+    return {
+        tour_date_id: tourDateId,
+        total_capacity: totalCapacity,
+        available_seats: availableCount,
+        my_locked_count: myLockedSeats.length,
+        my_seat_numbers: myLockedSeats
+    };
 }
 
 /**
@@ -156,6 +303,13 @@ function createPendingOrder({
             const bookingCode = `TP-${Date.now().toString().slice(-6)}-${seatNumber.toString().padStart(2, '0')}`;
             const securityToken = crypto.randomBytes(16).toString('hex'); // Token único para QR
 
+            const pName = (p.passengerName || p.name || '').trim();
+            const pAge = p.passengerAge || p.age ? parseInt(p.passengerAge || p.age, 10) : null;
+            const pDoc = (p.passengerDoc || p.doc || '').trim();
+            const pEmail = (p.passengerEmail || p.email || '').trim().toLowerCase();
+            const pPhone = (p.passengerPhone || p.phone || '').trim();
+            const pWhatsapp = (p.passengerWhatsapp || p.whatsapp || '').trim();
+
             const insertBooking = db.prepare(`
                 INSERT INTO bookings (
                     booking_code, security_token, tour_date_id, seat_id, seat_number,
@@ -166,10 +320,12 @@ function createPendingOrder({
 
             const result = insertBooking.run(
                 bookingCode, securityToken, tourDateId, seat.id, seatNumber,
-                p.passengerName.trim(), p.passengerAge ? parseInt(p.passengerAge, 10) : null,
-                p.passengerDoc.trim(), p.passengerEmail.trim().toLowerCase(),
-                (p.passengerPhone || '').trim(), (p.passengerWhatsapp || '').trim(),
-                hotelInfo.hotelName || null, hotelInfo.hotelStreet || null, hotelInfo.hotelNumber || null,
+                pName, pAge,
+                pDoc, pEmail,
+                pPhone, pWhatsapp,
+                hotelInfo.hotelName || hotelInfo.name || null,
+                hotelInfo.hotelStreet || hotelInfo.street || null,
+                hotelInfo.hotelNumber || hotelInfo.number || null,
                 unitPrice
             );
 
@@ -178,7 +334,7 @@ function createPendingOrder({
                 bookingCode,
                 securityToken,
                 seatNumber,
-                passengerName: p.passengerName
+                passengerName: pName
             });
         }
 
@@ -276,8 +432,11 @@ function handleFailedOrder(buyOrder) {
 
 module.exports = {
     lockSeat,
+    lockQuantity,
     releaseSeat,
+    releaseSessionLocks,
     getSeatsForDate,
+    getAvailabilityForDate,
     createPendingOrder,
     confirmOrderPaid,
     handleFailedOrder,

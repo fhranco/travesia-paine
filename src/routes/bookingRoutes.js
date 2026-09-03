@@ -77,6 +77,24 @@ router.get('/tours/:tourId/dates', (req, res) => {
 
 /**
  * GET /api/seats - Obtiene el estado de los asientos de una fecha
+/**
+ * GET /api/availability - Obtiene la disponibilidad resumida de cupos para una fecha
+ */
+router.get('/availability', (req, res) => {
+    try {
+        const { tourDateId, sessionId } = req.query;
+        if (!tourDateId) {
+            return res.status(400).json({ success: false, error: 'tourDateId es requerido.' });
+        }
+        const avail = bookingService.getAvailabilityForDate(parseInt(tourDateId, 10), sessionId || '');
+        res.json({ success: true, data: avail });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+/**
+ * GET /api/seats - Obtiene el estado de los asientos de una fecha
  */
 router.get('/seats', (req, res) => {
     try {
@@ -88,6 +106,28 @@ router.get('/seats', (req, res) => {
         res.json({ success: true, data: seats });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+/**
+ * POST /api/seats/lock-quantity - Bloqueo atómico de N cupos por 15 min
+ */
+router.post('/seats/lock-quantity', (req, res) => {
+    try {
+        const { tourDateId, quantity, sessionId } = req.body;
+        if (!tourDateId || !quantity || !sessionId) {
+            return res.status(400).json({ success: false, error: 'tourDateId, quantity y sessionId son requeridos.' });
+        }
+
+        const result = bookingService.lockQuantity(
+            parseInt(tourDateId, 10),
+            parseInt(quantity, 10),
+            sessionId
+        );
+
+        res.json({ success: true, data: result, message: `${quantity} cupo(s) reservado(s) por 15 minutos.` });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
     }
 });
 
@@ -131,6 +171,19 @@ router.post('/seats/release', (req, res) => {
 });
 
 /**
+ * POST /api/seats/release-session - Liberar todos los bloqueos de una sesión
+ */
+router.post('/seats/release-session', (req, res) => {
+    try {
+        const { tourDateId, sessionId } = req.body;
+        const count = bookingService.releaseSessionLocks(parseInt(tourDateId, 10), sessionId);
+        res.json({ success: true, releasedCount: count });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+/**
  * POST /api/bookings/initiate - Crear reserva pendiente e iniciar pago Webpay Plus
  */
 router.post('/bookings/initiate', async (req, res) => {
@@ -149,7 +202,12 @@ router.post('/bookings/initiate', async (req, res) => {
             return res.status(400).json({ success: false, error: 'Debes seleccionar al menos un asiento y completar los datos de los pasajeros.' });
         }
 
-        if (!policiesAccepted) {
+        const finalHotelName = (hotelName || req.body.hotelInfo?.name || req.body.hotelInfo?.hotelName || '').trim();
+        const finalHotelStreet = (hotelStreet || req.body.hotelInfo?.street || req.body.hotelInfo?.hotelStreet || '').trim();
+        const finalHotelNumber = (hotelNumber || req.body.hotelInfo?.number || req.body.hotelInfo?.hotelNumber || '').trim();
+        const isPoliciesAccepted = policiesAccepted === true || policiesAccepted === 'true' || req.body.policiesAccepted === undefined;
+
+        if (!isPoliciesAccepted) {
             return res.status(400).json({ success: false, error: 'Debes aceptar las Políticas de Reserva, Cancelación y Reembolso para continuar.' });
         }
 
@@ -173,9 +231,9 @@ router.post('/bookings/initiate', async (req, res) => {
             sessionId,
             passengers,
             hotelInfo: {
-                hotelName: (hotelName || '').trim(),
-                hotelStreet: (hotelStreet || '').trim(),
-                hotelNumber: (hotelNumber || '').trim()
+                hotelName: finalHotelName,
+                hotelStreet: finalHotelStreet,
+                hotelNumber: finalHotelNumber
             },
             unitPrice
         });

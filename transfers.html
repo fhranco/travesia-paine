@@ -6,7 +6,6 @@
     <title>Formulario de Reserva - Travesía Paine | Torres del Paine</title>
     <meta name="description" content="Formulario de reserva directa de asientos en van ejecutiva para Full Day Bajo Costo y Trekking Base Torres con Webpay Plus.">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/style.css">
     <style>
         .form-section-title {
             color: var(--color-accent);
@@ -88,6 +87,15 @@
         </div>
     </header>
 
+    <!-- Barra Superior Sticky con Reloj de Reserva (10 Min) -->
+    <div id="lock-timer" class="sticky-reservation-timer">
+        <div class="sticky-timer-content">
+            <span class="timer-pulse-icon">⏱️</span>
+            <span class="timer-msg">Tus cupos están temporalmente reservados. Tiempo restante para pagar:</span>
+            <span id="timer-display" class="timer-badge">10:00</span>
+        </div>
+    </div>
+
     <!-- Page Banner -->
     <section class="page-banner" style="background-image: url('background.jpg'); padding: 7.5rem 5% 3rem;">
         <div class="page-banner-content">
@@ -129,96 +137,46 @@
                 </div>
 
                 <div style="margin-top: 2rem;">
-                    <h2 class="step-title" data-i18n="bookingStep2Title">2. Selecciona tu Asiento en el Bus (12 Pasajeros)</h2>
-                    
-                    <!-- 15-Min Lock Countdown Timer -->
-                    <div id="lock-timer" class="lock-timer-bar">
-                        <div>
-                            ⏱ <span data-i18n="timerText">Tiempo restante para completar tu compra:</span>
-                        </div>
-                        <div id="timer-display" class="timer-countdown">15:00</div>
-                    </div>
+                    <h2 class="step-title">2. Asientos Disponibles</h2>
 
-                    <!-- Van / Bus Chassis Layout (2 Columnas: 1 Izquierda + Pasillo + 1 Derecha) -->
-                    <div class="van-container" style="max-width: 320px;">
-                        <div class="van-front" data-i18n="vanFront">▲ Frente / Parabrisas del Bus ▲</div>
-                        
-                        <!-- Driver & Front Passenger Row -->
-                        <div class="van-cabin" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                            <div class="driver-seat">
-                                <span>👨‍✈️</span>
-                                <span data-i18n="driverSeat">Chofer</span>
-                            </div>
-                            <div class="aisle-gap"></div>
-                            <div class="seat" data-seat="1" id="seat-1">
-                                <span>01</span>
-                            </div>
+                    <!-- Tarjeta Simple y Directa de Disponibilidad -->
+                    <div class="simple-availability-card">
+                        <!-- Indicador destacado de asientos que quedan -->
+                        <div class="seats-remaining-banner" id="seats-remaining-banner">
+                            <span class="seats-dot" id="seats-dot">🟢</span>
+                            <span class="seats-remaining-text" id="quota-text">Quedan 16 asientos disponibles</span>
+                            <span class="van-tag">Capacidad Van: 16 Asientos</span>
                         </div>
 
-                        <!-- Main Seats Grid (2 Columnas: 1 + Pasillo + 1) -->
-                        <div class="seats-grid" style="gap: 0.8rem;">
+                        <!-- Control de aumento / disminución de pasajeros 1 a 1 -->
+                        <div class="form-group" style="margin-top: 1.4rem; margin-bottom: 1rem;">
+                            <label style="font-weight: 700; font-size: 0.95rem; color: var(--color-text-light); margin-bottom: 0.6rem; display: block;">
+                                Cantidad de Pasajeros:
+                            </label>
                             
-                            <!-- Fila 2 -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="seat" data-seat="2" id="seat-2"><span>02</span></div>
-                                <div class="aisle-gap" style="text-align: center; color: rgba(255,255,255,0.15); font-size: 0.7rem;">|</div>
-                                <div class="seat" data-seat="3" id="seat-3"><span>03</span></div>
-                            </div>
-
-                            <!-- Fila 3 -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="seat" data-seat="4" id="seat-4"><span>04</span></div>
-                                <div class="aisle-gap" style="text-align: center; color: rgba(255,255,255,0.15); font-size: 0.7rem;">|</div>
-                                <div class="seat" data-seat="5" id="seat-5"><span>05</span></div>
-                            </div>
-
-                            <!-- Fila 4 -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="seat" data-seat="6" id="seat-6"><span>06</span></div>
-                                <div class="aisle-gap" style="text-align: center; color: rgba(255,255,255,0.15); font-size: 0.7rem;">|</div>
-                                <div class="seat" data-seat="7" id="seat-7"><span>07</span></div>
-                            </div>
-
-                            <!-- Fila 5 -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="seat" data-seat="8" id="seat-8"><span>08</span></div>
-                                <div class="aisle-gap" style="text-align: center; color: rgba(255,255,255,0.15); font-size: 0.7rem;">|</div>
-                                <div class="seat" data-seat="9" id="seat-9"><span>09</span></div>
-                            </div>
-
-                            <!-- Fila 6 -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="seat" data-seat="10" id="seat-10"><span>10</span></div>
-                                <div class="aisle-gap" style="text-align: center; color: rgba(255,255,255,0.15); font-size: 0.7rem;">|</div>
-                                <div class="seat" data-seat="11" id="seat-11"><span>11</span></div>
-                            </div>
-
-                            <!-- Fila 7 (Fondo) -->
-                            <div class="seat-row" style="display: grid; grid-template-columns: 1fr 0.4fr 1fr; gap: 0.6rem;">
-                                <div class="aisle-gap"></div>
-                                <div class="aisle-gap"></div>
-                                <div class="seat" data-seat="12" id="seat-12"><span>12</span></div>
+                            <div class="stepper-counter-container">
+                                <button type="button" class="stepper-btn" id="btn-qty-minus" aria-label="Disminuir pasajero" disabled>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                                <div class="stepper-value-box">
+                                    <span id="qty-number" class="stepper-number">1</span>
+                                    <span class="stepper-label" id="qty-label">Pasajero</span>
+                                </div>
+                                <button type="button" class="stepper-btn" id="btn-qty-plus" aria-label="Aumentar pasajero">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Legend -->
-                        <div class="seat-legend">
-                            <div class="legend-item">
-                                <span class="legend-dot dot-available"></span>
-                                <span data-i18n="legendAvailable">Disponible</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-dot dot-selected"></span>
-                                <span data-i18n="legendSelected">Tu Selección</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-dot dot-locked"></span>
-                                <span data-i18n="legendLocked">Bloqueado</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-dot dot-paid"></span>
-                                <span data-i18n="legendPaid">Ocupado</span>
-                            </div>
+                        <!-- Nota breve y directa de ubicación libre -->
+                        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 1rem; margin-bottom: 0; line-height: 1.5; background: #fbf9f5; border: 1px solid var(--color-border); border-radius: 8px; padding: 0.75rem 1rem;">
+                            🚐 <strong>Ubicación libre en la van:</strong> Los pasajeros se ubican libremente por orden de recogida en su alojamiento en Puerto Natales.
+                        </p>
+
+                        <!-- Total calculado -->
+                        <div style="margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.92rem; color: var(--color-text-muted); font-weight: 600;">Total a pagar:</span>
+                            <span id="subtotal-display" style="font-size: 1.45rem; font-weight: 800; color: var(--color-primary);">$38.000 CLP</span>
                         </div>
                     </div>
                 </div>
@@ -265,41 +223,41 @@
                     <!-- Resumen de Compra -->
                     <div class="checkout-summary">
                         <div class="summary-row">
-                            <span data-i18n="summarySeatLabel">Asiento(s) Seleccionado(s):</span>
-                            <strong id="summary-seat" style="color: var(--color-accent); font-size: 1.1rem;">-</strong>
+                            <span>Pasajeros / Cupos:</span>
+                            <strong id="summary-seats" style="color: var(--color-primary); font-size: 1.05rem;">1 Pasajero (Ubicación libre)</strong>
                         </div>
                         <div class="summary-row">
-                            <span data-i18n="summaryTourLabel">Excursión:</span>
-                            <span id="summary-tour" style="text-align: right; max-width: 240px; font-size: 0.82rem; color: var(--color-text-muted);">-</span>
+                            <span>Excursión:</span>
+                            <span id="summary-tour" style="text-align: right; max-width: 260px; font-weight: 600; color: var(--color-text-light);">-</span>
                         </div>
                         <div class="summary-row">
-                            <span data-i18n="summaryDateLabel">Fecha & Pick-up:</span>
-                            <span id="summary-datetime" style="font-size: 0.85rem;">-</span>
+                            <span>Fecha & Pick-up:</span>
+                            <span id="summary-date" style="font-weight: 600; color: var(--color-text-light);">-</span>
                         </div>
                         <div class="summary-total">
-                            <span data-i18n="summaryTotalLabel">Total a Pagar:</span>
-                            <span id="summary-total-price" style="color: #4ADE80;">$0 CLP</span>
+                            <span>Total a Pagar:</span>
+                            <span id="summary-total">$38.000 CLP</span>
                         </div>
                     </div>
 
                     <!-- Checkbox Aceptación de Políticas -->
                     <div class="policy-check-box">
-                        <input type="checkbox" id="policy-agree" required>
-                        <label for="policy-agree" data-i18n="policyAgreeText">
-                            <strong>☐ ACEPTO</strong> haber leído, comprendido y aceptado las <a href="index.html#politicas" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Políticas de Reserva, Cancelación y Reembolso</a> de Travesía Paine.
+                        <input type="checkbox" id="policy-agree" required checked>
+                        <label for="policy-agree">
+                            <strong>ACEPTO</strong> haber leído, comprendido y aceptado las <a href="index.html#politicas" target="_blank" style="color: var(--color-accent); text-decoration: underline; font-weight: 700;">Políticas de Reserva, Cancelación y Reembolso</a> de Travesía Paine.
                         </label>
                     </div>
 
                     <!-- Botón de Pago con Webpay -->
-                    <button type="submit" id="btn-pay" class="btn-webpay" disabled>
-                        <svg style="width: 24px; height: 24px; fill: currentColor;" viewBox="0 0 24 24">
+                    <button type="submit" id="btn-submit-booking" class="btn-webpay">
+                        <svg style="width: 22px; height: 22px; fill: currentColor;" viewBox="0 0 24 24">
                             <path d="M20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z"/>
                         </svg>
-                        <span data-i18n="btnPayText">Pagar con Webpay Plus (Tarjetas)</span>
+                        <span>Pagar con Webpay Plus</span>
                     </button>
 
-                    <div class="security-badge">
-                        <span data-i18n="securityBadgeText">Pago 100% seguro y encriptado por Transbank Webpay Plus. Emisión automática de Pasaje Digital oficial.</span>
+                    <div class="security-badge" style="text-align: center; margin-top: 0.9rem; font-size: 0.8rem; color: var(--color-text-muted);">
+                        🛡️ Pago 100% seguro y encriptado por Transbank Webpay Plus. Emisión automática de Pasaje Digital oficial.
                     </div>
                 </form>
             </div>

@@ -23,7 +23,7 @@ function initSchema() {
             departure_time TEXT NOT NULL,
             return_time TEXT,
             price_clp INTEGER NOT NULL,
-            capacity INTEGER NOT NULL DEFAULT 12,
+            capacity INTEGER NOT NULL DEFAULT 16,
             description TEXT,
             important_note TEXT,
             tour_type TEXT NOT NULL DEFAULT 'TRANSFER',
@@ -108,6 +108,62 @@ function initSchema() {
     `);
 
     seedInitialData();
+    migrateTo16Seats();
+    migrateTransactionsTable();
+}
+
+function migrateTransactionsTable() {
+    try {
+        const tableInfo = db.prepare(`SELECT sql FROM sqlite_master WHERE type='table' AND name='transactions'`).get();
+        if (tableInfo && tableInfo.sql.includes('buy_order TEXT NOT NULL UNIQUE')) {
+            db.exec(`
+                CREATE TABLE transactions_new (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    booking_id INTEGER NOT NULL,
+                    buy_order TEXT NOT NULL,
+                    session_id TEXT NOT NULL,
+                    tbk_token TEXT,
+                    amount INTEGER NOT NULL,
+                    status TEXT NOT NULL DEFAULT 'INITIALIZED',
+                    authorization_code TEXT,
+                    response_code INTEGER,
+                    payment_type_code TEXT,
+                    shares_number INTEGER,
+                    card_last_digits TEXT,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (booking_id) REFERENCES bookings(id)
+                );
+                INSERT INTO transactions_new SELECT * FROM transactions;
+                DROP TABLE transactions;
+                ALTER TABLE transactions_new RENAME TO transactions;
+                CREATE INDEX IF NOT EXISTS idx_transactions_buy_order ON transactions(buy_order);
+                CREATE INDEX IF NOT EXISTS idx_transactions_tbk_token ON transactions(tbk_token);
+            `);
+            console.log('✅ Migración de transactions multi-pasajero aplicada exitosamente.');
+        }
+    } catch (e) {
+        console.error('Error migrating transactions table:', e.message);
+    }
+}
+
+function migrateTo16Seats() {
+    try {
+        db.prepare(`UPDATE tours SET capacity = 16 WHERE capacity < 16`).run();
+        const dates = db.prepare(`SELECT id FROM tour_dates`).all();
+        const insertSeat = db.prepare(`INSERT OR IGNORE INTO seats (tour_date_id, seat_number, status) VALUES (?, ?, 'AVAILABLE')`);
+        
+        const migrationTx = db.transaction(() => {
+            for (const d of dates) {
+                for (let s = 1; s <= 16; s++) {
+                    insertSeat.run(d.id, s);
+                }
+            }
+        });
+        migrationTx();
+        console.log('🚐 Capacidad actualizada a 16 pasajeros por salida.');
+    } catch (e) {
+        console.error('Error migrating to 16 seats:', e.message);
+    }
 }
 
 function seedInitialData() {
@@ -131,7 +187,7 @@ function seedInitialData() {
         '07:00 AM',
         'Retorno vespertino según condiciones',
         38000,
-        12,
+        16,
         'Comenzamos nuestro recorrido a las 07:00 hrs realizando el pick-up en sus alojamientos de Puerto Natales para dirigirnos hacia el Parque Nacional Torres del Paine. Durante el recorrido visitaremos diferentes puntos de interés del parque, realizando diversas paradas fotográficas y contemplativas. Además, visitaremos el Monumento Natural Cueva del Milodón. El ingreso podrá ser por Portería Laguna Amarga o Portería Serrano según condiciones del día.',
         'Esta excursión corresponde a una modalidad de tour de bajo costo y no contempla servicio de guía turístico. El servicio está orientado principalmente al transporte y recorrido por los principales puntos de interés con las mismas paradas de un tour regular.',
         'FULL_DAY_BAJO_COSTO'
@@ -146,7 +202,7 @@ function seedInitialData() {
         '06:30 AM',
         '18:30 PM (Esperamos hasta esta hora para retornar)',
         35000,
-        12,
+        16,
         'Comenzamos a las 06:30 hrs con el pick-up en alojamientos de Puerto Natales hacia Portería Laguna Amarga (control de entradas) y continuamos hasta el Centro de Bienvenida, desde donde comenzarás por cuenta propia el trekking hacia el Mirador Base Torres. El vehículo permanecerá esperando en el punto de encuentro hasta las 18:30 hrs para el retorno.',
         'Este servicio corresponde exclusivamente al transporte de ida y regreso y no incluye guía de trekking. Cada pasajero realiza el sendero por cuenta propia respetando las normas y restricciones de CONAF.',
         'TREKKING_BASE_TORRES'
@@ -162,21 +218,21 @@ function seedInitialData() {
         d.setDate(today.getDate() + i);
         const dateStr = d.toISOString().split('T')[0];
 
-        // Tour 1 (12 Seats)
+        // Tour 1 (16 Seats)
         const res1 = insertDate.run(tour1.lastInsertRowid, dateStr);
         const dateId1 = res1.lastInsertRowid;
-        for (let s = 1; s <= 12; s++) {
+        for (let s = 1; s <= 16; s++) {
             insertSeat.run(dateId1, s);
         }
 
-        // Tour 2 (12 Seats)
+        // Tour 2 (16 Seats)
         const res2 = insertDate.run(tour2.lastInsertRowid, dateStr);
         const dateId2 = res2.lastInsertRowid;
-        for (let s = 1; s <= 12; s++) {
+        for (let s = 1; s <= 16; s++) {
             insertSeat.run(dateId2, s);
         }
     }
-    console.log('✅ Base de datos actualizada con van de 12 asientos y 45 días de salidas disponibles.');
+    console.log('✅ Base de datos actualizada con van de 16 asientos y 45 días de salidas disponibles.');
 }
 
 initSchema();

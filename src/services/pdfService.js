@@ -115,11 +115,12 @@ async function generateVoucherPdf(bookingData) {
             doc.fillColor(colorMuted).fontSize(8).font('Helvetica').text('EMAIL:', 25, currentY + 50);
             doc.fillColor(colorDark).fontSize(8.5).font('Helvetica').text(bookingData.passenger_email, 25, currentY + 60);
 
-            // Bloque Asiento Destacado (Derecha)
-            const seatBoxX = 260;
-            doc.rect(seatBoxX, currentY, 135, 75).fill(colorPrimary);
-            doc.fillColor('#D1A186').fontSize(9).font('Helvetica-Bold').text('ASIENTO ASIGNADO', seatBoxX, currentY + 12, { width: 135, align: 'center' });
-            doc.fillColor('#FFFFFF').fontSize(28).font('Helvetica-Bold').text(`N° ${bookingData.seat_number.toString().padStart(2, '0')}`, seatBoxX, currentY + 28, { width: 135, align: 'center' });
+            // Bloque Cupo Destacado (Derecha)
+            const seatBoxX = 250;
+            doc.rect(seatBoxX, currentY, 145, 75).fill(colorPrimary);
+            doc.fillColor('#D1A186').fontSize(8.5).font('Helvetica-Bold').text('CUPO CONFIRMADO', seatBoxX, currentY + 12, { width: 145, align: 'center' });
+            doc.fillColor('#FFFFFF').fontSize(16).font('Helvetica-Bold').text('UBICACIÓN LIBRE', seatBoxX, currentY + 28, { width: 145, align: 'center' });
+            doc.fillColor('#E0EBE5').fontSize(7.5).font('Helvetica').text('Por orden de recogida', seatBoxX, currentY + 50, { width: 145, align: 'center' });
 
             // --- BLOQUE QR PARA EMBARQUE ---
             currentY += 92;
@@ -134,24 +135,28 @@ async function generateVoucherPdf(bookingData) {
             doc.fillColor(colorDark).fontSize(10).font('Helvetica-Bold').text('PASE DIGITAL DE ABORDAJE', textQrX, currentY + 14);
             
             doc.fillColor(colorMuted).fontSize(7.8).font('Helvetica').text(
-                'Presente este código QR al chofer o asistente de ruta al momento de abordar la van en Puerto Natales o en los puntos de recogida del parque.',
+                'Presente este código QR al chofer al momento de su recogida en el alojamiento en Puerto Natales. Los asientos se ocupan libremente a medida que abordan la van (Capacidad: 16 pasajeros).',
                 textQrX, currentY + 30, { width: 225, lineGap: 2 }
             );
 
-            doc.fillColor(colorAccent).fontSize(7.5).font('Helvetica-Bold').text(
-                '✓ Ticket oficial con firma criptográfica de seguridad (Un solo uso).',
-                textQrX, currentY + 68, { width: 225 }
+            doc.fillColor(colorDark).fontSize(8).font('Helvetica-Bold').text(
+                'Pick-up confirmado en:', textQrX, currentY + 74
+            );
+            doc.fillColor(colorDark).fontSize(8).font('Helvetica').text(
+                `${bookingData.hotel_name || 'Alojamiento en Puerto Natales'} (${bookingData.hotel_street || ''} ${bookingData.hotel_number || ''})`,
+                textQrX, currentY + 85, { width: 225 }
             );
 
-            doc.fillColor(colorMuted).fontSize(6.5).font('Helvetica').text(
-                `Token de seguridad: ${bookingData.security_token}`,
-                textQrX, currentY + 86, { width: 225 }
-            );
-
-            // --- PIE DE PÁGINA ---
-            doc.fillColor(colorMuted).fontSize(7).font('Helvetica').text(
-                'Travesía Paine SpA · Manuel Bulnes 450, Puerto Natales · WhatsApp: +56 9 8765 4321 · info@travesiapaine.cl',
-                25, 570, { width: 370, align: 'center' }
+            // --- POLÍTICAS Y RECOMENDACIONES CLAVE (Fondo Página) ---
+            currentY += 140;
+            doc.rect(25, currentY, 370, 80).fill('#F0F4F2');
+            doc.fillColor(colorDark).fontSize(8.5).font('Helvetica-Bold').text('INFORMACIÓN IMPORTANTE PARA SU VIAJE', 35, currentY + 10);
+            doc.fillColor(colorMuted).fontSize(7.2).font('Helvetica').text(
+                '• Debe estar listo en la recepción o puerta de su alojamiento desde la hora de inicio de pick-up.\n' +
+                '• Entrada al Parque Nacional y Cueva del Milodón NO incluidas (comprar previamente en pasesparques.cl).\n' +
+                '• Cancelaciones hasta 24 horas antes sin costo. No-show aplica 100% de retención.\n' +
+                '• Para consultas o coordinación: WhatsApp +56 9 8269 0081 | contacto@travesiapaine.com',
+                35, currentY + 24, { width: 350, lineGap: 2.2 }
             );
 
             doc.end();
@@ -200,7 +205,7 @@ async function generateManifestPdf(tourDateData, passengers) {
             doc.fillColor('#D1A186')
                .fontSize(10)
                .font('Helvetica')
-               .text(`Excursión: ${tourDateData.tour_name}  |  Fecha: ${tourDateData.travel_date}  |  Hora Salida: ${tourDateData.departure_time}  |  Capacidad: 12 Asientos`, 50, 68);
+               .text(`Excursión: ${tourDateData.tour_name}  |  Fecha: ${tourDateData.travel_date}  |  Hora Salida: ${tourDateData.departure_time}  |  Capacidad: 16 Pasajeros (Ubicación Libre)`, 50, 68);
 
             // --- TABLA DE PASAJEROS (Ancho Completo 782 pt) ---
             const startY = 105;

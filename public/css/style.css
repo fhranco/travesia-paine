@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap');
 
 :root {
-    --color-bg-dark: #12241E;
-    --color-bg-surface: #183028;
-    --color-bg-surface-elevated: #1F3D33;
-    --color-primary: #2A483C;
-    --color-primary-hover: #3D6353;
-    --color-accent: #B3714C;
-    --color-accent-hover: #D18A5E;
-    --color-accent-glow: rgba(179, 113, 76, 0.4);
-    --color-text-light: #F4F4F2;
-    --color-text-muted: #A6B5AF;
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-border-hover: rgba(179, 113, 76, 0.5);
-    --color-success: #2A7D4F;
-    --color-warning: #D97706;
-    --color-danger: #DC2626;
+    --color-bg-dark: #f6f3ee;
+    --color-bg-surface: #ffffff;
+    --color-bg-surface-elevated: #f0ebe1;
+    --color-primary: #1e5a40;
+    --color-primary-hover: #14402d;
+    --color-accent: #b3592b;
+    --color-accent-hover: #96471e;
+    --color-accent-glow: rgba(179, 89, 43, 0.25);
+    --color-text-light: #14241d;
+    --color-text-muted: #4a6156;
+    --color-border: #e2dad0;
+    --color-border-hover: #b3592b;
+    --color-success: #1b7a42;
+    --color-warning: #b45309;
+    --color-danger: #c5221f;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Inter', sans-serif;
     --radius-sm: 8px;
@@ -23,7 +23,7 @@
     --radius-lg: 20px;
     --radius-pill: 50px;
     --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 * {

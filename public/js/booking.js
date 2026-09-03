@@ -1,5 +1,5 @@
 /**
- * Travesía Paine - Motor de Reservas Cliente Multi-Asiento & Pasajeros
+ * Travesía Paine - Motor de Reservas y Gestión de Cupos (16 Pasajeros - Ubicación Libre)
  */
 
 // Generar o recuperar sessionId único de 15 minutos en localStorage
@@ -11,8 +11,10 @@ if (!sessionId) {
 
 let currentTourDateId = null;
 let currentTour = null;
-let selectedSeats = []; // Array de números de asientos seleccionados [1, 2, ...]
-let seatsPollInterval = null;
+let selectedQuantity = 1;
+let currentAvailability = 16;
+let allocatedSeatNumbers = []; // Asignados internamente por el backend
+let availabilityPollInterval = null;
 let lockInterval = null;
 let availableDatesMap = {}; // travel_date -> tour_date_id
 let toursData = [];
@@ -43,7 +45,11 @@ async function loadTours() {
             const queryDate = urlParams.get('date');
 
             if (queryTour) {
-                const match = json.data.find(t => t.id.toLowerCase().includes(queryTour.toLowerCase()) || (queryTour === 'fullday' && t.id === '1') || (queryTour === 'basetorres' && t.id === '2'));
+                const match = json.data.find(t => 
+                    String(t.id).toLowerCase().includes(queryTour.toLowerCase()) || 
+                    (queryTour === 'fullday' && String(t.id) === '1') || 
+                    (queryTour === 'basetorres' && String(t.id) === '2')
+                );
                 if (match) {
                     currentTour = match;
                     tourSelect.value = match.id;
@@ -77,7 +83,7 @@ function updateTourInfoCard(tour) {
     const descEl = document.getElementById('tour-info-desc');
     if (!nameEl || !descEl || !tour) return;
 
-    nameEl.innerHTML = `📍 ${tour.name} <span style="color: #4ADE80; font-size: 0.9rem; margin-left: 0.5rem;">($${tour.price_clp.toLocaleString('es-CL')} CLP por asiento)</span>`;
+    nameEl.innerHTML = `📍 ${tour.name} <span style="color: #2e8b57; font-size: 0.9rem; margin-left: 0.5rem;">($${tour.price_clp.toLocaleString('es-CL')} CLP por cupo)</span>`;
     descEl.innerHTML = `
         <div style="margin-top: 0.4rem; line-height: 1.5;">
             <strong>⏱ Salida:</strong> ${tour.departure_time} · <strong>Pick-up:</strong> En tu alojamiento en Puerto Natales.<br>
@@ -115,11 +121,7 @@ async function loadDatesForTour(tourId) {
                 infoEl.textContent = `📅 Temporada activa disponible desde ${minDate} hasta ${maxDate}.`;
             }
 
-            selectedSeats = [];
-            renderPassengerForms();
-            updateSummary();
-            await refreshSeats();
-            startSeatsPolling();
+            await onDateSelected(currentTourDateId);
         } else {
             datePicker.disabled = true;
             if (infoEl) {
@@ -129,6 +131,12 @@ async function loadDatesForTour(tourId) {
     } catch (err) {
         console.error('Error loading dates:', err);
     }
+}
+
+async function onDateSelected(tourDateId) {
+    currentTourDateId = tourDateId;
+    await checkAndLockQuantity(selectedQuantity);
+    startAvailabilityPolling();
 }
 
 function setupEventListeners() {
@@ -146,7 +154,7 @@ function setupEventListeners() {
             };
         }
         updateTourInfoCard(currentTour);
-        await releaseAllSelectedSeats();
+        await releaseSessionLocks();
         await loadDatesForTour(tourId);
     });
 
@@ -159,11 +167,10 @@ function setupEventListeners() {
             currentTourDateId = availableDatesMap[selectedDate];
             if (infoEl) {
                 infoEl.textContent = `✓ Fecha seleccionada: ${selectedDate}`;
-                infoEl.style.color = '#4ADE80';
+                infoEl.style.color = '#2e8b57';
             }
-            await releaseAllSelectedSeats();
-            updateSummary();
-            await refreshSeats();
+            await releaseSessionLocks();
+            await onDateSelected(currentTourDateId);
         } else {
             alert('La fecha seleccionada no tiene salidas programadas. Por favor elige una fecha dentro de la temporada.');
             if (infoEl) {
@@ -173,411 +180,445 @@ function setupEventListeners() {
         }
     });
 
-    // Seats click delegation
-    document.querySelectorAll('.seat').forEach(seatEl => {
-        seatEl.addEventListener('click', async () => {
-            const seatNumber = parseInt(seatEl.getAttribute('data-seat'), 10);
-            await handleSeatClick(seatNumber);
+    // Stepper Aumento / Disminución Numérico 1 a 1
+    const btnMinus = document.getElementById('btn-qty-minus');
+    if (btnMinus) {
+        btnMinus.addEventListener('click', async () => {
+            if (selectedQuantity > 1) {
+                await checkAndLockQuantity(selectedQuantity - 1);
+            }
         });
-    });
+    }
+
+    const btnPlus = document.getElementById('btn-qty-plus');
+    if (btnPlus) {
+        btnPlus.addEventListener('click', async () => {
+            const maxAllowed = Math.min(16, currentAvailability);
+            if (selectedQuantity < maxAllowed) {
+                await checkAndLockQuantity(selectedQuantity + 1);
+            }
+        });
+    }
 
     // Checkout form submit
-    document.getElementById('checkout-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await initiateWebpayPayment();
-    });
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await initiateWebpayPayment();
+        });
+    }
 }
 
-async function refreshSeats() {
+async function checkAndLockQuantity(quantity) {
     if (!currentTourDateId) return;
 
     try {
-        const res = await fetch(`/api/seats?tourDateId=${currentTourDateId}&sessionId=${sessionId}`);
+        const res = await fetch('/api/seats/lock-quantity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tourDateId: currentTourDateId,
+                quantity: quantity,
+                sessionId: sessionId
+            })
+        });
+
         const json = await res.json();
-
         if (json.success) {
-            renderSeats(json.data);
-        }
-    } catch (err) {
-        console.error('Error refreshing seats:', err);
-    }
-}
+            selectedQuantity = json.data.quantity;
+            allocatedSeatNumbers = json.data.lockedSeats || [];
+            updateStepperUI();
+            renderPassengerForms();
+            updateSummary();
 
-function startSeatsPolling() {
-    if (seatsPollInterval) clearInterval(seatsPollInterval);
-    seatsPollInterval = setInterval(refreshSeats, 10000); // Refresca cada 10s
-}
-
-function renderSeats(seatsList) {
-    const myLockedSeats = [];
-    let latestLockExpiry = null;
-
-    seatsList.forEach(s => {
-        const seatEl = document.getElementById(`seat-${s.seat_number}`);
-        if (!seatEl) return;
-
-        seatEl.className = 'seat';
-
-        if (s.status === 'PAID') {
-            seatEl.classList.add('paid');
-            seatEl.title = 'Asiento vendido';
-        } else if (s.status === 'LOCKED') {
-            if (s.is_my_lock) {
-                seatEl.classList.add('selected');
-                seatEl.title = 'Tu selección (Bloqueado por 15 min)';
-                myLockedSeats.push(s.seat_number);
-                if (s.locked_until) {
-                    const expTime = new Date(s.locked_until).getTime();
-                    if (!latestLockExpiry || expTime > latestLockExpiry) {
-                        latestLockExpiry = expTime;
-                    }
-                }
+            if (json.data.locked_until_ts) {
+                startLockTimer(json.data.locked_until_ts);
+            } else if (json.data.locked_until) {
+                const expTime = new Date(json.data.locked_until).getTime();
+                startLockTimer(Math.min(expTime, Date.now() + 10 * 60 * 1000));
             } else {
-                seatEl.classList.add('locked');
-                seatEl.title = 'En proceso de compra por otro usuario';
+                startLockTimer(Date.now() + 10 * 60 * 1000);
             }
         } else {
-            seatEl.classList.add('available');
-            seatEl.title = 'Disponible';
+            alert(json.error || 'No fue posible reservar la cantidad solicitada.');
         }
-    });
 
-    // Sincronizar array de asientos seleccionados
-    selectedSeats = myLockedSeats.sort((a, b) => a - b);
-    
-    if (selectedSeats.length > 0 && latestLockExpiry && !lockInterval) {
-        startLockTimer(latestLockExpiry);
-    } else if (selectedSeats.length === 0 && lockInterval) {
-        stopLockTimer();
+        await fetchAvailability();
+    } catch (err) {
+        console.error('Error locking quantity:', err);
     }
-
-    renderPassengerForms();
-    updateSummary();
 }
 
-async function handleSeatClick(seatNumber) {
-    if (!currentTourDateId) {
-        alert('Por favor selecciona una excursión y fecha primero.');
-        return;
-    }
+async function fetchAvailability() {
+    if (!currentTourDateId) return;
 
-    const seatEl = document.getElementById(`seat-${seatNumber}`);
-    if (seatEl.classList.contains('paid')) {
-        alert('Este asiento ya está vendido y ocupado.');
-        return;
-    }
-
-    if (seatEl.classList.contains('locked') && !selectedSeats.includes(seatNumber)) {
-        alert('Este asiento está siendo reservado por otro usuario en este momento.');
-        return;
-    }
-
-    // Si ya lo tiene seleccionado ➔ Liberar ese asiento
-    if (selectedSeats.includes(seatNumber)) {
-        await releaseSeat(seatNumber);
-        await refreshSeats();
-        return;
-    }
-
-    // Intentar bloquear el nuevo asiento
     try {
-        const res = await fetch('/api/seats/lock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                tourDateId: currentTourDateId,
-                seatNumber,
-                sessionId
-            })
-        });
-
+        const res = await fetch(`/api/availability?tourDateId=${currentTourDateId}&sessionId=${sessionId}`);
         const json = await res.json();
+
         if (json.success) {
-            if (!selectedSeats.includes(seatNumber)) {
-                selectedSeats.push(seatNumber);
-                selectedSeats.sort((a, b) => a - b);
-            }
-            const expires = new Date(Date.now() + 15 * 60 * 1000).getTime();
-            startLockTimer(expires);
-            await refreshSeats();
-        } else {
-            alert(json.error || 'No se pudo reservar el asiento.');
-            await refreshSeats();
+            currentAvailability = json.data.available_seats;
+            updateAvailabilityBadge(json.data);
+            updateStepperUI();
         }
     } catch (err) {
-        console.error('Error locking seat:', err);
-        alert('Error de conexión al reservar asiento.');
+        console.error('Error fetching availability:', err);
     }
 }
 
-async function releaseSeat(seatNumber) {
-    try {
-        await fetch('/api/seats/release', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                tourDateId: currentTourDateId,
-                seatNumber,
-                sessionId
-            })
-        });
-        selectedSeats = selectedSeats.filter(s => s !== seatNumber);
-    } catch (err) {
-        console.error('Error releasing seat:', err);
+function updateAvailabilityBadge(data) {
+    const textEl = document.getElementById('quota-text');
+    const dotEl = document.getElementById('seats-dot');
+    const bannerEl = document.getElementById('seats-remaining-banner');
+    const btnMinus = document.getElementById('btn-qty-minus');
+    const btnPlus = document.getElementById('btn-qty-plus');
+    const btnSubmit = document.getElementById('btn-submit-booking');
+
+    if (!textEl) return;
+
+    const totalFreeInVan = currentAvailability;
+    // Rebaja automática en vivo restando los pasajeros que el usuario tiene seleccionados
+    const remainingAfterSelection = Math.max(0, totalFreeInVan - selectedQuantity);
+
+    if (totalFreeInVan <= 0) {
+        textEl.textContent = 'No quedan asientos disponibles para esta fecha (Agotado)';
+        if (dotEl) dotEl.textContent = '🔴';
+        if (bannerEl) {
+            bannerEl.style.borderColor = '#F87171';
+            bannerEl.style.background = 'rgba(248, 113, 113, 0.08)';
+        }
+        if (btnMinus) btnMinus.disabled = true;
+        if (btnPlus) btnPlus.disabled = true;
+        if (btnSubmit) btnSubmit.disabled = true;
+    } else if (remainingAfterSelection === 0) {
+        textEl.textContent = `¡Estás seleccionando todos los ${selectedQuantity} asientos disponibles de la van!`;
+        if (dotEl) dotEl.textContent = '🟠';
+        if (bannerEl) {
+            bannerEl.style.borderColor = '#F59E0B';
+            bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+        }
+    } else if (remainingAfterSelection <= 4) {
+        textEl.textContent = `¡Atención! Quedan ${remainingAfterSelection} asiento${remainingAfterSelection > 1 ? 's' : ''} disponible${remainingAfterSelection > 1 ? 's' : ''}`;
+        if (dotEl) dotEl.textContent = '🟠';
+        if (bannerEl) {
+            bannerEl.style.borderColor = '#F59E0B';
+            bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+        }
+    } else {
+        textEl.textContent = `Quedan ${remainingAfterSelection} asientos disponibles`;
+        if (dotEl) dotEl.textContent = '🟢';
+        if (bannerEl) {
+            bannerEl.style.borderColor = 'var(--color-primary)';
+            bannerEl.style.background = 'rgba(30, 90, 64, 0.08)';
+        }
     }
 }
 
-async function releaseAllSelectedSeats() {
-    for (const seatNumber of selectedSeats) {
-        await releaseSeat(seatNumber);
+function updateStepperUI() {
+    const numEl = document.getElementById('qty-number');
+    const labelEl = document.getElementById('qty-label');
+    const btnMinus = document.getElementById('btn-qty-minus');
+    const btnPlus = document.getElementById('btn-qty-plus');
+    const subtotalEl = document.getElementById('subtotal-display');
+
+    const maxAllowed = Math.min(16, currentAvailability);
+
+    if (selectedQuantity > maxAllowed && maxAllowed > 0) {
+        selectedQuantity = maxAllowed;
     }
-    selectedSeats = [];
-    stopLockTimer();
-    renderPassengerForms();
+
+    if (numEl) numEl.textContent = selectedQuantity;
+    if (labelEl) labelEl.textContent = selectedQuantity === 1 ? 'Pasajero' : 'Pasajeros';
+
+    if (btnMinus) {
+        btnMinus.disabled = selectedQuantity <= 1 || currentAvailability <= 0;
+    }
+    if (btnPlus) {
+        btnPlus.disabled = selectedQuantity >= maxAllowed || currentAvailability <= 0;
+    }
+
+    if (subtotalEl && currentTour) {
+        const total = currentTour.price_clp * selectedQuantity;
+        subtotalEl.textContent = `$${total.toLocaleString('es-CL')} CLP`;
+    }
+
+    // Actualiza el texto de asientos disponibles rebajando en vivo
+    updateAvailabilityBadge();
 }
 
-/**
- * Renderiza dinámicamente una tarjeta de datos para CADA asiento seleccionado.
- */
+function startAvailabilityPolling() {
+    if (availabilityPollInterval) clearInterval(availabilityPollInterval);
+    availabilityPollInterval = setInterval(fetchAvailability, 10000);
+}
+
 function renderPassengerForms() {
     const container = document.getElementById('passengers-forms-container');
     if (!container) return;
 
-    if (selectedSeats.length === 0) {
+    if (selectedQuantity <= 0) {
         container.innerHTML = `
             <div style="background: var(--color-bg-dark); border: 1px dashed var(--color-border); border-radius: 12px; padding: 2rem; text-align: center; color: var(--color-text-muted); margin-bottom: 1.5rem;">
-                👈 <strong>Por favor haz clic en uno o más asientos en el mapa del bus</strong> para habilitar los datos individuales de cada pasajero.
+                👈 <strong>Por favor selecciona la cantidad de pasajeros</strong> para habilitar los datos individuales.
             </div>
         `;
         return;
     }
 
-    // Mantener valores existentes si el usuario ya había escrito en algunos
-    const existingValues = {};
-    selectedSeats.forEach(seatNum => {
-        const nameEl = document.getElementById(`passenger-name-${seatNum}`);
-        const ageEl = document.getElementById(`passenger-age-${seatNum}`);
-        const docEl = document.getElementById(`passenger-doc-${seatNum}`);
-        const emailEl = document.getElementById(`passenger-email-${seatNum}`);
-        const phoneEl = document.getElementById(`passenger-phone-${seatNum}`);
-        const waEl = document.getElementById(`passenger-whatsapp-${seatNum}`);
+    // Preservar datos previamente ingresados
+    const existingData = {};
+    for (let i = 1; i <= 16; i++) {
+        const nameInput = document.getElementById(`passenger-name-${i}`);
+        const ageInput = document.getElementById(`passenger-age-${i}`);
+        const docInput = document.getElementById(`passenger-doc-${i}`);
+        const emailInput = document.getElementById(`passenger-email-${i}`);
+        const phoneInput = document.getElementById(`passenger-phone-${i}`);
+        const waInput = document.getElementById(`passenger-wa-${i}`);
 
-        if (nameEl) {
-            existingValues[seatNum] = {
-                name: nameEl.value,
-                age: ageEl ? ageEl.value : '',
-                doc: docEl ? docEl.value : '',
-                email: emailEl ? emailEl.value : '',
-                phone: phoneEl ? phoneEl.value : '',
-                whatsapp: waEl ? waEl.value : ''
+        if (nameInput) {
+            existingData[i] = {
+                name: nameInput.value,
+                age: ageInput ? ageInput.value : '',
+                doc: docInput ? docInput.value : '',
+                email: emailInput ? emailInput.value : '',
+                phone: phoneInput ? phoneInput.value : '',
+                wa: waInput ? waInput.value : ''
             };
         }
-    });
+    }
 
-    container.innerHTML = selectedSeats.map((seatNum, idx) => {
-        const vals = existingValues[seatNum] || {};
-        const pLabel = typeof t === 'function' ? t('passengerLabel') : 'Pasajero';
-        const sLabel = typeof t === 'function' ? t('seatLabel') : 'Asiento N°';
-        const nameLabel = typeof t === 'function' ? t('labelFullName') : 'Nombre Completo *';
-        const namePl = typeof t === 'function' ? t('placeholderFullName') : 'Ej: Juan Pérez';
-        const ageLabel = typeof t === 'function' ? t('labelAge') : 'Edad *';
-        const agePl = typeof t === 'function' ? t('placeholderAge') : 'Ej: 32';
-        const docLabel = typeof t === 'function' ? t('labelDoc') : 'RUT o Pasaporte *';
-        const docPl = typeof t === 'function' ? t('placeholderDoc') : 'Ej: 12.345.678-9 / Pasaporte';
-        const emailLabel = typeof t === 'function' ? t('labelEmail') : 'Correo Electrónico (para envío de pasaje) *';
-        const emailPl = typeof t === 'function' ? t('placeholderEmail') : 'Ej: juan@gmail.com';
-        const phoneLabel = typeof t === 'function' ? t('labelPhone') : 'Teléfono de Contacto *';
-        const phonePl = typeof t === 'function' ? t('placeholderPhone') : 'Ej: +56 9 1234 5678';
-        const waLabel = typeof t === 'function' ? t('labelWa') : 'WhatsApp de Contacto (con código país) *';
-        const waPl = typeof t === 'function' ? t('placeholderWa') : 'Ej: +56912345678';
+    let html = '';
+    for (let idx = 1; idx <= selectedQuantity; idx++) {
+        const prev = existingData[idx] || {};
 
-        return `
-            <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.4rem; margin-bottom: 1.2rem; position: relative;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">
-                    <div style="font-weight: 700; color: var(--color-accent); font-size: 1rem;">
-                        👤 ${pLabel} ${idx + 1} &nbsp;·&nbsp; <span style="background: var(--color-accent); color: #FFF; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.8rem;">${sLabel} ${seatNum.toString().padStart(2, '0')}</span>
+        html += `
+            <div class="passenger-card" id="passenger-card-${idx}" style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.4rem; margin-bottom: 1.2rem; box-shadow: var(--shadow-soft);">
+                <div class="passenger-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--color-border);">
+                    <div style="font-weight: 800; font-size: 1.05rem; color: var(--color-text-light);">
+                        👤 Pasajero N° ${idx}
+                    </div>
+                    <span style="background: rgba(30, 90, 64, 0.08); color: var(--color-primary); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 999px;">
+                        Ubicación libre al abordar
+                    </span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group">
+                        <label for="passenger-name-${idx}">Nombre Completo *</label>
+                        <input type="text" id="passenger-name-${idx}" class="form-input" placeholder="Ej: Juan Pérez" value="${prev.name || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passenger-age-${idx}">Edad *</label>
+                        <input type="number" id="passenger-age-${idx}" class="form-input" placeholder="Ej: 32" min="1" max="110" value="${prev.age || ''}" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="passenger-name-${seatNum}">${nameLabel}</label>
-                    <input type="text" id="passenger-name-${seatNum}" class="form-input" placeholder="${namePl}" value="${vals.name || ''}" required>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.8rem;">
+                <div style="display: grid; grid-template-columns: 1.2fr 1.8fr; gap: 1rem; margin-bottom: 1rem;">
                     <div class="form-group">
-                        <label for="passenger-age-${seatNum}">${ageLabel}</label>
-                        <input type="number" id="passenger-age-${seatNum}" class="form-input" placeholder="${agePl}" min="1" max="99" value="${vals.age || ''}" required>
+                        <label for="passenger-doc-${idx}">RUT o Pasaporte *</label>
+                        <input type="text" id="passenger-doc-${idx}" class="form-input" placeholder="Ej: 12.345.678-9 o Pasaporte" value="${prev.doc || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="passenger-doc-${seatNum}">${docLabel}</label>
-                        <input type="text" id="passenger-doc-${seatNum}" class="form-input" placeholder="${docPl}" value="${vals.doc || ''}" required>
+                        <label for="passenger-email-${idx}">Correo Electrónico (para pasaje digital) *</label>
+                        <input type="email" id="passenger-email-${idx}" class="form-input" placeholder="Ej: pasajero@gmail.com" value="${prev.email || ''}" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="passenger-email-${seatNum}">${emailLabel}</label>
-                    <input type="email" id="passenger-email-${seatNum}" class="form-input" placeholder="${emailPl}" value="${vals.email || ''}" required>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
-                        <label for="passenger-phone-${seatNum}">${phoneLabel}</label>
-                        <input type="tel" id="passenger-phone-${seatNum}" class="form-input" placeholder="${phonePl}" value="${vals.phone || ''}" required>
+                        <label for="passenger-phone-${idx}">Teléfono Móvil *</label>
+                        <input type="tel" id="passenger-phone-${idx}" class="form-input" placeholder="Ej: +56 9 1234 5678" value="${prev.phone || ''}" required>
                     </div>
                     <div class="form-group">
-                        <label for="passenger-whatsapp-${seatNum}">${waLabel}</label>
-                        <input type="tel" id="passenger-whatsapp-${seatNum}" class="form-input" placeholder="${waPl}" value="${vals.whatsapp || ''}" required>
+                        <label for="passenger-wa-${idx}">WhatsApp de Contacto *</label>
+                        <input type="tel" id="passenger-wa-${idx}" class="form-input" placeholder="Ej: +56 9 1234 5678" value="${prev.wa || ''}" required>
                     </div>
                 </div>
             </div>
         `;
-    }).join('');
+    }
+
+    container.innerHTML = html;
 }
 
 function updateSummary() {
-    const summarySeat = document.getElementById('summary-seat');
     const summaryTour = document.getElementById('summary-tour');
-    const summaryDateTime = document.getElementById('summary-datetime');
-    const summaryPrice = document.getElementById('summary-total-price');
-    const btnPay = document.getElementById('btn-pay');
+    const summaryDate = document.getElementById('summary-date');
+    const summarySeats = document.getElementById('summary-seats');
+    const summaryTotal = document.getElementById('summary-total');
+    const btnSubmit = document.getElementById('btn-submit-booking');
 
-    const datePicker = document.getElementById('date-picker');
-    const dateText = datePicker ? datePicker.value : '';
+    if (!summaryTour || !summaryDate || !summarySeats || !summaryTotal) return;
 
     if (currentTour) {
         summaryTour.textContent = currentTour.name;
-        summaryDateTime.textContent = `${dateText || ''} · ${currentTour.departure_time || ''}`;
     }
 
-    if (selectedSeats.length > 0) {
-        const seatsText = selectedSeats.map(s => `N° ${s.toString().padStart(2, '0')}`).join(', ');
-        summarySeat.textContent = `${selectedSeats.length} Asiento(s): ${seatsText}`;
-        const unitPrice = currentTour ? currentTour.price_clp : 0;
-        const total = unitPrice * selectedSeats.length;
-        summaryPrice.textContent = `$${total.toLocaleString('es-CL')} CLP`;
-        btnPay.disabled = false;
-    } else {
-        summarySeat.textContent = 'Ninguno seleccionado';
-        summaryPrice.textContent = `$0 CLP`;
-        btnPay.disabled = true;
+    const datePicker = document.getElementById('date-picker');
+    if (datePicker && datePicker.value) {
+        summaryDate.textContent = `${datePicker.value} (Pick-up: ${currentTour ? currentTour.departure_time : '07:00 AM'})`;
+    }
+
+    summarySeats.textContent = `${selectedQuantity} Pasajero(s) (Ubicación libre por orden de recogida)`;
+
+    if (currentTour) {
+        const total = currentTour.price_clp * selectedQuantity;
+        summaryTotal.textContent = `$${total.toLocaleString('es-CL')} CLP`;
+    }
+
+    if (btnSubmit) {
+        btnSubmit.disabled = selectedQuantity <= 0;
+        btnSubmit.innerHTML = `🔒 Pagar $${(currentTour ? currentTour.price_clp * selectedQuantity : 0).toLocaleString('es-CL')} CLP con Webpay Plus`;
     }
 }
 
-function startLockTimer(expiresAtTimestamp) {
-    const timerBar = document.getElementById('lock-timer');
-    const timerDisplay = document.getElementById('timer-display');
-    if (!timerBar || !timerDisplay) return;
-
-    timerBar.style.display = 'flex';
+function startLockTimer(expiryTimestamp) {
     if (lockInterval) clearInterval(lockInterval);
+
+    const timerBar = document.getElementById('lock-timer');
+    const display = document.getElementById('timer-display');
+    if (!timerBar || !display) return;
+
+    timerBar.classList.add('active');
+
+    // Garantizar que la expiración máxima sea exactamente 10 minutos desde ahora
+    const maxExpiry = Date.now() + 10 * 60 * 1000;
+    const targetExpiry = (expiryTimestamp && expiryTimestamp > Date.now()) 
+        ? Math.min(expiryTimestamp, maxExpiry) 
+        : maxExpiry;
 
     function update() {
         const now = Date.now();
-        const diff = Math.max(0, expiresAtTimestamp - now);
-        const mins = Math.floor(diff / 60000);
-        const secs = Math.floor((diff % 60000) / 1000);
-
-        timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        const diff = targetExpiry - now;
 
         if (diff <= 0) {
             clearInterval(lockInterval);
-            timerBar.style.display = 'none';
-            alert('El tiempo de reserva de tus asientos (15 minutos) ha expirado.');
-            selectedSeats = [];
-            renderPassengerForms();
-            refreshSeats();
+            lockInterval = null;
+            display.textContent = '00:00';
+            timerBar.classList.remove('active');
+            alert('⏱ Tu tiempo de reserva de 10 minutos ha expirado. Por favor selecciona tus cupos nuevamente.');
+            checkAndLockQuantity(selectedQuantity);
+            return;
         }
+
+        const mins = Math.floor(diff / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
     update();
     lockInterval = setInterval(update, 1000);
 }
 
-function stopLockTimer() {
-    if (lockInterval) clearInterval(lockInterval);
-    lockInterval = null;
-    const timerBar = document.getElementById('lock-timer');
-    if (timerBar) timerBar.style.display = 'none';
+async function releaseSessionLocks() {
+    if (!currentTourDateId) return;
+    try {
+        await fetch('/api/seats/release-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tourDateId: currentTourDateId, sessionId: sessionId })
+        });
+    } catch (e) {}
 }
 
 async function initiateWebpayPayment() {
-    if (selectedSeats.length === 0 || !currentTourDateId) {
-        alert('Por favor selecciona al menos un asiento en el bus antes de continuar.');
+    if (selectedQuantity <= 0) {
+        alert('Por favor selecciona al menos 1 cupo para continuar.');
         return;
     }
 
-    // Validar y recopilar datos de todos los pasajeros
-    const passengersData = [];
-    for (const seatNum of selectedSeats) {
-        const name = document.getElementById(`passenger-name-${seatNum}`).value.trim();
-        const age = document.getElementById(`passenger-age-${seatNum}`).value.trim();
-        const doc = document.getElementById(`passenger-doc-${seatNum}`).value.trim();
-        const email = document.getElementById(`passenger-email-${seatNum}`).value.trim();
-        const phone = document.getElementById(`passenger-phone-${seatNum}`).value.trim();
-        const whatsapp = document.getElementById(`passenger-whatsapp-${seatNum}`).value.trim();
+    const hotelName = document.getElementById('hotel-name')?.value.trim();
+    const hotelStreet = document.getElementById('hotel-street')?.value.trim();
+    const hotelNumber = document.getElementById('hotel-number')?.value.trim();
 
-        if (!name || !age || !doc || !email || !phone) {
-            alert(`Por favor completa todos los datos obligatorios para el Pasajero del Asiento N° ${seatNum}.`);
+    if (!hotelName || !hotelStreet || !hotelNumber) {
+        alert('Por favor completa todos los datos de tu alojamiento en Puerto Natales para coordinar tu pick-up.');
+        return;
+    }
+
+    const passengers = [];
+    for (let idx = 1; idx <= selectedQuantity; idx++) {
+        const name = document.getElementById(`passenger-name-${idx}`)?.value.trim();
+        const age = document.getElementById(`passenger-age-${idx}`)?.value.trim();
+        const doc = document.getElementById(`passenger-doc-${idx}`)?.value.trim();
+        const email = document.getElementById(`passenger-email-${idx}`)?.value.trim();
+        const phone = document.getElementById(`passenger-phone-${idx}`)?.value.trim();
+        const wa = document.getElementById(`passenger-wa-${idx}`)?.value.trim();
+
+        if (!name || !age || !doc || !email || !phone || !wa) {
+            alert(`Por favor completa todos los campos del Pasajero N° ${idx}.`);
             return;
         }
 
-        passengersData.push({
+        // Asignar número de asiento del pool bloqueado por el backend
+        const seatNum = allocatedSeatNumbers[idx - 1] || idx;
+
+        passengers.push({
             seatNumber: seatNum,
+            name,
             passengerName: name,
+            age: parseInt(age, 10),
             passengerAge: parseInt(age, 10),
+            doc,
             passengerDoc: doc,
+            email,
             passengerEmail: email,
+            phone,
             passengerPhone: phone,
-            passengerWhatsapp: whatsapp || phone
+            whatsapp: wa,
+            passengerWhatsapp: wa
         });
     }
 
-    const hotelName = document.getElementById('hotel-name').value.trim();
-    const hotelStreet = document.getElementById('hotel-street').value.trim();
-    const hotelNumber = document.getElementById('hotel-number').value.trim();
-    const policyAgree = document.getElementById('policy-agree').checked;
-
-    if (!policyAgree) {
-        alert('Debes aceptar las Políticas de Reserva, Cancelación y Reembolso para proceder con el pago.');
-        return;
-    }
-
-    const btnPay = document.getElementById('btn-pay');
-    btnPay.disabled = true;
-    btnPay.innerHTML = `<span>⏳ Conectando con Transbank Webpay...</span>`;
+    const submitBtn = document.getElementById('btn-submit-booking');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '🔄 Conectando con Webpay Plus...';
 
     try {
+        const policyChecked = document.getElementById('policy-agree')?.checked ?? true;
+
         const res = await fetch('/api/bookings/initiate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 tourDateId: currentTourDateId,
-                sessionId,
-                passengers: passengersData,
-                hotelName,
-                hotelStreet,
-                hotelNumber,
-                policiesAccepted: true
+                sessionId: sessionId,
+                passengers: passengers,
+                hotelName: hotelName,
+                hotelStreet: hotelStreet,
+                hotelNumber: hotelNumber,
+                policiesAccepted: policyChecked,
+                hotelInfo: {
+                    name: hotelName,
+                    street: hotelStreet,
+                    number: hotelNumber
+                }
             })
         });
 
         const json = await res.json();
-        if (json.success && json.data.webpayUrl) {
-            // Redirigir mediante formulario POST a Transbank Webpay
-            const form = document.getElementById('webpay-form');
+
+        if (json.success && json.data.webpayUrl && json.data.token) {
+            // Crear formulario POST automático hacia Transbank Webpay
+            const form = document.createElement('form');
+            form.method = 'POST';
             form.action = json.data.webpayUrl;
-            document.getElementById('webpay-token-input').value = json.data.token;
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'token_ws';
+            input.value = json.data.token;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
             form.submit();
         } else {
-            alert(json.error || 'Error al iniciar la transacción.');
-            btnPay.disabled = false;
-            btnPay.innerHTML = `<span>Pagar con Webpay Plus (Tarjetas)</span>`;
+            throw new Error(json.error || 'No fue posible iniciar el pago con Webpay.');
         }
     } catch (err) {
-        console.error('Error initiating payment:', err);
-        alert('Error de conexión con el servidor.');
-        btnPay.disabled = false;
-        btnPay.innerHTML = `<span>Pagar con Webpay Plus (Tarjetas)</span>`;
+        alert('Error al iniciar pago: ' + err.message);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
     }
 }
