@@ -3338,6 +3338,90 @@ footer {
     box-shadow: 0 8px 24px rgba(26, 26, 26, 0.08);
 }
 
+/* Tarjetas de Servicios Principales (Protagonismo Editorial) */
+.private-services-carousel-track .private-service-card.card-featured {
+    flex: 0 0 348px;
+    width: 348px;
+    border: 1.5px solid #1E5A40;
+    box-shadow: 0 8px 26px rgba(30, 90, 64, 0.1);
+    position: relative;
+}
+
+@media (min-width: 1700px) {
+    .private-services-carousel-track .private-service-card.card-featured {
+        flex: 1.15 1 0;
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+    .private-services-carousel-track .private-service-card.card-featured {
+        flex: 0 0 84vw;
+        width: 84vw;
+        max-width: 340px;
+    }
+}
+
+.private-service-card.card-featured:hover {
+    transform: translateY(-5px);
+    border-color: #143D2B;
+    box-shadow: 0 16px 36px rgba(30, 90, 64, 0.16);
+}
+
+.service-ribbon-tag {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #1E5A40;
+    color: #FFFFFF !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.65rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.private-service-card.card-featured .private-card-img-wrap {
+    height: 195px;
+}
+
+@media (max-width: 640px) {
+    .private-service-card.card-featured .private-card-img-wrap {
+        height: 170px;
+    }
+}
+
+.private-service-card.card-featured .private-card-title {
+    font-size: 1.22rem;
+    color: #0E1712;
+}
+
+.private-service-card.card-featured .private-pill {
+    background: rgba(30, 90, 64, 0.1);
+    color: #143D2B;
+    font-weight: 700;
+    border: 1px solid rgba(30, 90, 64, 0.22);
+}
+
+.private-service-card.card-featured .btn-editorial-quote {
+    background: #1E5A40;
+    border-color: #1E5A40;
+    box-shadow: 0 4px 14px rgba(30, 90, 64, 0.25);
+}
+
+.private-service-card.card-featured .btn-editorial-quote:hover {
+    background: #143D2B;
+    border-color: #143D2B;
+}
+
 .private-card-img-wrap {
     position: relative;
     width: 100%;
