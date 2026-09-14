@@ -2237,7 +2237,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    color: #8C4E2D;
+    color: #c04a1e;
     font-family: 'Inter', sans-serif;
     font-size: 0.72rem;
     font-weight: 700;
@@ -2293,8 +2293,8 @@ footer {
 
 .btn-book-editorial {
     flex: 1.2;
-    background: #1B2B22;
-    border: 1px solid #1B2B22;
+    background: #c04a1e;
+    border: 1px solid #c04a1e;
     color: #FFFFFF !important;
     padding: 0.65rem 0.8rem;
     border-radius: 4px;
@@ -2310,11 +2310,14 @@ footer {
     justify-content: center;
     gap: 0.45rem;
     min-height: 42px;
+    box-shadow: 0 4px 14px rgba(192, 74, 30, 0.28);
 }
 
 .btn-book-editorial:hover {
-    background: #142019;
-    border-color: #142019;
+    background: #d05324;
+    border-color: #d05324;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(192, 74, 30, 0.38);
 }
 
 /* ========================================================
@@ -2355,20 +2358,25 @@ footer {
 }
 
 .main-service-card.is-hero-featured {
-    border: 2px solid #1E5A40;
-    box-shadow: 0 10px 32px rgba(30, 90, 64, 0.12);
+    border: 2px solid #c04a1e;
+    box-shadow: 0 10px 32px rgba(192, 74, 30, 0.14);
 }
 
 .main-service-card.is-hero-featured:hover {
-    border-color: #143D2B;
-    box-shadow: 0 16px 40px rgba(30, 90, 64, 0.18);
+    border-color: #a83d16;
+    box-shadow: 0 16px 40px rgba(192, 74, 30, 0.22);
 }
 
 .tour-card-tag.is-star-tag {
-    background: #1E5A40 !important;
+    background: #c04a1e !important;
     color: #FFFFFF !important;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     font-weight: 800;
+    box-shadow: 0 2px 10px rgba(192, 74, 30, 0.35);
+}
+
+.main-service-card.is-hero-featured .tour-price-stamp .price-amount {
+    color: #c04a1e;
 }
 
 .main-tour-perks {
@@ -2391,20 +2399,21 @@ footer {
 }
 
 .main-service-card.is-hero-featured .tour-perk-pill {
-    background: rgba(30, 90, 64, 0.11);
-    color: #143D2B;
-    border-color: rgba(30, 90, 64, 0.24);
+    background: rgba(192, 74, 30, 0.08);
+    color: #a83d16;
+    border-color: rgba(192, 74, 30, 0.22);
 }
 
 .btn-hero-book {
-    background: #1E5A40 !important;
-    border-color: #1E5A40 !important;
-    box-shadow: 0 4px 14px rgba(30, 90, 64, 0.25);
+    background: #c04a1e !important;
+    border-color: #c04a1e !important;
+    box-shadow: 0 4px 16px rgba(192, 74, 30, 0.32) !important;
 }
 
 .btn-hero-book:hover {
-    background: #143D2B !important;
-    border-color: #143D2B !important;
+    background: #d05324 !important;
+    border-color: #d05324 !important;
+    box-shadow: 0 6px 20px rgba(192, 74, 30, 0.45) !important;
 }
 
 /* ========================================================
