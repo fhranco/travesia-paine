@@ -149,14 +149,15 @@ async function generateVoucherPdf(bookingData) {
 
             // --- POLÍTICAS Y RECOMENDACIONES CLAVE (Fondo Página) ---
             currentY += 140;
-            doc.rect(25, currentY, 370, 80).fill('#F0F4F2');
-            doc.fillColor(colorDark).fontSize(8.5).font('Helvetica-Bold').text('INFORMACIÓN IMPORTANTE PARA SU VIAJE', 35, currentY + 10);
-            doc.fillColor(colorMuted).fontSize(7.2).font('Helvetica').text(
-                '• Debe estar listo en la recepción o puerta de su alojamiento desde la hora de inicio de pick-up.\n' +
+            doc.rect(25, currentY, 370, 85).fill('#F0F4F2');
+            doc.fillColor(colorDark).fontSize(8.5).font('Helvetica-Bold').text('INFORMACIÓN IMPORTANTE PARA SU VIAJE', 35, currentY + 9);
+            doc.fillColor(colorMuted).fontSize(7).font('Helvetica').text(
+                '• Debe estar listo en la recepción o puerta de su alojamiento desde la hora de inicio de pick-up (fuera de Natales: Plaza de Armas).\n' +
                 '• Entrada al Parque Nacional y Cueva del Milodón NO incluidas (comprar previamente en pasesparques.cl).\n' +
-                '• Cancelaciones hasta 24 horas antes sin costo. No-show aplica 100% de retención.\n' +
+                '• Base Torres: servicio exclusivo de transporte. En Centro de Bienvenida la van espera hasta las 19:00 hrs.\n' +
+                '• Cancelaciones: más de 3 días = 60% devolución. Menos de 24 horas = sin devolución (0%). No-show 100% retención.\n' +
                 '• Para consultas o coordinación: WhatsApp +56 9 8269 0081 | contacto@travesiapaine.com',
-                35, currentY + 24, { width: 350, lineGap: 2.2 }
+                35, currentY + 22, { width: 350, lineGap: 2 }
             );
 
             doc.end();

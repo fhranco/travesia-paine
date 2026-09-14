@@ -176,3 +176,97 @@ function renderWeatherWidget() {
         statusEl.textContent = condition;
     }
 }
+
+// ==========================================================================
+// Control de Galerías y Marquesinas de Flota (Sprinter & Maxus 4x4)
+// ==========================================================================
+const fleetData = {
+    sprinter: {
+        currentIndex: 0,
+        images: [
+            { src: 'sprinter_front.webp', label: 'Frente 3/4' },
+            { src: 'sprinter_side.webp', label: 'Perfil Lateral' },
+            { src: 'sprinter_rear.webp', label: 'Posterior 3/4' }
+        ]
+    },
+    maxus: {
+        currentIndex: 0,
+        images: [
+            { src: 'maxus_front.webp', label: 'Frente 3/4' },
+            { src: 'maxus_side.webp', label: 'Perfil 4x4' },
+            { src: 'maxus_rear.webp', label: 'Pick-up Trasero' }
+        ]
+    }
+};
+
+function selectFleetImage(unitKey, index) {
+    const unit = fleetData[unitKey];
+    if (!unit || index < 0 || index >= unit.images.length) return;
+    unit.currentIndex = index;
+
+    const mainImg = document.getElementById(`fleet-main-${unitKey}`);
+    if (mainImg) {
+        mainImg.style.opacity = '0.3';
+        setTimeout(() => {
+            mainImg.src = unit.images[index].src;
+            mainImg.style.opacity = '1';
+        }, 120);
+    }
+
+    const thumbs = document.querySelectorAll(`.thumb-${unitKey}`);
+    thumbs.forEach((t, i) => {
+        if (i === index) t.classList.add('active');
+        else t.classList.remove('active');
+    });
+
+    const counter = document.getElementById(`fleet-counter-${unitKey}`);
+    if (counter) {
+        const num = String(index + 1).padStart(2, '0');
+        const total = String(unit.images.length).padStart(2, '0');
+        counter.textContent = `${num} / ${total} · ${unit.images[index].label}`;
+    }
+}
+
+function nextFleetImage(unitKey) {
+    const unit = fleetData[unitKey];
+    if (!unit) return;
+    const nextIdx = (unit.currentIndex + 1) % unit.images.length;
+    selectFleetImage(unitKey, nextIdx);
+}
+
+function prevFleetImage(unitKey) {
+    const unit = fleetData[unitKey];
+    if (!unit) return;
+    const prevIdx = (unit.currentIndex - 1 + unit.images.length) % unit.images.length;
+    selectFleetImage(unitKey, prevIdx);
+}
+
+// ==========================================================================
+// Control de Carrusel de Servicios Privados (Fila Única)
+// ==========================================================================
+function scrollPrivateServices(direction) {
+    const track = document.getElementById('private-services-track');
+    if (!track) return;
+    const card = track.querySelector('.private-service-card');
+    const scrollAmount = (card ? card.offsetWidth + 24 : 374) * direction;
+    track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+}
+
+// ==========================================================================
+// Alternancia de Unidades de Flota en Fila Única (Tabs)
+// ==========================================================================
+function switchFleetUnit(unitKey) {
+    const units = document.querySelectorAll('.fleet-unit-showcase');
+    const tabs = document.querySelectorAll('.fleet-tab-btn');
+
+    units.forEach(u => u.classList.remove('active'));
+    tabs.forEach(t => t.classList.remove('active'));
+
+    const targetUnit = document.getElementById(`unit-${unitKey}`);
+    const targetTab = document.getElementById(`tab-btn-${unitKey}`);
+
+    if (targetUnit) targetUnit.classList.add('active');
+    if (targetTab) targetTab.classList.add('active');
+}
+
+

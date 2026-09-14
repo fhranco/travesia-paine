@@ -110,6 +110,7 @@ function initSchema() {
     seedInitialData();
     migrateTo16Seats();
     migrateTransactionsTable();
+    updateSeasonAndPolicies();
 }
 
 function migrateTransactionsTable() {
@@ -163,6 +164,70 @@ function migrateTo16Seats() {
         console.log('🚐 Capacidad actualizada a 16 pasajeros por salida.');
     } catch (e) {
         console.error('Error migrating to 16 seats:', e.message);
+    }
+}
+
+function updateSeasonAndPolicies() {
+    try {
+        // 1. Actualizar descripciones oficiales y políticas de los 2 tours regulares
+        db.prepare(`
+            UPDATE tours 
+            SET departure_time = '06:30 AM',
+                return_time = '19:00 PM (Espera en Centro de Bienvenida)',
+                description = 'Servicio de transporte de ida y regreso hacia el Centro de Bienvenida (Base Torres del Paine). Pick-up desde las 06:30 AM en tus alojamientos dentro del radio urbano de Puerto Natales. Una vez arriba en el Centro de Bienvenida, la van espera a los pasajeros hasta las 19:00 hrs para el retorno a sus hostales.',
+                important_note = 'TRANSPORTE EXCLUSIVO: Este servicio corresponde únicamente a traslado en van (no incluye guía de montaña). Cada pasajero realiza el sendero por su cuenta. Pasajeros alojados fuera del radio urbano de Puerto Natales deberán esperar en la Plaza de Armas. Cancelación con más de 3 días: devolución del 60%. Cancelación con menos de 24 hrs: sin devolución.'
+            WHERE tour_type = 'TREKKING_BASE_TORRES' OR id = 2
+        `).run();
+
+        db.prepare(`
+            UPDATE tours 
+            SET departure_time = '07:00 AM',
+                important_note = 'MODALIDAD BAJO COSTO: Servicio enfocado en transporte y recorrido de los principales miradores del parque y Cueva del Milodón. No incluye guía de turismo. Cancelación con más de 3 días: devolución del 60%. Cancelación con menos de 24 hrs: sin devolución.'
+            WHERE tour_type = 'FULL_DAY_BAJO_COSTO' OR id = 1
+        `).run();
+
+        // 2. Generar fechas para la temporada oficial 1 de Noviembre al 30 de Abril
+        const tours = db.prepare(`SELECT id FROM tours`).all();
+        const insertDate = db.prepare(`INSERT OR IGNORE INTO tour_dates (tour_id, travel_date) VALUES (?, ?)`);
+        const insertSeat = db.prepare(`INSERT OR IGNORE INTO seats (tour_date_id, seat_number, status) VALUES (?, ?, 'AVAILABLE')`);
+
+        const seasonTx = db.transaction(() => {
+            const today = new Date();
+            const datesToSeed = new Set();
+
+            // Incluir próximos 45 días desde hoy para pruebas inmediatas
+            for (let i = 0; i < 45; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() + i);
+                datesToSeed.add(d.toISOString().split('T')[0]);
+            }
+
+            // Temporada oficial activa: 1 de Noviembre 2026 hasta 30 de Abril 2027
+            const start = new Date('2026-11-01T00:00:00');
+            const end = new Date('2027-04-30T00:00:00');
+            let cur = new Date(start);
+            while (cur <= end) {
+                datesToSeed.add(cur.toISOString().split('T')[0]);
+                cur.setDate(cur.getDate() + 1);
+            }
+
+            for (const t of tours) {
+                for (const dateStr of datesToSeed) {
+                    insertDate.run(t.id, dateStr);
+                    const td = db.prepare(`SELECT id FROM tour_dates WHERE tour_id = ? AND travel_date = ?`).get(t.id, dateStr);
+                    if (td) {
+                        for (let s = 1; s <= 16; s++) {
+                            insertSeat.run(td.id, s);
+                        }
+                    }
+                }
+            }
+        });
+
+        seasonTx();
+        console.log('✅ Temporada 1 de Noviembre al 30 de Abril sincronizada con 16 asientos por salida.');
+    } catch (err) {
+        console.error('Error sincronizando temporada y políticas:', err.message);
     }
 }
 

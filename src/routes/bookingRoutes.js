@@ -61,14 +61,25 @@ router.get('/tours', (req, res) => {
 router.get('/tours/:tourId/dates', (req, res) => {
     try {
         const { tourId } = req.params;
-        const dates = db.prepare(`
+        const rawDates = db.prepare(`
             SELECT td.id, td.travel_date,
-                   (SELECT COUNT(*) FROM seats s WHERE s.tour_date_id = td.id AND s.status = 'AVAILABLE') as available_seats,
+                   (SELECT COUNT(*) FROM seats s WHERE s.tour_date_id = td.id AND (s.status = 'AVAILABLE' OR (s.status = 'LOCKED' AND s.locked_until < datetime('now')))) as available_seats,
                    (SELECT COUNT(*) FROM seats s WHERE s.tour_date_id = td.id) as total_seats
             FROM tour_dates td
             WHERE td.tour_id = ? AND date(td.travel_date) >= date('now')
             ORDER BY td.travel_date ASC
         `).all(tourId);
+
+        const dates = rawDates.map(d => {
+            const isClosed = bookingService.isBookingCutoffPassed(d.travel_date);
+            const isSoldOut = d.available_seats === 0;
+            return {
+                ...d,
+                is_closed: isClosed,
+                is_sold_out: isSoldOut
+            };
+        });
+
         res.json({ success: true, data: dates });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });

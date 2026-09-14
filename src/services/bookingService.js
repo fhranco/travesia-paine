@@ -4,6 +4,19 @@ const crypto = require('crypto');
 const LOCK_TIMEOUT_MINUTES = 10;
 
 /**
+ * Comprueba si la reserva web para una fecha está cerrada.
+ * Regla oficial: Cierre a las 17:00 hrs del día anterior (D-1) en huso Chile/Magallanes (UTC-3).
+ */
+function isBookingCutoffPassed(travelDateStr) {
+    if (!travelDateStr) return false;
+    const [year, month, day] = travelDateStr.split('-').map(Number);
+    // Víspera a las 17:00 hrs en UTC-3 = 20:00 UTC
+    const cutoffDateUTC = new Date(Date.UTC(year, month - 1, day - 1, 20, 0, 0));
+    const now = new Date();
+    return now.getTime() >= cutoffDateUTC.getTime();
+}
+
+/**
  * Limpia automáticamente todos los asientos cuyo bloqueo haya superado los 10 minutos.
  */
 function cleanupExpiredLocks() {
@@ -134,6 +147,12 @@ function lockQuantity(tourDateId, quantity, sessionId) {
         const expMs = now.getTime() + LOCK_TIMEOUT_MINUTES * 60 * 1000;
         const lockedUntil = new Date(expMs).toISOString();
 
+        // 0. Validar corte de reserva (17:00 hrs del día anterior)
+        const tourDate = db.prepare(`SELECT travel_date FROM tour_dates WHERE id = ?`).get(tourDateId);
+        if (tourDate && isBookingCutoffPassed(tourDate.travel_date)) {
+            throw new Error('Las reservas web para esta salida cerraron a las 17:00 hrs del día anterior. Por favor consulta disponibilidad directamente por WhatsApp.');
+        }
+
         // 1. Obtener todos los asientos de la fecha
         const allSeats = db.prepare(`
             SELECT id, seat_number, status, locked_until, lock_session_id
@@ -230,6 +249,8 @@ function releaseSessionLocks(tourDateId, sessionId) {
 function getAvailabilityForDate(tourDateId, sessionId) {
     cleanupExpiredLocks();
 
+    const tourDate = db.prepare(`SELECT td.travel_date, td.tour_id, t.name as tour_name FROM tour_dates td JOIN tours t ON t.id = td.tour_id WHERE td.id = ?`).get(tourDateId);
+
     const seats = db.prepare(`
         SELECT id, seat_number, status, locked_until, lock_session_id
         FROM seats
@@ -257,10 +278,18 @@ function getAvailabilityForDate(tourDateId, sessionId) {
         }
     });
 
+    const travelDate = tourDate ? tourDate.travel_date : null;
+    const isClosed = isBookingCutoffPassed(travelDate);
+    const isSoldOut = availableCount === 0;
+
     return {
         tour_date_id: tourDateId,
+        travel_date: travelDate,
+        tour_name: tourDate ? tourDate.tour_name : null,
         total_capacity: totalCapacity,
         available_seats: availableCount,
+        is_closed: isClosed,
+        is_sold_out: isSoldOut,
         my_locked_count: myLockedSeats.length,
         my_seat_numbers: myLockedSeats
     };
@@ -285,6 +314,11 @@ function createPendingOrder({
     cleanupExpiredLocks();
 
     const orderTransaction = db.transaction(() => {
+        const tourDate = db.prepare(`SELECT travel_date FROM tour_dates WHERE id = ?`).get(tourDateId);
+        if (tourDate && isBookingCutoffPassed(tourDate.travel_date)) {
+            throw new Error('Las reservas web para esta fecha cerraron a las 17:00 hrs del día anterior. Por favor contáctanos directamente por WhatsApp.');
+        }
+
         const createdBookings = [];
         const groupCode = `GRP-${Date.now().toString().slice(-6)}`;
 
@@ -440,5 +474,6 @@ module.exports = {
     createPendingOrder,
     confirmOrderPaid,
     handleFailedOrder,
-    cleanupExpiredLocks
+    cleanupExpiredLocks,
+    isBookingCutoffPassed
 };

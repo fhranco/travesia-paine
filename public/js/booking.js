@@ -39,7 +39,7 @@ async function loadTours() {
                 <option value="${t.id}" data-price="${t.price_clp}" data-time="${t.departure_time}">${t.name} - $${t.price_clp.toLocaleString('es-CL')} CLP</option>
             `).join('');
 
-            // Leer posibles parámetros de búsqueda desde la URL (ej: ?tour=basetorres&date=2026-08-25)
+            // Leer posibles parámetros de búsqueda desde la URL (ej: ?tour=basetorres&date=2026-11-15)
             const urlParams = new URLSearchParams(window.location.search);
             const queryTour = urlParams.get('tour');
             const queryDate = urlParams.get('date');
@@ -60,6 +60,7 @@ async function loadTours() {
                 currentTour = json.data[0];
             }
 
+            syncTourTabsUI(currentTour.id);
             updateTourInfoCard(currentTour);
             await loadDatesForTour(currentTour.id);
 
@@ -68,7 +69,7 @@ async function loadTours() {
                 const datePicker = document.getElementById('date-picker');
                 if (datePicker && availableDatesMap[queryDate]) {
                     datePicker.value = queryDate;
-                    currentTourDateId = availableDatesMap[queryDate];
+                    currentTourDateId = availableDatesMap[queryDate].id;
                     await onDateSelected(currentTourDateId);
                 }
             }
@@ -78,18 +79,61 @@ async function loadTours() {
     }
 }
 
+function syncTourTabsUI(tourId) {
+    const tabBase = document.getElementById('tab-tour-basetorres');
+    const tabFull = document.getElementById('tab-tour-fullday');
+    if (!tabBase || !tabFull) return;
+
+    if (parseInt(tourId, 10) === 2) {
+        tabBase.classList.add('active');
+        tabFull.classList.remove('active');
+    } else {
+        tabFull.classList.add('active');
+        tabBase.classList.remove('active');
+    }
+}
+
+function selectTourTab(tourId) {
+    const tourSelect = document.getElementById('tour-select');
+    if (tourSelect) {
+        tourSelect.value = tourId;
+        tourSelect.dispatchEvent(new Event('change'));
+    }
+    syncTourTabsUI(tourId);
+}
+
 function updateTourInfoCard(tour) {
     const nameEl = document.getElementById('tour-info-name');
     const descEl = document.getElementById('tour-info-desc');
     if (!nameEl || !descEl || !tour) return;
 
-    nameEl.innerHTML = `📍 ${tour.name} <span style="color: #2e8b57; font-size: 0.9rem; margin-left: 0.5rem;">($${tour.price_clp.toLocaleString('es-CL')} CLP por cupo)</span>`;
-    descEl.innerHTML = `
-        <div style="margin-top: 0.4rem; line-height: 1.5;">
-            <strong>⏱ Salida:</strong> ${tour.departure_time} · <strong>Pick-up:</strong> En tu alojamiento en Puerto Natales.<br>
-            <span style="color: var(--color-text-muted);">${tour.description || tour.tagline || ''}</span>
-        </div>
-    `;
+    nameEl.innerHTML = `📍 ${tour.name} <span style="color: #2e8b57; font-size: 0.95rem; margin-left: 0.5rem; font-weight: 800;">($${tour.price_clp.toLocaleString('es-CL')} CLP por pasajero)</span>`;
+    
+    const isBaseTorres = parseInt(tour.id, 10) === 2 || String(tour.name).toLowerCase().includes('base');
+    if (isBaseTorres) {
+        descEl.innerHTML = `
+            <div style="margin-top: 0.5rem; line-height: 1.55; display: flex; flex-direction: column; gap: 0.35rem;">
+                <div>🚐 <strong>Servicio:</strong> Exclusivo Transporte de Ida y Regreso (sin guía de montaña).</div>
+                <div>⏱ <strong>Pick-up:</strong> Desde las 06:30 AM en tu alojamiento en Puerto Natales.</div>
+                <div>📍 <strong>Pasajeros fuera de la ciudad:</strong> Si alojas fuera del radio urbano de Natales, debes esperar en la <strong>Plaza de Armas</strong>.</div>
+                <div>🏔️ <strong>Retorno:</strong> En Centro de Bienvenida la van espera a los pasajeros hasta las <strong>19:00 hrs</strong> para retornar a sus hostales.</div>
+                <div style="color: var(--color-accent); font-weight: 700; margin-top: 0.2rem;">
+                    🛡️ Cancelaciones: Más de 3 días = 60% de devolución · Menos de 24 hrs = sin devolución.
+                </div>
+            </div>
+        `;
+    } else {
+        descEl.innerHTML = `
+            <div style="margin-top: 0.5rem; line-height: 1.55; display: flex; flex-direction: column; gap: 0.35rem;">
+                <div>🚐 <strong>Modalidad:</strong> Tour panorámico de bajo costo con paradas fotográficas y miradores (sin guía de turismo).</div>
+                <div>⏱ <strong>Pick-up:</strong> Desde las 07:00 AM en tu alojamiento en Puerto Natales.</div>
+                <div>📍 <strong>Puntos de Interés:</strong> Parque Nacional Torres del Paine y Monumento Natural Cueva del Milodón.</div>
+                <div style="color: var(--color-accent); font-weight: 700; margin-top: 0.2rem;">
+                    🛡️ Cancelaciones: Más de 3 días = 60% de devolución · Menos de 24 hrs = sin devolución.
+                </div>
+            </div>
+        `;
+    }
 }
 
 async function loadDatesForTour(tourId) {
@@ -104,7 +148,7 @@ async function loadDatesForTour(tourId) {
         if (json.success && json.data.length > 0) {
             availableDatesMap = {};
             json.data.forEach(d => {
-                availableDatesMap[d.travel_date] = d.id;
+                availableDatesMap[d.travel_date] = d;
             });
 
             const dates = json.data.map(d => d.travel_date).sort();
@@ -113,12 +157,19 @@ async function loadDatesForTour(tourId) {
 
             datePicker.min = minDate;
             datePicker.max = maxDate;
-            datePicker.value = minDate;
             datePicker.disabled = false;
 
-            currentTourDateId = availableDatesMap[minDate];
+            // Seleccionar primera fecha disponible que no esté cerrada
+            if (!datePicker.value || !availableDatesMap[datePicker.value]) {
+                const firstOpen = json.data.find(d => !d.is_closed) || json.data[0];
+                datePicker.value = firstOpen.travel_date;
+            }
+
+            const currentData = availableDatesMap[datePicker.value];
+            currentTourDateId = currentData ? currentData.id : availableDatesMap[minDate].id;
+
             if (infoEl) {
-                infoEl.textContent = `📅 Temporada activa disponible desde ${minDate} hasta ${maxDate}.`;
+                infoEl.innerHTML = `📅 <strong>Temporada oficial:</strong> 1 de Noviembre al 30 de Abril. Cierre web diario a las <strong>17:00 hrs</strong> del día anterior.`;
             }
 
             await onDateSelected(currentTourDateId);
@@ -164,7 +215,8 @@ function setupEventListeners() {
         const infoEl = document.getElementById('date-available-info');
 
         if (availableDatesMap[selectedDate]) {
-            currentTourDateId = availableDatesMap[selectedDate];
+            const dateObj = availableDatesMap[selectedDate];
+            currentTourDateId = dateObj.id;
             if (infoEl) {
                 infoEl.textContent = `✓ Fecha seleccionada: ${selectedDate}`;
                 infoEl.style.color = '#2e8b57';
@@ -274,43 +326,98 @@ function updateAvailabilityBadge(data) {
     const btnMinus = document.getElementById('btn-qty-minus');
     const btnPlus = document.getElementById('btn-qty-plus');
     const btnSubmit = document.getElementById('btn-submit-booking');
+    const waOverflowBox = document.getElementById('whatsapp-overflow-box');
 
     if (!textEl) return;
 
     const totalFreeInVan = currentAvailability;
+    const isClosed = data && data.is_closed;
+    const isSoldOut = totalFreeInVan <= 0 || (data && data.is_sold_out);
+
     // Rebaja automática en vivo restando los pasajeros que el usuario tiene seleccionados
     const remainingAfterSelection = Math.max(0, totalFreeInVan - selectedQuantity);
 
-    if (totalFreeInVan <= 0) {
+    if (isClosed) {
+        textEl.textContent = 'Reservas web cerradas (Límite: 17:00 hrs del día anterior)';
+        if (dotEl) dotEl.textContent = '🔒';
+        if (bannerEl) {
+            bannerEl.style.borderColor = '#F59E0B';
+            bannerEl.style.background = 'rgba(245, 158, 11, 0.12)';
+        }
+        if (btnMinus) btnMinus.disabled = true;
+        if (btnPlus) btnPlus.disabled = true;
+        if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.style.opacity = '0.5';
+            btnSubmit.style.cursor = 'not-allowed';
+        }
+        if (waOverflowBox) {
+            waOverflowBox.style.display = 'block';
+            const dateStr = document.getElementById('date-picker') ? document.getElementById('date-picker').value : '';
+            const tourName = currentTour ? currentTour.name : 'Excursión';
+            const waMsg = encodeURIComponent(`Hola Travesía Paine, las reservas web para ${tourName} el día ${dateStr} están cerradas por horario (17:00). ¿Aún tienen cupos de última hora disponibles?`);
+            const waBtn = document.getElementById('wa-overflow-btn');
+            if (waBtn) waBtn.href = `https://wa.me/56982690081?text=${waMsg}`;
+            const waTitle = document.getElementById('wa-overflow-title');
+            if (waTitle) waTitle.textContent = '⏰ Cierre diario de reservas online (17:00 hrs)';
+            const waDesc = document.getElementById('wa-overflow-desc');
+            if (waDesc) waDesc.textContent = 'Por políticas operativas, el sistema web cierra a las 17:00 hrs del día previo para coordinar las hojas de ruta y pick-ups. Contáctanos directo a WhatsApp para ver cupos de última hora.';
+        }
+    } else if (isSoldOut) {
         textEl.textContent = 'No quedan asientos disponibles para esta fecha (Agotado)';
         if (dotEl) dotEl.textContent = '🔴';
         if (bannerEl) {
             bannerEl.style.borderColor = '#F87171';
-            bannerEl.style.background = 'rgba(248, 113, 113, 0.08)';
+            bannerEl.style.background = 'rgba(248, 113, 113, 0.12)';
         }
         if (btnMinus) btnMinus.disabled = true;
         if (btnPlus) btnPlus.disabled = true;
-        if (btnSubmit) btnSubmit.disabled = true;
-    } else if (remainingAfterSelection === 0) {
-        textEl.textContent = `¡Estás seleccionando todos los ${selectedQuantity} asientos disponibles de la van!`;
-        if (dotEl) dotEl.textContent = '🟠';
-        if (bannerEl) {
-            bannerEl.style.borderColor = '#F59E0B';
-            bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+        if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.style.opacity = '0.5';
+            btnSubmit.style.cursor = 'not-allowed';
         }
-    } else if (remainingAfterSelection <= 4) {
-        textEl.textContent = `¡Atención! Quedan ${remainingAfterSelection} asiento${remainingAfterSelection > 1 ? 's' : ''} disponible${remainingAfterSelection > 1 ? 's' : ''}`;
-        if (dotEl) dotEl.textContent = '🟠';
-        if (bannerEl) {
-            bannerEl.style.borderColor = '#F59E0B';
-            bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+        if (waOverflowBox) {
+            waOverflowBox.style.display = 'block';
+            const dateStr = document.getElementById('date-picker') ? document.getElementById('date-picker').value : '';
+            const tourName = currentTour ? currentTour.name : 'Excursión';
+            const waMsg = encodeURIComponent(`Hola Travesía Paine, veo que para ${tourName} el ${dateStr} los cupos web están completos (16/16). ¿Tienen disponibilidad o van de apoyo?`);
+            const waBtn = document.getElementById('wa-overflow-btn');
+            if (waBtn) waBtn.href = `https://wa.me/56982690081?text=${waMsg}`;
+            const waTitle = document.getElementById('wa-overflow-title');
+            if (waTitle) waTitle.textContent = '🚐 Cupos web completos (Van llena)';
+            const waDesc = document.getElementById('wa-overflow-desc');
+            if (waDesc) waDesc.textContent = 'La capacidad web de 16 asientos para esta fecha se ha completado. Escríbenos directamente por WhatsApp para consultar lista de espera, cupos adicionales o servicio privado.';
         }
     } else {
-        textEl.textContent = `Quedan ${remainingAfterSelection} asientos disponibles`;
-        if (dotEl) dotEl.textContent = '🟢';
-        if (bannerEl) {
-            bannerEl.style.borderColor = 'var(--color-primary)';
-            bannerEl.style.background = 'rgba(30, 90, 64, 0.08)';
+        if (waOverflowBox) waOverflowBox.style.display = 'none';
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.style.opacity = '1';
+            btnSubmit.style.cursor = 'pointer';
+        }
+
+        if (remainingAfterSelection === 0) {
+            textEl.textContent = `¡Estás seleccionando todos los ${selectedQuantity} asientos disponibles de la van!`;
+            if (dotEl) dotEl.textContent = '🟠';
+            if (bannerEl) {
+                bannerEl.style.borderColor = '#F59E0B';
+                bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+            }
+        } else if (remainingAfterSelection <= 4) {
+            textEl.textContent = `¡Atención! Quedan ${remainingAfterSelection} asiento${remainingAfterSelection > 1 ? 's' : ''} disponible${remainingAfterSelection > 1 ? 's' : ''}`;
+            if (dotEl) dotEl.textContent = '🟠';
+            if (bannerEl) {
+                bannerEl.style.borderColor = '#F59E0B';
+                bannerEl.style.background = 'rgba(245, 158, 11, 0.08)';
+            }
+        } else {
+            textEl.textContent = `Quedan ${remainingAfterSelection} asientos disponibles`;
+            if (dotEl) dotEl.textContent = '🟢';
+            if (bannerEl) {
+                bannerEl.style.borderColor = 'var(--color-primary)';
+                bannerEl.style.background = 'rgba(30, 90, 64, 0.08)';
+            }
         }
     }
 }

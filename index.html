@@ -27,6 +27,8 @@
             <ul>
                 <li><a href="index.html" class="active" data-i18n="navHome">Inicio</a></li>
                 <li><a href="#excursiones" data-i18n="navTours">Excursiones</a></li>
+                <li><a href="#servicios-privados">Servicios Privados</a></li>
+                <li><a href="#unidades">Nuestra Flota</a></li>
                 <li><a href="#empresa-familiar" data-i18n="navAbout">Quiénes Somos</a></li>
                 <li><a href="#reserva-online" data-i18n="navBook">Reserva Online</a></li>
                 <li><a href="#politicas" data-i18n="navPolicies">Políticas</a></li>
@@ -52,61 +54,211 @@
         </div>
     </header>
 
-    <!-- Hero Section con Buscador Estilo Recorrido.cl -->
+    <!-- Hero Section Inspirado en Referencia Oficial (Base Torres & Full Day) -->
     <section class="hero" id="home">
-        <div class="hero-content" style="max-width: 1020px;">
-            <span class="section-tag" data-i18n="heroTag">Temporada 2026 / 2027 Disponible</span>
-            <h1 data-i18n="heroTitle">Descubre Torres del Paine con Tarifas Convenientes</h1>
-            <p data-i18n="heroSubtitle" style="margin-bottom: 1.5rem;">
-                Somos una empresa familiar de turismo en Puerto Natales. Ofrecemos traslados y excursiones accesibles, responsables y directas hacia los rincones más impresionantes de la Patagonia.
-            </p>
+        <!-- Capas de Fondo Fotográfico en Alta Resolución -->
+        <div class="hero-bg-layer active" id="hero-bg-basetorres" style="background-image: url('base%20torees.webp');"></div>
+        <div class="hero-bg-layer" id="hero-bg-fullday" style="background-image: url('fullday.webp');"></div>
+        <div class="hero-gradient-overlay"></div>
 
-            <!-- Buscador de Pasajes y Asientos (Recorrido.cl Style) -->
-            <div class="hero-search-box">
-                <div class="search-tabs">
-                    <button type="button" class="search-tab-btn active">
-                        🚐 <span data-i18n="searchTabTours">Excursiones y Pasajes de Bus</span>
-                    </button>
-                    <span style="font-size: 0.8rem; color: #4ade80; margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-                        ● <span data-i18n="searchLiveStatus">Salidas Confirmadas Diarias</span>
-                    </span>
+        <!-- Selector Flotante Superior de Programas (Pills Compactas en el cielo) -->
+        <div class="hero-top-switcher">
+            <button type="button" class="prog-pill-btn active" id="tab-basetorres" onclick="switchHeroProgram('basetorres')">
+                <span>🏔️ Base Torres</span>
+                <span class="tab-badge-price">$35.000</span>
+            </button>
+            <button type="button" class="prog-pill-btn" id="tab-fullday" onclick="switchHeroProgram('fullday')">
+                <span>🚐 Full Day</span>
+                <span class="tab-badge-price">$38.000</span>
+            </button>
+        </div>
+
+        <!-- Frase Manuscrita Caligráfica en el Cielo Superior Derecho (Exacto a la Referencia) -->
+        <div class="hero-script-floating">
+            <div class="hero-script-text">
+                <span>Grandes destinos</span>
+                <span>comienzan con</span>
+                <span>buenos traslados</span>
+            </div>
+            <svg class="hero-script-stroke" viewBox="0 0 190 16" fill="none">
+                <path d="M 6 10 Q 95 15 184 6" stroke="#38bdf8" stroke-width="3.2" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <!-- Pin Escénico Mirador Base Torres (Sobre la montaña, exacto a la Referencia) -->
+        <div class="hero-scenic-pin">
+            <div class="pin-bubble">
+                <span class="pin-icon-loc">📍</span>
+                <span class="pin-label-text" id="pin-text-label">Mirador<br>Base Torres</span>
+            </div>
+            <svg class="pin-trail-svg" viewBox="0 0 80 70" fill="none">
+                <path d="M 70 5 Q 50 35 15 55" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round"/>
+            </svg>
+            <div class="pin-hiker-icon">🚶</div>
+        </div>
+
+        <!-- Contenedor Principal (DATA A LA IZQUIERDA - PROPORCIÓN EXACTA REFERENCIA) -->
+        <div class="hero-container">
+            <div class="hero-content-left">
+
+                <!-- Marca Superior con Logo de Montañas Oficial -->
+                <div class="hero-brand-block">
+                    <svg class="mountain-brand-svg" viewBox="0 0 44 22" fill="none" stroke="#0f2638" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M 2 20 L 14 4 L 24 15 L 32 7 L 42 20 Z"/>
+                        <path d="M 14 4 L 18 20" stroke-dasharray="2 2" stroke-width="1.2"/>
+                    </svg>
+                    <div class="brand-caption-lines">
+                        <span>LA PATAGONIA</span>
+                        <span>TE ESPERA</span>
+                    </div>
                 </div>
 
-                <form id="hero-search-form" onsubmit="handleHeroSearch(event)">
-                    <div class="search-inputs-grid">
-                        
-                        <!-- Destino / Excursión -->
-                        <div class="search-field">
-                            <label><span data-i18n="searchLabelDest">🏔️ Excursión / Destino</span></label>
-                            <select id="search-tour-select" required>
-                                <option value="fullday">Full Day Torres del Paine ($38.000 CLP)</option>
-                                <option value="basetorres">Trekking Base Torres ($35.000 CLP)</option>
-                            </select>
-                        </div>
+                <!-- Título Principal -->
+                <h1 class="hero-main-title" id="hero-title">Trekking<br>Base Torres</h1>
 
-                        <!-- Fecha de Salida -->
-                        <div class="search-field">
-                            <label><span data-i18n="searchLabelDate">📅 Fecha de Salida</span></label>
-                            <input type="date" id="search-date-input" required>
-                        </div>
+                <!-- Subtítulo -->
+                <p class="hero-main-subtitle" id="hero-subtitle">
+                    Nos encargamos de tu traslado,<br>tú disfrutas la aventura.
+                </p>
 
-                        <!-- Botón Buscar Asientos -->
-                        <div class="search-submit-col">
-                            <button type="submit" class="btn-search-bus">
-                                🔍 <span data-i18n="searchBtnSubmit">Consultar Cupos</span>
-                            </button>
+                <!-- Fila de 4 Beneficios / Iconos Circulares -->
+                <div class="hero-features-row">
+                    <!-- Feature 1 -->
+                    <div class="hero-feature-chip">
+                        <div class="feature-icon-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-label">
+                            <span id="feat1-l1">Transporte</span>
+                            <span id="feat1-l2">ida y regreso</span>
                         </div>
                     </div>
-                </form>
 
-                <div class="search-trust-pills">
-                    <span>⚡ <strong style="color: #FFF;" data-i18n="searchPill1">Disponibilidad de Cupos en Vivo</strong></span>
-                    <span>🛡️ <strong style="color: #FFF;" data-i18n="searchPill2">Pago Seguro Webpay Plus</strong></span>
-                    <span>🎫 <strong style="color: #FFF;" data-i18n="searchPill3">Pasaje Digital Inmediato</strong></span>
-                    <span>🚐 <strong style="color: #FFF;" data-i18n="searchPill4">Van Máx. 16 Pasajeros</strong></span>
+                    <!-- Feature 2 -->
+                    <div class="hero-feature-chip">
+                        <div class="feature-icon-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-label">
+                            <span id="feat2-l1">Viaje cómodo</span>
+                            <span id="feat2-l2">y seguro</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="hero-feature-chip">
+                        <div class="feature-icon-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-label">
+                            <span id="feat3-l1">Ideal para</span>
+                            <span id="feat3-l2">grupos</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="hero-feature-chip">
+                        <div class="feature-icon-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2L7 10l-6 8h22L14 6z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-label">
+                            <span id="feat4-l1">Paisajes</span>
+                            <span id="feat4-l2">increíbles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarifa y Horario -->
+                <div class="hero-pricing-bar">
+                    <div class="hero-price-mint" id="hero-price-display">
+                        $35.000 CLP
+                    </div>
+                    <div class="hero-schedule-box">
+                        <div class="schedule-clock-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="schedule-times" id="hero-schedule-display">
+                            <div class="time-block">
+                                <span class="time-lbl">Salida</span>
+                                <span class="time-val" id="time-val-dept">06:30 AM</span>
+                            </div>
+                            <span class="time-sep">|</span>
+                            <div class="time-block">
+                                <span class="time-lbl">Retorno</span>
+                                <span class="time-val" id="time-val-ret">18:30 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de Acción Principal (Pill Shape) -->
+                <div class="hero-cta-wrapper">
+                    <a href="transfers.html?tour=basetorres" class="hero-btn-action" id="hero-cta-link">
+                        <span>RESERVAR ASIENTO EN EL BUS</span>
+                        <span class="arrow-symbol">→</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Franja Inferior de Ruta (Route Milestone Strip) -->
+        <div class="hero-route-strip">
+            <div class="route-milestones-track">
+                <!-- Origen -->
+                <div class="route-node">
+                    <span class="route-pin-icon">📍</span>
+                    <span class="route-node-name">PUERTO NATALES</span>
+                </div>
+                
+                <!-- Conector Van -->
+                <div class="route-connector-segment">
+                    <div class="route-dash-line"></div>
+                    <div class="route-van-pill">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+                        </svg>
+                    </div>
+                    <div class="route-dash-line"></div>
+                </div>
+
+                <!-- Punto 1 -->
+                <div class="route-node">
+                    <span class="route-stop-icon" id="route-icon-stop1">🚶</span>
+                    <span class="route-node-name" id="route-name-stop1">PORTERÍA LAGUNA AMARGA</span>
+                </div>
+
+                <!-- Conector Sendero -->
+                <div class="route-connector-segment">
+                    <div class="route-dash-line"></div>
+                </div>
+
+                <!-- Destino Final -->
+                <div class="route-node">
+                    <span class="route-stop-icon" id="route-icon-dest">🏔️</span>
+                    <span class="route-node-name" id="route-name-dest">MIRADOR BASE TORRES</span>
                 </div>
             </div>
 
+            <!-- Bloque Angular Marca (Derecha) -->
+            <div class="hero-brand-wedge">
+                <div class="wedge-accent-bar"></div>
+                <div class="wedge-text-block">
+                    <div class="wedge-line">MOVEMOS PERSONAS</div>
+                    <div class="wedge-line wedge-line-bold">CONECTAMOS DESTINOS</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -149,23 +301,27 @@
                 <div class="tour-card-compact">
                     <div class="img-container">
                         <img src="trek_w_circuit.jpg" alt="Full Day Torres del Paine">
-                        <span class="badge-top-left" data-i18n="tour1Badge">Bajo Costo</span>
-                        <div class="price-floating-badge">$38.000 CLP</div>
+                        <span class="tour-card-tag" data-i18n="tour1Badge">Excursión Clásica</span>
+                        <div class="tour-price-stamp">
+                            <span class="price-amount">$38.000</span>
+                            <span class="price-period">CLP / Asiento</span>
+                        </div>
                     </div>
                     <div class="card-content">
                         <div>
-                            <div style="color: var(--color-accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;" data-i18n="tour1Time">
-                                ⏱ Salida 07:00 AM · Todo el Día
+                            <div class="tour-meta-time" data-i18n="tour1Time">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>Salida 07:00 AM · Todo el Día</span>
                             </div>
                             <h3 data-i18n="tour1Title">Full Day Torres del Paine</h3>
-                            <h4 data-i18n="tour1Desc">Una alternativa económica para conocer el Parque Nacional y Cueva del Milodón.</h4>
+                            <h4 data-i18n="tour1Desc">Una alternativa económica y completa para conocer el Parque Nacional y Cueva del Milodón.</h4>
                         </div>
 
                         <div class="card-actions-compact">
-                            <button type="button" class="btn-details-popup" onclick="openTourModal('fullday')" data-i18n="tour1BtnDetails">
-                                ℹ️ Ver Detalles
+                            <button type="button" class="btn-details-editorial" onclick="openTourModal('fullday')" data-i18n="tour1BtnDetails">
+                                Ver Detalles
                             </button>
-                            <a href="transfers.html" class="btn btn-accent btn-sm" style="flex: 1; text-align: center;" data-i18n="tour1BtnBook">
+                            <a href="transfers.html" class="btn-book-editorial" data-i18n="tour1BtnBook">
                                 Reservar Asiento
                             </a>
                         </div>
@@ -176,24 +332,326 @@
                 <div class="tour-card-compact">
                     <div class="img-container">
                         <img src="trek_base_torres.jpg" alt="Trekking Base Torres">
-                        <span class="badge-top-left" style="background: rgba(179,113,76,0.95);" data-i18n="tour2Badge">Transporte Directo</span>
-                        <div class="price-floating-badge">$35.000 CLP</div>
+                        <span class="tour-card-tag" data-i18n="tour2Badge">Transporte Directo</span>
+                        <div class="tour-price-stamp">
+                            <span class="price-amount">$35.000</span>
+                            <span class="price-period">CLP / Asiento</span>
+                        </div>
                     </div>
                     <div class="card-content">
                         <div>
-                            <div style="color: var(--color-accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;" data-i18n="tour2Time">
-                                ⏱ Salida 06:30 AM · Retorno 18:30 PM
+                            <div class="tour-meta-time" data-i18n="tour2Time">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>Salida 06:30 AM · Espera en Parque hasta 19:00 hrs</span>
                             </div>
                             <h3 data-i18n="tour2Title">Trekking Base Torres</h3>
-                            <h4 data-i18n="tour2Desc">Transporte ida y vuelta para realizar el sendero autoguiado al Mirador Base Torres.</h4>
+                            <h4 data-i18n="tour2Desc">Exclusivo transporte ida y regreso al Mirador Base Torres (sin guía). Pick-up desde 06:30 AM y retorno a sus hostales.</h4>
                         </div>
 
                         <div class="card-actions-compact">
-                            <button type="button" class="btn-details-popup" onclick="openTourModal('basetorres')" data-i18n="tour2BtnDetails">
-                                ℹ️ Ver Detalles
+                            <button type="button" class="btn-details-editorial" onclick="openTourModal('basetorres')" data-i18n="tour2BtnDetails">
+                                Ver Detalles
                             </button>
-                            <a href="transfers.html" class="btn btn-accent btn-sm" style="flex: 1; text-align: center;" data-i18n="tour2BtnBook">
+                            <a href="transfers.html" class="btn-book-editorial" data-i18n="tour2BtnBook">
                                 Reservar Asiento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Tours y Servicios Privados (A Cotizar por WhatsApp) -->
+    <section class="section-padding bg-surface-elevated" id="servicios-privados" style="width: 100%; overflow: hidden;">
+        <div class="container-full-width">
+            <div class="carousel-header-flex">
+                <div class="section-title-wrap" style="margin-bottom: 0; text-align: left;">
+                    <span class="section-tag">A Medida y Exclusivo</span>
+                    <h2 class="section-title" style="margin-bottom: 0.5rem;">Tours & Servicios Privados</h2>
+                    <p class="section-subtitle" style="margin-left: 0; max-width: 720px;">
+                        Viaja con total comodidad y flexibilidad junto a tu familia o grupo. Conexiones directas y expediciones privadas a tu ritmo.
+                    </p>
+                </div>
+                <div class="carousel-nav-group">
+                    <button type="button" class="btn-carousel-nav" onclick="scrollPrivateServices(-1)" aria-label="Servicio anterior">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button type="button" class="btn-carousel-nav" onclick="scrollPrivateServices(1)" aria-label="Siguiente servicio">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="private-services-carousel-track" id="private-services-track">
+                
+                <!-- 1. Full Day Torres del Paine Privado -->
+                <div class="private-service-card">
+                    <div class="private-card-img-wrap">
+                        <img src="fullday.webp" alt="Full Day Torres del Paine Privado" class="private-card-img">
+                        <span class="private-card-tag">Parque Paine</span>
+                    </div>
+                    <div class="private-card-body">
+                        <div>
+                            <h3 class="private-card-title">Full Day Torres del Paine</h3>
+                            <p class="private-card-desc">
+                                Recorrido exclusivo por los miradores icónicos del parque a tu propio ritmo.
+                            </p>
+                            <div class="private-card-pills">
+                                <span class="private-pill">1 a 16 Pasajeros</span>
+                                <span class="private-pill">Puerta a Puerta</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20el%20servicio%20privado:%20Full%20Day%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="btn-editorial-quote">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. Trekking Base Torres Privado -->
+                <div class="private-service-card">
+                    <div class="private-card-img-wrap">
+                        <img src="base%20torees.webp" alt="Trekking Base Torres Privado" class="private-card-img">
+                        <span class="private-card-tag">Base Torres</span>
+                    </div>
+                    <div class="private-card-body">
+                        <div>
+                            <h3 class="private-card-title">Trekking Base Torres</h3>
+                            <p class="private-card-desc">
+                                Traslado exclusivo al Centro de Bienvenida para ascender sin apuros ni esperas.
+                            </p>
+                            <div class="private-card-pills">
+                                <span class="private-pill">1 a 16 Pasajeros</span>
+                                <span class="private-pill">Horario Flexible</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20el%20servicio%20privado:%20Trekking%20Base%20Torres" target="_blank" rel="noopener noreferrer" class="btn-editorial-quote">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3. Transfer Privado a Punta Arenas -->
+                <div class="private-service-card">
+                    <div class="private-card-img-wrap">
+                        <img src="background.jpg" alt="Transfer Privado a Punta Arenas" class="private-card-img">
+                        <span class="private-card-tag">Aeropuerto PUQ</span>
+                    </div>
+                    <div class="private-card-body">
+                        <div>
+                            <h3 class="private-card-title">Transfer Punta Arenas</h3>
+                            <p class="private-card-desc">
+                                Conexión directa y rápida coordinada con tu vuelo o alojamiento en la ciudad.
+                            </p>
+                            <div class="private-card-pills">
+                                <span class="private-pill">Directo / Sin Escalas</span>
+                                <span class="private-pill">Equipaje XL</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20el%20servicio%20privado:%20Transfer%20a%20Punta%20Arenas" target="_blank" rel="noopener noreferrer" class="btn-editorial-quote">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 4. Excursión / Transfer a El Calafate (Argentina) -->
+                <div class="private-service-card">
+                    <div class="private-card-img-wrap">
+                        <img src="trek_w_circuit.jpg" alt="Excursión o Transfer a El Calafate" class="private-card-img">
+                        <span class="private-card-tag">Ruta Binacional</span>
+                    </div>
+                    <div class="private-card-body">
+                        <div>
+                            <h3 class="private-card-title">El Calafate (Argentina)</h3>
+                            <p class="private-card-desc">
+                                Excursión al Glaciar Perito Moreno con cruce fronterizo asistido y chofer privado.
+                            </p>
+                            <div class="private-card-pills">
+                                <span class="private-pill">Glaciar Moreno</span>
+                                <span class="private-pill">Vehículo RCI</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20el%20servicio%20privado:%20Excursión%20o%20Transfer%20a%20El%20Calafate" target="_blank" rel="noopener noreferrer" class="btn-editorial-quote">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5. Excursión / Transfer a El Chaltén (Argentina) -->
+                <div class="private-service-card">
+                    <div class="private-card-img-wrap">
+                        <img src="trek_base_torres.jpg" alt="Excursión o Transfer a El Chaltén" class="private-card-img">
+                        <span class="private-card-tag">Ruta Binacional</span>
+                    </div>
+                    <div class="private-card-body">
+                        <div>
+                            <h3 class="private-card-title">El Chaltén (Argentina)</h3>
+                            <p class="private-card-desc">
+                                Traslado privado directo hacia la capital nacional del trekking al pie del Fitz Roy.
+                            </p>
+                            <div class="private-card-pills">
+                                <span class="private-pill">Fitz Roy & Trek</span>
+                                <span class="private-pill">Fechas a Medida</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20el%20servicio%20privado:%20Excursión%20o%20Transfer%20a%20El%20Chaltén" target="_blank" rel="noopener noreferrer" class="btn-editorial-quote">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>Cotizar por WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Nuestras Unidades de Traslado (Galerías Interactivas por Vehículo) -->
+    <section class="section-padding" id="unidades" style="background: #FAF9F9; border-top: 1px solid rgba(26,26,26,0.06);">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">Flota Propia</span>
+                <h2 class="section-title">Nuestras Unidades</h2>
+                <p class="section-subtitle">
+                    Vehículos modernos, preparados para rutas australes y autorizados por el Ministerio de Transportes.
+                </p>
+            </div>
+
+            <!-- Fila Única: 2 Unidades Frente a Frente -->
+            <div class="fleet-cards-grid">
+                
+                <!-- UNIDAD 1: MERCEDES-BENZ SPRINTER 516 CDI -->
+                <div class="fleet-card">
+                    <!-- Media Stage -->
+                    <div class="fleet-card-media">
+                        <div class="fleet-viewer-stage">
+                            <img src="sprinter_front.webp" alt="Mercedes-Benz Sprinter 516 CDI - Travesía Paine" class="fleet-main-photo" id="fleet-main-sprinter">
+                            <div class="fleet-stage-header">
+                                <div class="fleet-official-plate">
+                                    <span class="plate-flag">CL</span>
+                                    <span>HK · FL · 52</span>
+                                </div>
+                                <span class="fleet-badge-type">Van 16 Pasajeros</span>
+                            </div>
+                            <button type="button" class="fleet-nav-btn fleet-nav-prev" onclick="prevFleetImage('sprinter')" aria-label="Foto anterior">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button type="button" class="fleet-nav-btn fleet-nav-next" onclick="nextFleetImage('sprinter')" aria-label="Siguiente foto">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Miniaturas de ángulo -->
+                        <div class="fleet-thumbs-track">
+                            <button type="button" class="fleet-thumb-btn thumb-sprinter active" onclick="selectFleetImage('sprinter', 0)">
+                                <img src="sprinter_front.webp" alt="Sprinter Vista Frontal">
+                                <span class="fleet-thumb-caption">Frente</span>
+                            </button>
+                            <button type="button" class="fleet-thumb-btn thumb-sprinter" onclick="selectFleetImage('sprinter', 1)">
+                                <img src="sprinter_side.webp" alt="Sprinter Perfil Lateral">
+                                <span class="fleet-thumb-caption">Perfil</span>
+                            </button>
+                            <button type="button" class="fleet-thumb-btn thumb-sprinter" onclick="selectFleetImage('sprinter', 2)">
+                                <img src="sprinter_rear.webp" alt="Sprinter Vista Posterior">
+                                <span class="fleet-thumb-caption">Posterior</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Ficha y Acciones -->
+                    <div class="fleet-card-info">
+                        <div>
+                            <h3 class="fleet-card-title">Mercedes-Benz Sprinter 516 CDI</h3>
+                            <p class="fleet-card-desc">
+                                Nuestra van oficial para traslados regulares a Torres del Paine y charters privados. Butacas reclinables, climatización dual y amplio maletero para equipaje.
+                            </p>
+                            
+                            <!-- Quick Scannable Pills -->
+                            <div class="fleet-pills-wrap">
+                                <span class="fleet-pill">16 Pasajeros</span>
+                                <span class="fleet-pill">Calefacción Dual</span>
+                                <span class="fleet-pill">Maletero XL</span>
+                                <span class="fleet-pill">Registro MTT</span>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="fleet-card-actions">
+                            <a href="transfers.html" class="btn-fleet-primary">
+                                <span>Reservar Asiento</span>
+                            </a>
+                            <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20la%20Van%20Mercedes-Benz%20Sprinter%20(16%20asientos)%20para%20un%20servicio%20privado." target="_blank" rel="noopener noreferrer" class="btn-fleet-secondary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                <span>Cotizar Van</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UNIDAD 2: MAXUS T60 4x4 DOBLE CABINA -->
+                <div class="fleet-card">
+                    <!-- Media Stage -->
+                    <div class="fleet-card-media">
+                        <div class="fleet-viewer-stage">
+                            <img src="maxus_front.webp" alt="Maxus T60 4x4 Doble Cabina - Travesía Paine" class="fleet-main-photo" id="fleet-main-maxus">
+                            <div class="fleet-stage-header">
+                                <div class="fleet-official-plate">
+                                    <span class="plate-flag">CL</span>
+                                    <span>PR · JV · 89</span>
+                                </div>
+                                <span class="fleet-badge-type">Camioneta 4x4</span>
+                            </div>
+                            <button type="button" class="fleet-nav-btn fleet-nav-prev" onclick="prevFleetImage('maxus')" aria-label="Foto anterior">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button type="button" class="fleet-nav-btn fleet-nav-next" onclick="nextFleetImage('maxus')" aria-label="Siguiente foto">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Miniaturas de ángulo -->
+                        <div class="fleet-thumbs-track">
+                            <button type="button" class="fleet-thumb-btn thumb-maxus active" onclick="selectFleetImage('maxus', 0)">
+                                <img src="maxus_front.webp" alt="Maxus Vista Frontal">
+                                <span class="fleet-thumb-caption">Frente</span>
+                            </button>
+                            <button type="button" class="fleet-thumb-btn thumb-maxus" onclick="selectFleetImage('maxus', 1)">
+                                <img src="maxus_side.webp" alt="Maxus Perfil 4x4">
+                                <span class="fleet-thumb-caption">Perfil</span>
+                            </button>
+                            <button type="button" class="fleet-thumb-btn thumb-maxus" onclick="selectFleetImage('maxus', 2)">
+                                <img src="maxus_rear.webp" alt="Maxus Vista Posterior">
+                                <span class="fleet-thumb-caption">Pick-up</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Ficha y Acciones -->
+                    <div class="fleet-card-info">
+                        <div>
+                            <h3 class="fleet-card-title">MAXUS T60 4x4 Doble Cabina</h3>
+                            <p class="fleet-card-desc">
+                                Camioneta todo terreno para expediciones privadas de grupos reducidos, rutas de ripio o nieve y viajes binacionales a El Calafate y El Chaltén.
+                            </p>
+                            
+                            <!-- Quick Scannable Pills -->
+                            <div class="fleet-pills-wrap">
+                                <span class="fleet-pill">Hasta 4 Pax</span>
+                                <span class="fleet-pill">Tracción 4x4 Integral</span>
+                                <span class="fleet-pill">Pick-up Técnico</span>
+                                <span class="fleet-pill">Ruta Argentina RCI</span>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="fleet-card-actions">
+                            <a href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20cotizar%20un%20traslado%20o%20expedición%20privada%20en%20la%20Camioneta%20Maxus%204x4." target="_blank" rel="noopener noreferrer" class="btn-fleet-primary" style="width: 100%;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                <span>Cotizar Expedición 4x4 por WhatsApp</span>
                             </a>
                         </div>
                     </div>
@@ -312,21 +770,39 @@
                     </div>
                 </div>
 
-                <!-- Acordeón 2: Política de Cancelaciones -->
+                <!-- Acordeón 2: Política de Cancelaciones y Operación Base Torres -->
                 <div class="accordion-item" id="policy-item-2">
                     <button class="accordion-header" type="button" onclick="togglePolicyAccordion('policy-item-2')">
-                        <span data-i18n="pol2Header">2. Política de Cancelaciones</span>
+                        <span data-i18n="pol2Header">2. Política de Cancelaciones & Condiciones de Transporte</span>
                         <span class="icon">▼</span>
                     </button>
                     <div class="accordion-body">
                         <div data-i18n="pol2Body">
-                            <p>El cliente podrá cancelar su reserva de acuerdo con los siguientes plazos y condiciones:</p>
+                            <p>El cliente podrá cancelar o modificar su reserva de acuerdo con las siguientes condiciones comerciales:</p>
                             <ul style="padding-left: 1.2rem; margin: 0.5rem 0;">
-                                <li><strong>Cancelación con 7 días o más de anticipación:</strong> Reembolso del 100% del valor pagado, sin penalización.</li>
-                                <li><strong>Cancelación con 4 días de anticipación:</strong> Se aplicará una penalización correspondiente al 50% del valor pagado.</li>
-                                <li><strong>Cancelación con 2 días o menos de anticipación:</strong> No se realizará reembolso del servicio contratado.</li>
+                                <li><strong>Cancelación con más de 3 días de anticipación (más de 72 horas):</strong> Devolución del <strong>60% del valor pagado</strong>.</li>
+                                <li><strong>Cancelación con menos de 24 horas de anticipación:</strong> <strong>Sin devolución (0% de reembolso)</strong>.</li>
+                                <li><strong>No presentación (No Show):</strong> Aplica 100% de retención sin derecho a reembolso.</li>
                             </ul>
-                            <p>La misma condición de no reembolso se aplicará en caso de no presentación (No Show) o cuando el pasajero decida no utilizar el servicio una vez contratado.</p>
+
+                            <div style="background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); border-radius: 0 8px 8px 0; padding: 0.9rem 1.1rem; margin: 1rem 0;">
+                                <h4 style="color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.4rem; font-weight: 800;">
+                                    🚐 Especificaciones Clave de Traslado Trekking Base Torres:
+                                </h4>
+                                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--color-text-light); line-height: 1.55;">
+                                    <li><strong>Exclusivo Transporte:</strong> El servicio corresponde únicamente a traslado terrestre de ida y regreso hacia el sendero autoguiado al Mirador Base Torres (no incluye guía de montaña ni entradas).</li>
+                                    <li><strong>Hora de Recogida (Pick-up):</strong> A partir de las <strong>06:30 AM</strong> en los lugares de alojamiento y hostales dentro del radio urbano de Puerto Natales.</li>
+                                    <li><strong>Alojamientos fuera de Natales:</strong> Si los pasajeros alojan fuera del radio urbano de la ciudad, deberán presentarse y esperar en el punto de encuentro: <strong>Plaza de Armas de Puerto Natales</strong>.</li>
+                                    <li><strong>Retorno desde Centro de Bienvenida:</strong> Una vez en el Parque, la van esperará a los pasajeros en el Centro de Bienvenida hasta las <strong>19:00 hrs</strong> puntualmente para regresar a Puerto Natales y dejarlos en sus respectivos hostales.</li>
+                                </ul>
+                            </div>
+
+                            <div style="background: rgba(179, 113, 76, 0.08); border-left: 4px solid var(--color-accent); border-radius: 0 8px 8px 0; padding: 0.9rem 1.1rem; margin-top: 0.8rem;">
+                                <strong style="color: var(--color-accent); font-size: 0.9rem;">⏰ Horario de Cierre de Reservas Online:</strong>
+                                <p style="font-size: 0.86rem; color: var(--color-text-light); margin-top: 0.3rem; margin-bottom: 0; line-height: 1.45;">
+                                    El sistema web cierra automáticamente a las <strong>17:00 hrs del día anterior</strong> a la excursión para consolidar las listas de pasajeros y hojas de ruta. Posterior a dicho horario o ante cupos agotados (16 asientos), se derivará a WhatsApp para consultar disponibilidad de última hora.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -504,29 +980,29 @@
                 `
             },
             basetorres: {
-                title: "Trekking Base Torres",
-                tagline: "Vive uno de los trekkings más emblemáticos de la Patagonia",
+                title: "Trekking Base Torres (Transporte)",
+                tagline: "Exclusivo transporte de ida y regreso al sendero Base Torres",
                 price: "$35.000 CLP",
-                time: "Salida: 06:30 AM · Espera hasta: 18:30 PM",
+                time: "Salida: 06:30 AM · Espera en Centro de Bienvenida hasta: 19:00 hrs",
                 body: `
                     <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
-                        Comenzamos nuestro servicio a las <strong>06:30 horas</strong>, realizando el pick-up de nuestros pasajeros en sus alojamientos de Puerto Natales.
+                        Iniciamos nuestro servicio desde las <strong>06:30 horas</strong>, pasando a recoger a los pasajeros directamente a sus respectivos lugares de alojamiento y hostales en Puerto Natales. Si te hospedas fuera del radio urbano de la ciudad, el punto de encuentro y espera es la <strong>Plaza de Armas de Puerto Natales</strong>.
                     </p>
                     <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">
-                        Desde allí nos dirigiremos hacia la <strong>Portería Laguna Amarga</strong>, donde los pasajeros deberán presentar sus entradas y cumplir con los controles correspondientes para ingresar al Parque Nacional Torres del Paine. Posteriormente, continuaremos hasta el <strong>Centro de Bienvenida</strong>, lugar desde donde comenzarán por cuenta propia el trekking hacia Base Torres.
+                        Nos trasladamos hacia Portería Laguna Amarga y luego directamente hasta el <strong>Centro de Bienvenida</strong>, punto de inicio para el sendero autoguiado hacia el Mirador Base Torres.
                     </p>
 
                     <div style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
-                        <h4 style="color: #2e8b57; font-size: 0.95rem; margin-bottom: 0.4rem;">⏱ Tiempo para realizar el trekking</h4>
+                        <h4 style="color: #2e8b57; font-size: 0.95rem; margin-bottom: 0.4rem;">⏱ Horario de Espera y Retorno</h4>
                         <p style="font-size: 0.88rem; color: var(--color-text-light); margin: 0; line-height: 1.5;">
-                            El vehículo permanecerá esperando hasta las <strong>18:30 horas</strong> en el Centro de Bienvenida, horario establecido para iniciar el retorno hacia Puerto Natales.
+                            Una vez arriba en el Centro de Bienvenida, nuestro vehículo permanecerá esperando a los pasajeros hasta las <strong>19:00 horas</strong> puntualmente para iniciar el retorno y dejarlos nuevamente en sus alojamientos y hostales de Puerto Natales.
                         </p>
                     </div>
 
                     <div style="background: rgba(179, 113, 76, 0.12); border-left: 4px solid var(--color-accent); border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; margin-bottom: 1.5rem;">
-                        <strong style="color: var(--color-accent); font-size: 0.9rem;">⚠️ Importante:</strong>
+                        <strong style="color: var(--color-accent); font-size: 0.9rem;">⚠️ Importante – Transporte Exclusivo:</strong>
                         <p style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.3rem; line-height: 1.4;">
-                            Este servicio corresponde <strong>exclusivamente al transporte de ida y regreso y no incluye guía de trekking</strong>. Cada pasajero será responsable de realizar el trekking por cuenta propia, respetando las normas, indicaciones y restricciones establecidas por CONAF.
+                            Este servicio corresponde <strong>exclusivamente al servicio de transporte de ida y regreso y no incluye guía de trekking ni entradas</strong>. Cada pasajero realiza la caminata a su ritmo por el sendero señalizado por CONAF.
                         </p>
                     </div>
                 `
@@ -587,47 +1063,47 @@
                 basetorres: {
                     es: {
                         tag: "Itinerario & Detalles",
-                        title: "Trekking Base Torres",
-                        tagline: "Vive uno de los trekkings más emblemáticos de la Patagonia",
+                        title: "Trekking Base Torres (Transporte)",
+                        tagline: "Exclusivo transporte de ida y regreso al sendero Base Torres",
                         price: "$35.000 CLP",
-                        time: "Salida: 06:30 AM · Espera hasta: 18:30 PM",
-                        p1: "Comenzamos nuestro servicio a las <strong>06:30 horas</strong> con pick-up en alojamientos de Puerto Natales.",
-                        p2: "Nos dirigiremos a Portería Laguna Amarga y luego al Centro de Bienvenida, inicio del sendero hacia el Mirador Base Torres.",
+                        time: "Salida: 06:30 AM · Espera en Centro de Bienvenida hasta: 19:00 hrs",
+                        p1: "Comenzamos nuestro servicio a las <strong>06:30 horas</strong> con pick-up en alojamientos y hostales de Puerto Natales (si alojas fuera, punto de encuentro en Plaza de Armas).",
+                        p2: "Nos dirigiremos a Portería Laguna Amarga y luego directamente al Centro de Bienvenida, inicio del sendero hacia el Mirador Base Torres.",
                         p3: "El sendero es autoguiado y está completamente señalizado por CONAF.",
-                        boxTitle: "⏱ Tiempo para realizar el trekking",
-                        boxText: "El vehículo permanecerá esperando hasta las <strong>18:30 horas</strong> en el Centro de Bienvenida para retornar a Puerto Natales.",
-                        warnTitle: "⚠️ Importante:",
-                        warnText: "Corresponde <strong>exclusivamente al transporte de ida y regreso y no incluye guía de trekking</strong>. Cada pasajero camina a su propio ritmo.",
+                        boxTitle: "⏱ Horario de Espera y Retorno",
+                        boxText: "El vehículo esperará en el Centro de Bienvenida hasta las <strong>19:00 horas</strong> puntualmente para retornar a Puerto Natales y dejarlos en sus hostales.",
+                        warnTitle: "⚠️ Importante – Exclusivo Transporte:",
+                        warnText: "Servicio exclusivo de transporte de ida y regreso (no incluye guía de montaña ni entradas).",
                         btnBook: "Reservar Asiento en el Bus"
                     },
                     en: {
                         tag: "Itinerary & Details",
                         title: "Base Torres Trekking Transport",
-                        tagline: "Experience the most iconic day hike in Patagonia",
+                        tagline: "Roundtrip shuttle to the iconic Base Torres trailhead",
                         price: "$35,000 CLP",
-                        time: "Departure: 06:30 AM · Waiting until: 18:30 PM",
-                        p1: "We pick you up at your Puerto Natales accommodation at <strong>06:30 AM</strong>.",
+                        time: "Departure: 06:30 AM · Waiting at Welcome Center until: 19:00 hrs",
+                        p1: "Pick-up starts at <strong>06:30 AM</strong> at Puerto Natales hotels/hostels (outside urban area: Plaza de Armas meeting point).",
                         p2: "Direct transport to Laguna Amarga and Welcome Center, the trailhead for the Base Torres viewpoint hike.",
                         p3: "The trail is self-guided, well-marked, and maintained by CONAF.",
-                        boxTitle: "⏱ Trekking Duration",
-                        boxText: "The bus waits at the Welcome Center until <strong>18:30 PM (6:30 PM)</strong> for the return to Puerto Natales.",
-                        warnTitle: "⚠️ Important:",
-                        warnText: "This service provides <strong>roundtrip transport only (no trekking guide)</strong>. Hikers proceed at their own pace.",
+                        boxTitle: "⏱ Return Waiting Time",
+                        boxText: "The shuttle waits at the Welcome Center until <strong>19:00 hrs (7:00 PM)</strong> sharp to bring passengers back to their hostels.",
+                        warnTitle: "⚠️ Important – Transport Only:",
+                        warnText: "This service provides <strong>roundtrip transport only (no trekking guide or park tickets included)</strong>.",
                         btnBook: "Book Seat on Bus"
                     },
                     pt: {
                         tag: "Roteiro & Detalhes",
-                        title: "Trekking Base Torres",
-                        tagline: "Viva um dos trekkings mais emblemáticos da Patagônia",
+                        title: "Trekking Base Torres (Transporte)",
+                        tagline: "Transporte exclusivo de ida e volta para a trilha Base Torres",
                         price: "$35.000 CLP",
-                        time: "Saída: 06:30 AM · Espera até: 18:30 PM",
-                        p1: "Iniciamos o pick-up às <strong>06:30 horas</strong> nos hotéis de Puerto Natales.",
-                        p2: "Transporte direto até o Centro de Boas-Vindas para início da trilha autoguiada ao Mirante Base Torres.",
+                        time: "Saída: 06:30 AM · Espera no Centro de Boas-Vindas até: 19:00 hrs",
+                        p1: "Iniciamos o pick-up às <strong>06:30 horas</strong> nos hotéis de Puerto Natales (fora da cidade: ponto de encontro na Plaza de Armas).",
+                        p2: "Transporte direto até o Centro de Boas-Vindas para início da caminhada ao Mirante Base Torres.",
                         p3: "Trilha autoguiada e totalmente sinalizada pela CONAF.",
-                        boxTitle: "⏱ Tempo de Trilha",
-                        boxText: "O ônibus aguardará até as <strong>18:30 horas</strong> para retorno a Puerto Natales.",
-                        warnTitle: "⚠️ Importante:",
-                        warnText: "Serviço de <strong>transporte de ida e volta sem guia de caminhada</strong>.",
+                        boxTitle: "⏱ Horário de Retorno",
+                        boxText: "A van aguardará até as <strong>19:00 horas</strong> no Centro de Boas-Vindas para retorno aos seus hotéis.",
+                        warnTitle: "⚠️ Importante – Apenas Transporte:",
+                        warnText: "Serviço exclusivo de <strong>transporte de ida e volta sem guia de caminhada</strong>.",
                         btnBook: "Reservar Assento no Ônibus"
                     }
                 }
@@ -713,6 +1189,93 @@
 
             if (!wasActive) {
                 item.classList.add('active');
+            }
+        }
+
+        let currentHeroProgram = 'basetorres';
+
+        function switchHeroProgram(prog) {
+            currentHeroProgram = prog;
+            const bgBase = document.getElementById('hero-bg-basetorres');
+            const bgFull = document.getElementById('hero-bg-fullday');
+            const tabBase = document.getElementById('tab-basetorres');
+            const tabFull = document.getElementById('tab-fullday');
+            const titleEl = document.getElementById('hero-title');
+            const subtitleEl = document.getElementById('hero-subtitle');
+            const priceEl = document.getElementById('hero-price-display');
+            const deptEl = document.getElementById('time-val-dept');
+            const retEl = document.getElementById('time-val-ret');
+            const ctaLink = document.getElementById('hero-cta-link');
+            const pinText = document.getElementById('pin-text-label');
+            const stop1Icon = document.getElementById('route-icon-stop1');
+            const stop1Text = document.getElementById('route-name-stop1');
+            const destIcon = document.getElementById('route-icon-dest');
+            const destText = document.getElementById('route-name-dest');
+
+            // Feat labels
+            const feat1L1 = document.getElementById('feat1-l1');
+            const feat1L2 = document.getElementById('feat1-l2');
+            const feat2L1 = document.getElementById('feat2-l1');
+            const feat2L2 = document.getElementById('feat2-l2');
+            const feat3L1 = document.getElementById('feat3-l1');
+            const feat3L2 = document.getElementById('feat3-l2');
+            const feat4L1 = document.getElementById('feat4-l1');
+            const feat4L2 = document.getElementById('feat4-l2');
+
+            if (prog === 'fullday') {
+                if (bgBase) bgBase.classList.remove('active');
+                if (bgFull) bgFull.classList.add('active');
+                if (tabBase) tabBase.classList.remove('active');
+                if (tabFull) tabFull.classList.add('active');
+
+                if (titleEl) titleEl.innerHTML = 'Full Day<br>Torres del Paine';
+                if (subtitleEl) subtitleEl.textContent = 'Una alternativa económica para conocer el Parque Nacional y Cueva del Milodón.';
+                if (priceEl) priceEl.textContent = '$38.000 CLP';
+                if (deptEl) deptEl.textContent = '07:00 AM';
+                if (retEl) retEl.textContent = 'Todo el Día';
+                if (ctaLink) ctaLink.href = 'transfers.html?tour=fullday';
+
+                if (feat1L1) feat1L1.textContent = 'Transporte';
+                if (feat1L2) feat1L2.textContent = 'ida y regreso';
+                if (feat2L1) feat2L1.textContent = 'Cueva del';
+                if (feat2L2) feat2L2.textContent = 'Milodón';
+                if (feat3L1) feat3L1.textContent = 'Miradores';
+                if (feat3L2) feat3L2.textContent = 'panorámicos';
+                if (feat4L1) feat4L1.textContent = 'Paradas';
+                if (feat4L2) feat4L2.textContent = 'fotográficas';
+
+                if (pinText) pinText.innerHTML = 'Lago Pehoé /<br>Cuernos del Paine';
+                if (stop1Icon) stop1Icon.textContent = '🦣';
+                if (stop1Text) stop1Text.textContent = 'CUEVA DEL MILODÓN';
+                if (destIcon) destIcon.textContent = '🏔️';
+                if (destText) destText.textContent = 'LAGO PEHOÉ / GREY';
+            } else {
+                if (bgFull) bgFull.classList.remove('active');
+                if (bgBase) bgBase.classList.add('active');
+                if (tabFull) tabFull.classList.remove('active');
+                if (tabBase) tabBase.classList.add('active');
+
+                if (titleEl) titleEl.innerHTML = 'Trekking<br>Base Torres';
+                if (subtitleEl) subtitleEl.textContent = 'Nos encargamos de tu traslado, tú disfrutas la aventura.';
+                if (priceEl) priceEl.textContent = '$35.000 CLP';
+                if (deptEl) deptEl.textContent = '06:30 AM';
+                if (retEl) retEl.textContent = '18:30 PM';
+                if (ctaLink) ctaLink.href = 'transfers.html?tour=basetorres';
+
+                if (feat1L1) feat1L1.textContent = 'Transporte';
+                if (feat1L2) feat1L2.textContent = 'ida y regreso';
+                if (feat2L1) feat2L1.textContent = 'Viaje cómodo';
+                if (feat2L2) feat2L2.textContent = 'y seguro';
+                if (feat3L1) feat3L1.textContent = 'Ideal para';
+                if (feat3L2) feat3L2.textContent = 'grupos';
+                if (feat4L1) feat4L1.textContent = 'Paisajes';
+                if (feat4L2) feat4L2.textContent = 'increíbles';
+
+                if (pinText) pinText.innerHTML = 'Mirador<br>Base Torres';
+                if (stop1Icon) stop1Icon.textContent = '🚶';
+                if (stop1Text) stop1Text.textContent = 'PORTERÍA LAGUNA AMARGA';
+                if (destIcon) destIcon.textContent = '🏔️';
+                if (destText) destText.textContent = 'MIRADOR BASE TORRES';
             }
         }
 

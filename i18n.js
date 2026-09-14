@@ -52,9 +52,9 @@ const siteTranslations = {
         tour1BtnBook: "Reservar Cupo",
 
         tour2Badge: "Transporte Directo",
-        tour2Time: "⏱ Salida 06:30 AM · Retorno 18:30 PM",
+        tour2Time: "⏱ Salida 06:30 AM · Espera en Parque hasta 19:00 hrs",
         tour2Title: "Trekking Base Torres",
-        tour2Desc: "Transporte de ida y regreso para realizar el sendero autoguiado al mirador.",
+        tour2Desc: "Exclusivo transporte ida y regreso al Mirador Base Torres (sin guía). Pick-up desde 06:30 AM y retorno a sus hostales.",
 
         // Quiénes somos
         aboutTag: "Nuestra Identidad",
@@ -137,8 +137,8 @@ const siteTranslations = {
         pol1Header: "1. Política de Reservas",
         pol1Body: "<p>El cliente podrá realizar la reserva y/o compra de nuestros servicios a través de nuestra página web o mediante los enlaces de reserva disponibles en ella.</p><p>Para realizar una reserva, el cliente deberá proporcionar la siguiente información:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Excursión o servicio que desea contratar.</li><li>Fecha de la excursión.</li><li>Cantidad de pasajeros.</li><li>Nombre y datos de contacto del responsable de la reserva.</li><li>Lugar de alojamiento en Puerto Natales, cuando corresponda, para coordinar el horario y lugar de pick-up.</li></ul><p>Una vez realizada la reserva, el cliente deberá revisar y verificar que los datos proporcionados sean correctos.</p>",
 
-        pol2Header: "2. Política de Cancelaciones",
-        pol2Body: "<p>El cliente podrá cancelar su reserva de acuerdo con los siguientes plazos y condiciones:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Cancelación con 7 días o más de anticipación:</strong> Reembolso del 100% del valor pagado, sin penalización.</li><li><strong>Cancelación con 4 días de anticipación:</strong> Se aplicará una penalización correspondiente al 50% del valor pagado.</li><li><strong>Cancelación con 2 días o menos de anticipación:</strong> No se realizará reembolso del servicio contratado.</li></ul><p>La misma condición de no reembolso se aplicará en caso de no presentación (No Show) o cuando el pasajero decida no utilizar el servicio una vez contratado.</p>",
+        pol2Header: "2. Política de Cancelaciones & Condiciones de Transporte",
+        pol2Body: "<p>El cliente podrá cancelar su reserva según las siguientes condiciones:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Más de 3 días de anticipación:</strong> Devolución del 60% del valor pagado.</li><li><strong>Menos de 24 horas:</strong> Sin devolución (0%).</li><li><strong>No Show:</strong> Sin devolución (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Servicio exclusivo de transporte. Pick-up desde 06:30 AM en hostales de Natales (alojados fuera esperan en Plaza de Armas). En Centro de Bienvenida se espera a los pasajeros hasta las 19:00 hrs.</p></div><p>Cierre de reservas web: 17:00 hrs del día anterior. Cupos completos o solicitudes de última hora se derivan a WhatsApp.</p>",
 
         pol3Header: "3. Política de Reembolso por Condiciones Climáticas",
         pol3Body: "<p>En caso de que una excursión sea cancelada por condiciones climáticas adversas, y dicha cancelación sea determinada por el proveedor del servicio antes del inicio de la actividad, se realizará el reembolso del 100% del valor pagado, según corresponda.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Trekking Base Torres:</strong> En el caso específico del Trekking Base Torres, si la actividad es cancelada por condiciones climáticas o de seguridad por CONAF durante el desarrollo de la excursión, no se realizará reembolso. Esta situación puede producirse in situ, en un punto del sendero determinado por la autoridad competente, sin previo aviso y una vez que la actividad ya se encuentra en desarrollo. En estos casos, la decisión corresponde a CONAF y está fuera del control de nuestra empresa.</div><p>Los reembolsos que correspondan serán gestionados en un plazo de hasta 7 días, de acuerdo con el medio de pago utilizado y las condiciones aplicables.</p>",
@@ -214,9 +214,9 @@ const siteTranslations = {
         tour1BtnBook: "Book Ticket",
 
         tour2Badge: "Direct Transport",
-        tour2Time: "⏱ Departure 06:30 AM · Return 18:30 PM",
-        tour2Title: "Base Torres Trekking",
-        tour2Desc: "Roundtrip transport to hike the self-guided trail to the iconic viewpoint.",
+        tour2Time: "⏱ Departure 06:30 AM · Shuttle waiting until 19:00 hrs",
+        tour2Title: "Base Torres Trekking Transport",
+        tour2Desc: "Direct roundtrip transport to the Base Torres trail (no guide). Pick-up from 06:30 AM and return to your hostels.",
 
         // About Us
         aboutTag: "Our Identity",
@@ -299,8 +299,8 @@ const siteTranslations = {
         pol1Header: "1. Booking Policy",
         pol1Body: "<p>Customers can book or purchase our services directly through our website.</p><p>To make a booking, the customer must provide:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Excursion or service to hire.</li><li>Date of excursion.</li><li>Number of passengers.</li><li>Lead passenger contact details.</li><li>Hotel name & address in Puerto Natales for pick-up.</li></ul><p>Once booked, please verify that all submitted details are accurate.</p>",
 
-        pol2Header: "2. Cancellation Policy",
-        pol2Body: "<p>Bookings can be cancelled under the following deadlines and terms:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>7 days or more prior to departure:</strong> 100% full refund with no penalty.</li><li><strong>4 days prior to departure:</strong> 50% refund (50% penalty).</li><li><strong>2 days or less prior to departure:</strong> Non-refundable.</li></ul><p>The non-refundable condition also applies in case of No Show or voluntary non-use of the service.</p>",
+        pol2Header: "2. Cancellation Policy & Transport Terms",
+        pol2Body: "<p>Bookings can be cancelled under the following commercial terms:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>More than 3 days prior:</strong> 60% refund.</li><li><strong>Less than 24 hours prior:</strong> Non-refundable (0%).</li><li><strong>No Show:</strong> Non-refundable (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Base Torres Shuttle:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Roundtrip transport service only. Pick-up from 06:30 AM at Natales hostels (outside town: Plaza de Armas meeting point). At the Welcome Center, the van waits until 19:00 hrs for the return.</p></div><p>Online booking cutoff: 17:00 hrs on the day prior. Fully booked dates or late inquiries are handled via WhatsApp.</p>",
 
         pol3Header: "3. Weather & Force Majeure Refund Policy",
         pol3Body: "<p>If an excursion is cancelled due to adverse weather conditions decided by the operator prior to departure, a 100% full refund will be processed.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Base Torres Trekking:</strong> If CONAF closes trail access during the hike for safety/weather reasons, no refund applies as the decision is made on-trail by park authorities outside our control.</div><p>Refunds will be processed within 7 business days to the original payment method.</p>",
@@ -376,9 +376,9 @@ const siteTranslations = {
         tour1BtnBook: "Reservar Vaga",
 
         tour2Badge: "Transporte Direto",
-        tour2Time: "⏱ Saída 06:30 AM · Retorno 18:30 PM",
-        tour2Title: "Trekking Base Torres",
-        tour2Desc: "Transporte de ida e volta para fazer a trilha autoguiada ao mirante icônico.",
+        tour2Time: "⏱ Saída 06:30 AM · Van aguarda até 19:00 hrs",
+        tour2Title: "Trekking Base Torres (Transporte)",
+        tour2Desc: "Transporte exclusivo de ida e volta ao mirante (sem guia). Pick-up a partir das 06:30 AM e retorno aos seus hotéis.",
 
         // Quem somos
         aboutTag: "Nossa Identidade",
@@ -461,8 +461,8 @@ const siteTranslations = {
         pol1Header: "1. Política de Reservas",
         pol1Body: "<p>O cliente poderá realizar a reserva ou compra através do nosso site.</p><p>Para efetuar a reserva, informe:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Passeio ou serviço desejado.</li><li>Data do passeio.</li><li>Quantidade de passageiros.</li><li>Nome e contato do responsável.</li><li>Hotel em Puerto Natales para o pick-up.</li></ul><p>Revise todos os dados antes de finalizar.</p>",
 
-        pol2Header: "2. Política de Cancelamentos",
-        pol2Body: "<p>Cancelamentos seguem os seguintes prazos e condições:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>7 dias ou mais de antecedência:</strong> Reembolso de 100% sem penalidade.</li><li><strong>4 dias de antecedência:</strong> Penalidade de 50% do valor.</li><li><strong>2 dias ou menos de antecedência:</strong> Sem reembolso.</li></ul><p>A mesma regra aplica-se em caso de No Show ou não comparecimento.</p>",
+        pol2Header: "2. Política de Cancelamento & Condições de Transporte",
+        pol2Body: "<p>Cancelamentos seguem as seguintes condições comerciais:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Mais de 3 dias de antecedência:</strong> Reembolso de 60% do valor pago.</li><li><strong>Menos de 24 horas:</strong> Sem reembolso (0%).</li><li><strong>No Show:</strong> Sem reembolso (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Serviço exclusivo de transporte. Pick-up a partir das 06:30 AM nos hotéis de Natales (fora da cidade: ponto de encontro na Plaza de Armas). No Centro de Boas-Vindas a van aguarda até as 19:00 hrs.</p></div><p>Encerramento web: 17:00 hrs do dia anterior. Vagas esgotadas ou reservas de última hora são consultadas pelo WhatsApp.</p>",
 
         pol3Header: "3. Reembolso por Condições Climáticas",
         pol3Body: "<p>Se o passeio for cancelado por condições climáticas pela operadora antes da saída, 100% do valor será reembolsado.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Trekking Base Torres:</strong> Se a CONAF fechar a trilha durante o percurso por segurança/clima, não haverá reembolso, pois é uma decisão local fora do controle da empresa.</div><p>Reembolsos serão processados em até 7 dias úteis.</p>",
