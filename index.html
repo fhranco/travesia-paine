@@ -290,18 +290,20 @@
     <section class="section-padding bg-surface" id="excursiones">
         <div class="container">
             <div class="section-title-wrap">
-                <span class="section-tag" data-i18n="toursTag">Nuestras Rutas</span>
-                <h2 class="section-title" data-i18n="toursTitle">Excursiones y Traslados</h2>
-                <p class="section-subtitle" data-i18n="toursSubtitle">Tarifas claras, salidas diarias desde Puerto Natales y reserva directa de asientos.</p>
+                <span class="section-tag" data-i18n="toursTag">Salidas Diarias Oficiales</span>
+                <h2 class="section-title" data-i18n="toursTitle">Servicios Principales a Torres del Paine</h2>
+                <p class="section-subtitle" data-i18n="toursSubtitle">
+                    Nuestros dos traslados regulares oficiales más elegidos por los viajeros. Salidas diarias garantizadas, tarifas claras por asiento y pick-up en tu alojamiento.
+                </p>
             </div>
 
-            <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 960px; margin: 0 auto;">
+            <div class="main-services-grid">
                 
-                <!-- Tour Card Compact 1: FULL DAY TORRES DEL PAINE -->
-                <div class="tour-card-compact">
+                <!-- Tour Card Principal 1: FULL DAY TORRES DEL PAINE -->
+                <div class="tour-card-compact main-service-card">
                     <div class="img-container">
-                        <img src="trek_w_circuit.jpg" alt="Full Day Torres del Paine">
-                        <span class="tour-card-tag" data-i18n="tour1Badge">Excursión Clásica</span>
+                        <img src="fullday.webp" alt="Full Day Torres del Paine">
+                        <span class="tour-card-tag" data-i18n="tour1Badge">Tour Panorámico</span>
                         <div class="tour-price-stamp">
                             <span class="price-amount">$38.000</span>
                             <span class="price-period">CLP / Asiento</span>
@@ -310,11 +312,18 @@
                     <div class="card-content">
                         <div>
                             <div class="tour-meta-time" data-i18n="tour1Time">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                 <span>Salida 07:00 AM · Todo el Día</span>
                             </div>
                             <h3 data-i18n="tour1Title">Full Day Torres del Paine</h3>
-                            <h4 data-i18n="tour1Desc">Una alternativa económica y completa para conocer el Parque Nacional y Cueva del Milodón.</h4>
+                            <h4 data-i18n="tour1Desc">Recorrido panorámico por los miradores emblemáticos del Parque Nacional y la Cueva del Milodón.</h4>
+
+                            <div class="main-tour-perks">
+                                <span class="tour-perk-pill">Pick-up en Alojamiento</span>
+                                <span class="tour-perk-pill">Miradores & Salto Grande</span>
+                                <span class="tour-perk-pill">Cueva del Milodón</span>
+                                <span class="tour-perk-pill">16 Cupos Máximo</span>
+                            </div>
                         </div>
 
                         <div class="card-actions-compact">
@@ -322,17 +331,18 @@
                                 Ver Detalles
                             </button>
                             <a href="transfers.html" class="btn-book-editorial" data-i18n="tour1BtnBook">
-                                Reservar Asiento
+                                <span>Reservar Asiento</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tour Card Compact 2: TREKKING BASE TORRES -->
-                <div class="tour-card-compact">
+                <!-- Tour Card Principal 2: TREKKING BASE TORRES (HERO PROTAGONISTA) -->
+                <div class="tour-card-compact main-service-card is-hero-featured">
                     <div class="img-container">
-                        <img src="trek_base_torres.jpg" alt="Trekking Base Torres">
-                        <span class="tour-card-tag" data-i18n="tour2Badge">Transporte Directo</span>
+                        <img src="base torees.webp" alt="Trekking Base Torres">
+                        <span class="tour-card-tag is-star-tag" data-i18n="tour2Badge">★ El Más Elegido por Trekkers</span>
                         <div class="tour-price-stamp">
                             <span class="price-amount">$35.000</span>
                             <span class="price-period">CLP / Asiento</span>
@@ -341,19 +351,27 @@
                     <div class="card-content">
                         <div>
                             <div class="tour-meta-time" data-i18n="tour2Time">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                 <span>Salida 06:30 AM · Espera en Parque hasta 19:00 hrs</span>
                             </div>
                             <h3 data-i18n="tour2Title">Trekking Base Torres</h3>
-                            <h4 data-i18n="tour2Desc">Exclusivo transporte ida y regreso al Mirador Base Torres (sin guía). Pick-up desde 06:30 AM y retorno a sus hostales.</h4>
+                            <h4 data-i18n="tour2Desc">Transporte directo ida y retorno al Centro de Bienvenida para ascender al Mirador Base Torres a tu propio ritmo.</h4>
+
+                            <div class="main-tour-perks">
+                                <span class="tour-perk-pill">Pick-up en tu Hostal</span>
+                                <span class="tour-perk-pill">Espera hasta las 19:00 hrs</span>
+                                <span class="tour-perk-pill">Sin Guía / A tu Ritmo</span>
+                                <span class="tour-perk-pill">16 Cupos por Van</span>
+                            </div>
                         </div>
 
                         <div class="card-actions-compact">
                             <button type="button" class="btn-details-editorial" onclick="openTourModal('basetorres')" data-i18n="tour2BtnDetails">
                                 Ver Detalles
                             </button>
-                            <a href="transfers.html" class="btn-book-editorial" data-i18n="tour2BtnBook">
-                                Reservar Asiento
+                            <a href="transfers.html" class="btn-book-editorial btn-hero-book" data-i18n="tour2BtnBook">
+                                <span>Reservar Asiento</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>

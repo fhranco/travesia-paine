@@ -39,22 +39,24 @@ const siteTranslations = {
         stat4Num: "Webpay",
         stat4Text: "Pago Seguro y Pasaje Digital",
 
-        // Excursiones
-        toursTag: "Nuestras Rutas",
-        toursTitle: "Excursiones y Traslados",
-        toursSubtitle: "Tarifas claras, salidas diarias desde Puerto Natales y reserva directa de cupos.",
+        // Excursiones (Servicios Principales)
+        toursTag: "Salidas Diarias Oficiales",
+        toursTitle: "Servicios Principales a Torres del Paine",
+        toursSubtitle: "Nuestros dos traslados regulares más elegidos por los viajeros. Salidas diarias con tarifa oficial y pick-up en tu alojamiento.",
         
-        tour1Badge: "Bajo Costo",
+        tour1Badge: "Tour Panorámico",
         tour1Time: "⏱ Salida 07:00 AM · Todo el Día",
         tour1Title: "Full Day Torres del Paine",
-        tour1Desc: "Una alternativa económica para conocer el Parque Nacional y Cueva del Milodón.",
-        tour1BtnDetails: "ℹ️ Ver Detalles",
-        tour1BtnBook: "Reservar Cupo",
+        tour1Desc: "Recorrido panorámico por los miradores emblemáticos del Parque Nacional y la Cueva del Milodón.",
+        tour1BtnDetails: "Ver Detalles",
+        tour1BtnBook: "Reservar Asiento",
 
-        tour2Badge: "Transporte Directo",
+        tour2Badge: "★ El Más Elegido por Trekkers",
         tour2Time: "⏱ Salida 06:30 AM · Espera en Parque hasta 19:00 hrs",
         tour2Title: "Trekking Base Torres",
-        tour2Desc: "Exclusivo transporte ida y regreso al Mirador Base Torres (sin guía). Pick-up desde 06:30 AM y retorno a sus hostales.",
+        tour2Desc: "Transporte directo ida y retorno al Centro de Bienvenida para ascender al Mirador Base Torres a tu propio ritmo.",
+        tour2BtnDetails: "Ver Detalles",
+        tour2BtnBook: "Reservar Asiento",
 
         // Quiénes somos
         aboutTag: "Nuestra Identidad",
@@ -201,22 +203,24 @@ const siteTranslations = {
         stat4Num: "Webpay",
         stat4Text: "Secure Payment & Digital Ticket",
 
-        // Tours
-        toursTag: "Our Routes",
-        toursTitle: "Tours & Transfers",
-        toursSubtitle: "Clear rates, daily departures from Puerto Natales, and direct ticket reservations.",
+        // Tours (Main Services)
+        toursTag: "Daily Official Departures",
+        toursTitle: "Main Services to Torres del Paine",
+        toursSubtitle: "Our two most popular transfers chosen by travelers. Daily departures with official fares and hotel pick-up.",
         
-        tour1Badge: "Budget-Friendly",
+        tour1Badge: "Scenic Tour",
         tour1Time: "⏱ Departure 07:00 AM · Full Day",
         tour1Title: "Full Day Torres del Paine",
-        tour1Desc: "An economical option to explore the National Park and Milodon Cave.",
-        tour1BtnDetails: "ℹ️ View Details",
-        tour1BtnBook: "Book Ticket",
+        tour1Desc: "Scenic tour through the iconic viewpoints of the National Park and Milodon Cave.",
+        tour1BtnDetails: "View Details",
+        tour1BtnBook: "Book Seat",
 
-        tour2Badge: "Direct Transport",
+        tour2Badge: "★ Most Popular Trek",
         tour2Time: "⏱ Departure 06:30 AM · Shuttle waiting until 19:00 hrs",
-        tour2Title: "Base Torres Trekking Transport",
-        tour2Desc: "Direct roundtrip transport to the Base Torres trail (no guide). Pick-up from 06:30 AM and return to your hostels.",
+        tour2Title: "Trekking Base Torres",
+        tour2Desc: "Direct roundtrip transport to the Welcome Center to hike Base Torres at your own pace.",
+        tour2BtnDetails: "View Details",
+        tour2BtnBook: "Book Seat",
 
         // About Us
         aboutTag: "Our Identity",
@@ -363,22 +367,24 @@ const siteTranslations = {
         stat4Num: "Webpay",
         stat4Text: "Pagamento Seguro e Passagem Digital",
 
-        // Passeios
-        toursTag: "Nossas Rotas",
-        toursTitle: "Passeios e Traslados",
-        toursSubtitle: "Preços claros, saídas diárias de Puerto Natales e reserva direta de vagas.",
+        // Passeios (Principais Serviços)
+        toursTag: "Saídas Diárias Oficiais",
+        toursTitle: "Principais Serviços para Torres del Paine",
+        toursSubtitle: "Nossos dois traslados regulares mais escolhidos pelos viajantes. Saídas diárias com tarifa oficial e embarque em sua hospedagem.",
         
-        tour1Badge: "Econômico",
+        tour1Badge: "Tour Panorâmico",
         tour1Time: "⏱ Saída 07:00 AM · Dia Todo",
         tour1Title: "Full Day Torres del Paine",
-        tour1Desc: "Uma opção econômica para conhecer o Parque Nacional e a Caverna do Milodón.",
-        tour1BtnDetails: "ℹ️ Ver Detalhes",
-        tour1BtnBook: "Reservar Vaga",
+        tour1Desc: "Passeio panorâmico pelos mirantes emblemáticos do Parque Nacional e Caverna do Milodón.",
+        tour1BtnDetails: "Ver Detalhes",
+        tour1BtnBook: "Reservar Assento",
 
-        tour2Badge: "Transporte Direto",
+        tour2Badge: "★ Mais Escolhido para Trekking",
         tour2Time: "⏱ Saída 06:30 AM · Van aguarda até 19:00 hrs",
-        tour2Title: "Trekking Base Torres (Transporte)",
-        tour2Desc: "Transporte exclusivo de ida e volta ao mirante (sem guia). Pick-up a partir das 06:30 AM e retorno aos seus hotéis.",
+        tour2Title: "Trekking Base Torres",
+        tour2Desc: "Transporte direto de ida e volta ao Centro de Boas-Vindas para subir ao Mirante Base Torres no seu ritmo.",
+        tour2BtnDetails: "Ver Detalhes",
+        tour2BtnBook: "Reservar Assento",
 
         // Quem somos
         aboutTag: "Nossa Identidade",

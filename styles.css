@@ -2305,11 +2305,106 @@ footer {
     text-decoration: none;
     text-align: center;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 42px;
 }
 
 .btn-book-editorial:hover {
     background: #142019;
     border-color: #142019;
+}
+
+/* ========================================================
+   SERVICIOS PRINCIPALES: EXCURSIONES Y TRASLADOS (PROTAGONISMO)
+======================================================== */
+.main-services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.2rem;
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+@media (max-width: 860px) {
+    .main-services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+        max-width: 540px;
+    }
+}
+
+.main-service-card {
+    max-width: none !important;
+    width: 100%;
+    margin: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.main-service-card .img-container {
+    height: 230px !important;
+}
+
+@media (max-width: 640px) {
+    .main-service-card .img-container {
+        height: 185px !important;
+    }
+}
+
+.main-service-card.is-hero-featured {
+    border: 2px solid #1E5A40;
+    box-shadow: 0 10px 32px rgba(30, 90, 64, 0.12);
+}
+
+.main-service-card.is-hero-featured:hover {
+    border-color: #143D2B;
+    box-shadow: 0 16px 40px rgba(30, 90, 64, 0.18);
+}
+
+.tour-card-tag.is-star-tag {
+    background: #1E5A40 !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-weight: 800;
+}
+
+.main-tour-perks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+}
+
+.tour-perk-pill {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #1E5A40;
+    background: rgba(30, 90, 64, 0.07);
+    border: 1px solid rgba(30, 90, 64, 0.15);
+    padding: 0.22rem 0.6rem;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+}
+
+.main-service-card.is-hero-featured .tour-perk-pill {
+    background: rgba(30, 90, 64, 0.11);
+    color: #143D2B;
+    border-color: rgba(30, 90, 64, 0.24);
+}
+
+.btn-hero-book {
+    background: #1E5A40 !important;
+    border-color: #1E5A40 !important;
+    box-shadow: 0 4px 14px rgba(30, 90, 64, 0.25);
+}
+
+.btn-hero-book:hover {
+    background: #143D2B !important;
+    border-color: #143D2B !important;
 }
 
 /* ========================================================
