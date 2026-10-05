@@ -13,12 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Mobile Menu Toggle
+    // 2. Mobile Menu Toggle & Auto-close on link click
     const mobileToggle = document.getElementById('mobile-toggle');
     const mainNav = document.getElementById('main-nav');
     if (mobileToggle && mainNav) {
         mobileToggle.addEventListener('click', () => {
             mainNav.classList.toggle('open');
+        });
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('open');
+            });
         });
     }
 

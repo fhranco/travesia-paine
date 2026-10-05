@@ -278,7 +278,14 @@ router.post('/bookings/initiate', async (req, res) => {
 
         // 3. Generar orden de compra única e iniciar transacción en Webpay Plus por el monto total
         const buyOrder = `BO-${Date.now().toString().slice(-6)}-${passengers.length}`;
-        const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+        const reqHost = req.get('host');
+        const reqProto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+        const isReqLocal = reqHost && (reqHost.includes('localhost') || reqHost.includes('127.0.0.1'));
+        
+        let baseUrl = process.env.BASE_URL;
+        if (!baseUrl || (baseUrl.includes('localhost') && !isReqLocal)) {
+            baseUrl = `${reqProto}://${reqHost}`;
+        }
         const returnUrl = `${baseUrl}/return`;
 
         const webpayTx = await transbankService.createTransaction(

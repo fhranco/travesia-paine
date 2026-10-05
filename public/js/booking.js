@@ -961,9 +961,14 @@ async function initiateWebpayPayment() {
                     number: hotelNumber
                 }
             })
-        });
-
-        const json = await res.json();
+        const textResponse = await res.text();
+        let json;
+        try {
+            json = JSON.parse(textResponse);
+        } catch (e) {
+            console.error('Non-JSON response from server:', textResponse);
+            throw new Error(`El servidor respondió con un error (${res.status}). Por favor recarga e intenta nuevamente.`);
+        }
 
         if (json.success && json.data.webpayUrl && json.data.token) {
             const form = document.createElement('form');

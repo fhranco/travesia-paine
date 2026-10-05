@@ -13,6 +13,9 @@ const { startCronRunner } = require('./services/cronService');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Habilitar trust proxy para Hostinger / Nginx / Cloudflare (detecta HTTPS correctamente)
+app.set('trust proxy', true);
+
 // Middlewares
 app.use(cors());
 app.use(express.json());

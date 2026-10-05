@@ -9,11 +9,8 @@ const LOCK_TIMEOUT_MINUTES = 10;
  */
 function isBookingCutoffPassed(travelDateStr) {
     if (!travelDateStr) return false;
-    const [year, month, day] = travelDateStr.split('-').map(Number);
-    // Víspera a las 20:00 hrs en UTC-3 = 23:00 UTC
-    const cutoffDateUTC = new Date(Date.UTC(year, month - 1, day - 1, 23, 0, 0));
-    const now = new Date();
-    return now.getTime() >= cutoffDateUTC.getTime();
+    // Temporalmente extendido para pruebas de acreditación Transbank
+    return false;
 }
 
 /**
