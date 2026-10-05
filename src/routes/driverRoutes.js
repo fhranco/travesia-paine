@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
 const pdfService = require('../services/pdfService');
+const cronService = require('../services/cronService');
 
 /**
  * POST /api/driver/validate - Validación de abordaje por chofer
@@ -247,6 +248,26 @@ router.post('/toggle-checkin', (req, res) => {
     } catch (err) {
         console.error('Error toggling check-in:', err);
         res.status(500).json({ success: false, error: 'Error al actualizar abordaje.' });
+    }
+});
+
+/**
+ * POST /api/driver/manifest/:tourDateId/send-email - Enviar manifiesto oficial por correo electrónico
+ */
+router.post('/manifest/:tourDateId/send-email', async (req, res) => {
+    try {
+        const { tourDateId } = req.params;
+        const { targetEmail } = req.body || {};
+
+        const result = await cronService.dispatchManifestForTourDate(tourDateId, targetEmail);
+        res.json({
+            success: true,
+            message: 'Manifiesto despachado con éxito por correo electrónico.',
+            result
+        });
+    } catch (err) {
+        console.error('Error sending manifest email:', err);
+        res.status(500).json({ success: false, error: 'Error al enviar el manifiesto por correo: ' + err.message });
     }
 });
 

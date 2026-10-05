@@ -4,6 +4,33 @@ const db = require('../db/database');
 const bookingService = require('../services/bookingService');
 const transbankService = require('../services/transbankService');
 const pdfService = require('../services/pdfService');
+const cronService = require('../services/cronService');
+
+/**
+ * GET /api/time - Hora oficial de Magallanes / Puerto Natales (UTC-3) y estado de corte de reservas (20:00 hrs)
+ */
+router.get('/time', (req, res) => {
+    try {
+        const timeInfo = cronService.getNatalesTimeInfo();
+        res.json({
+            success: true,
+            data: {
+                timestamp: timeInfo.timestamp,
+                timezone: 'America/Punta_Arenas',
+                utcOffset: -3,
+                timeString: timeInfo.timeStr,
+                dateString: timeInfo.dateStr,
+                cutoffHour: 20,
+                cutoffMinute: 0,
+                isCutoffPassedToday: timeInfo.isCutoffPassedToday,
+                secondsUntilCutoffToday: timeInfo.secondsUntilCutoffToday,
+                clockDisplay: `${timeInfo.timeStr} (UTC-3 Magallanes)`
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
 
 /**
  * GET /api/weather - Clima en tiempo real Parque Nacional Torres del Paine vía Open-Meteo
@@ -252,7 +279,7 @@ router.post('/bookings/initiate', async (req, res) => {
         // 3. Generar orden de compra única e iniciar transacción en Webpay Plus por el monto total
         const buyOrder = `BO-${Date.now().toString().slice(-6)}-${passengers.length}`;
         const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
-        const returnUrl = `${baseUrl}/return.html`;
+        const returnUrl = `${baseUrl}/return`;
 
         const webpayTx = await transbankService.createTransaction(
             buyOrder,

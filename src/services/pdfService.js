@@ -156,7 +156,7 @@ async function generateVoucherPdf(bookingData) {
                 '• Entrada al Parque Nacional y Cueva del Milodón NO incluidas (comprar previamente en pasesparques.cl).\n' +
                 '• Base Torres: servicio exclusivo de transporte. En Centro de Bienvenida la van espera hasta las 19:00 hrs.\n' +
                 '• Cancelaciones: más de 3 días = 60% devolución. Menos de 24 horas = sin devolución (0%). No-show 100% retención.\n' +
-                '• Para consultas o coordinación: WhatsApp +56 9 8269 0081 | contacto@travesiapaine.com',
+                '• Para consultas o coordinación: WhatsApp +56 9 9632 991 | contacto@travesiapaine.com',
                 35, currentY + 22, { width: 350, lineGap: 2 }
             );
 

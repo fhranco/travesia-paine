@@ -1,15 +1,43 @@
-const Database = require('better-sqlite3');
 const path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const dbPath = process.env.DB_FILE || path.join(__dirname, '../../database.sqlite');
-const db = new Database(dbPath);
+let db;
 
-// Enable WAL mode and foreign keys for high performance and concurrency
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+try {
+    const Database = require('better-sqlite3');
+    db = new Database(dbPath);
+    db.pragma('journal_mode = WAL');
+    db.pragma('foreign_keys = ON');
+} catch (nativeErr) {
+    console.warn('[Database] better-sqlite3 nativo no disponible, usando motor nativo node:sqlite');
+    const { DatabaseSync } = require('node:sqlite');
+    db = new DatabaseSync(dbPath);
+    db.pragma = (sql) => {
+        try {
+            return db.exec('PRAGMA ' + sql);
+        } catch (e) {
+            return null;
+        }
+    };
+    db.transaction = (fn) => {
+        return (...args) => {
+            db.exec('BEGIN IMMEDIATE');
+            try {
+                const res = fn(...args);
+                db.exec('COMMIT');
+                return res;
+            } catch (err) {
+                try { db.exec('ROLLBACK'); } catch (_) {}
+                throw err;
+            }
+        };
+    };
+    db.pragma('journal_mode = WAL');
+    db.pragma('foreign_keys = ON');
+}
 
 function initSchema() {
     // 1. Tours table
@@ -169,10 +197,12 @@ function migrateTo16Seats() {
 
 function updateSeasonAndPolicies() {
     try {
-        // 1. Actualizar descripciones oficiales y políticas de los 2 tours regulares
+        // 1. Actualizar descripciones oficiales, nombres y precios de los 2 tours regulares ($45.000 CLP)
         db.prepare(`
             UPDATE tours 
-            SET departure_time = '06:30 AM',
+            SET name = 'Transfer Trekking Base Torres',
+                price_clp = 45000,
+                departure_time = '06:30 AM',
                 return_time = '19:00 PM (Espera en Centro de Bienvenida)',
                 description = 'Servicio de transporte de ida y regreso hacia el Centro de Bienvenida (Base Torres del Paine). Pick-up desde las 06:30 AM en tus alojamientos dentro del radio urbano de Puerto Natales. Una vez arriba en el Centro de Bienvenida, la van espera a los pasajeros hasta las 19:00 hrs para el retorno a sus hostales.',
                 important_note = 'TRANSPORTE EXCLUSIVO: Este servicio corresponde únicamente a traslado en van (no incluye guía de montaña). Cada pasajero realiza el sendero por su cuenta. Pasajeros alojados fuera del radio urbano de Puerto Natales deberán esperar en la Plaza de Armas. Cancelación con más de 3 días: devolución del 60%. Cancelación con menos de 24 hrs: sin devolución.'
@@ -181,7 +211,9 @@ function updateSeasonAndPolicies() {
 
         db.prepare(`
             UPDATE tours 
-            SET departure_time = '07:00 AM',
+            SET name = 'Full Day Torres del Paine',
+                price_clp = 45000,
+                departure_time = '07:00 AM',
                 important_note = 'MODALIDAD BAJO COSTO: Servicio enfocado en transporte y recorrido de los principales miradores del parque y Cueva del Milodón. No incluye guía de turismo. Cancelación con más de 3 días: devolución del 60%. Cancelación con menos de 24 hrs: sin devolución.'
             WHERE tour_type = 'FULL_DAY_BAJO_COSTO' OR id = 1
         `).run();
@@ -243,32 +275,32 @@ function seedInitialData() {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    // 1. FULL DAY TORRES DEL PAINE - BAJO COSTO
+    // 1. FULL DAY TORRES DEL PAINE
     const tour1 = insertTour.run(
-        'Full Day Torres del Paine – Bajo Costo',
-        'Una alternativa económica para conocer el Parque Nacional Torres del Paine',
+        'Full Day Torres del Paine',
+        'Recorrido por los miradores emblemáticos y Cueva del Milodón',
         'Puerto Natales (Pick-up en tu alojamiento)',
         'Parque Nacional Torres del Paine & Cueva del Milodón',
         '07:00 AM',
         'Retorno vespertino según condiciones',
-        38000,
+        45000,
         16,
         'Comenzamos nuestro recorrido a las 07:00 hrs realizando el pick-up en sus alojamientos de Puerto Natales para dirigirnos hacia el Parque Nacional Torres del Paine. Durante el recorrido visitaremos diferentes puntos de interés del parque, realizando diversas paradas fotográficas y contemplativas. Además, visitaremos el Monumento Natural Cueva del Milodón. El ingreso podrá ser por Portería Laguna Amarga o Portería Serrano según condiciones del día.',
         'Esta excursión corresponde a una modalidad de tour de bajo costo y no contempla servicio de guía turístico. El servicio está orientado principalmente al transporte y recorrido por los principales puntos de interés con las mismas paradas de un tour regular.',
         'FULL_DAY_BAJO_COSTO'
     );
 
-    // 2. TREKKING BASE TORRES
+    // 2. TRANSFER TREKKING BASE TORRES
     const tour2 = insertTour.run(
-        'Trekking Base Torres',
+        'Transfer Trekking Base Torres',
         'Vive uno de los trekkings más emblemáticos de la Patagonia',
         'Puerto Natales (Pick-up en tu alojamiento)',
         'Centro de Bienvenida / Base Torres del Paine',
         '06:30 AM',
-        '18:30 PM (Esperamos hasta esta hora para retornar)',
-        35000,
+        '19:00 PM (Esperamos hasta esta hora para retornar)',
+        45000,
         16,
-        'Comenzamos a las 06:30 hrs con el pick-up en alojamientos de Puerto Natales hacia Portería Laguna Amarga (control de entradas) y continuamos hasta el Centro de Bienvenida, desde donde comenzarás por cuenta propia el trekking hacia el Mirador Base Torres. El vehículo permanecerá esperando en el punto de encuentro hasta las 18:30 hrs para el retorno.',
+        'Comenzamos a las 06:30 hrs con el pick-up en alojamientos de Puerto Natales hacia Portería Laguna Amarga (control de entradas) y continuamos hasta el Centro de Bienvenida, desde donde comenzarás por cuenta propia el trekking hacia el Mirador Base Torres. El vehículo permanecerá esperando en el punto de encuentro hasta las 19:00 hrs para el retorno.',
         'Este servicio corresponde exclusivamente al transporte de ida y regreso y no incluye guía de trekking. Cada pasajero realiza el sendero por cuenta propia respetando las normas y restricciones de CONAF.',
         'TREKKING_BASE_TORRES'
     );

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: travesia-paine
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: WEBPAY_ENVIRONMENT
+        value: INTEGRATION
+      - key: CRON_ENABLED
+        value: "true"
+      - key: OPERATIONS_EMAIL
+        value: contacto@travesiapaine.com

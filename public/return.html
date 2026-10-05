@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmación de Reserva - Travesía Paine</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon Oficial Travesía Paine -->
+    <link rel="icon" type="image/webp" href="Logos/favicon.webp">
+    <link rel="apple-touch-icon" href="Logos/favicon.webp">
     <style>
         .result-card {
             max-width: 600px;
@@ -27,13 +30,13 @@
             font-size: 2rem;
         }
         .status-icon.success {
-            background: rgba(42, 125, 79, 0.2);
-            color: #4ADE80;
+            background: rgba(22, 163, 74, 0.15);
+            color: #16A34A;
             border: 2px solid var(--color-success);
         }
         .status-icon.error {
-            background: rgba(220, 38, 38, 0.2);
-            color: #F87171;
+            background: rgba(220, 38, 38, 0.15);
+            color: #DC2626;
             border: 2px solid var(--color-danger);
         }
         .ticket-details {
@@ -57,15 +60,10 @@
 <body>
 
     <header class="app-header">
-        <a href="index.html" class="logo-brand">
-            <svg class="logo-icon" viewBox="0 0 100 100">
-                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
-                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
-            </svg>
-            <div class="logo-title">
-                Travesía Paine
-                <span>Transfers & Expediciones</span>
+        <a href="/" class="logo-brand">
+            <img src="Logos/logo-color.webp" alt="Travesía Paine" class="brand-app-logo">
+            <div class="logo-title" style="margin-left: 0.4rem;">
+                <span style="font-size: 0.68rem; color: #D97706; font-weight: 800; letter-spacing: 1.5px;">TRANSFERS & EXPEDICIONES</span>
             </div>
         </a>
     </header>
@@ -110,7 +108,7 @@
                 <a id="btn-download-pdf" href="#" class="btn-webpay" style="background: var(--color-accent); text-decoration: none;">
                     📄 Descargar Voucher PDF de Embarque
                 </a>
-                <a href="index.html" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem;">
+                <a href="/" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem;">
                     Volver a la Página Principal
                 </a>
             </div>
@@ -121,7 +119,7 @@
             <div class="status-icon error">✕</div>
             <h2 style="color: #F87171; font-size: 1.8rem; margin-bottom: 0.4rem;">Transacción No Completada</h2>
             <p id="error-message" style="color: var(--color-text-muted); margin-bottom: 1.5rem;">El pago fue cancelado o rechazado por la pasarela de pagos.</p>
-            <a href="index.html" class="btn-webpay" style="background: var(--color-primary); text-decoration: none;">
+            <a href="/transfers" class="btn-webpay" style="background: var(--color-primary); text-decoration: none;">
                 Volver a Intentar
             </a>
         </div>
@@ -180,7 +178,7 @@
                             📥 Descargar Voucher: ${t.passengerName} (Asiento N° ${t.seatNumber})
                         </a>
                     `).join('')}
-                    <a href="index.html" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem; margin-top: 0.5rem;">
+                    <a href="/" class="driver-portal-btn" style="justify-content: center; padding: 0.8rem; margin-top: 0.5rem;">
                         Volver a la Página Principal
                     </a>
                 `;

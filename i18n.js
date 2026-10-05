@@ -29,7 +29,15 @@ const siteTranslations = {
         searchPill3: "Pasaje Digital Inmediato",
         searchPill4: "Van Máx. 16 Pasajeros",
 
-        // Stats
+        // Stats / Hero Benefits
+        featB1Title: "Cierre Reserva 20:00 hrs",
+        featB1Desc: "Del día anterior a la salida",
+        featB2Title: "Temporada 1 Nov – 30 Abr",
+        featB2Desc: "Salidas regulares garantizadas",
+        featB3Title: "Transfers sin guía",
+        featB3Desc: "Transporte directo regular",
+        featB4Title: "Pick-up en tu hotel",
+        featB4Desc: "Radio urbano (o Plaza de Armas)",
         stat1Num: "07:00 AM",
         stat1Text: "Pick-up en tu Alojamiento",
         stat2Num: "100%",
@@ -85,7 +93,7 @@ const siteTranslations = {
         bookingStep1Title: "1. Selecciona tu Excursión y Fecha",
         labelTour: "Excursión o Servicio:",
         labelDate: "Fecha de la Excursión (Selecciona en el Calendario):",
-        dateInfoAvailable: "📅 Fechas disponibles para la temporada actual.",
+        dateInfoAvailable: "📅 Fechas disponibles para la temporada actual (Cierre diario a las 20:00 hrs del día anterior).",
 
         bookingStep2Title: "2. Cantidad de Pasajeros / Cupos (Van Máx. 16 Pasajeros)",
         timerText: "Tiempo restante para completar tu compra:",
@@ -127,7 +135,7 @@ const siteTranslations = {
         summaryDateLabel: "Fecha & Pick-up:",
         summaryTotalLabel: "Total a Pagar:",
         
-        policyAgreeText: "<strong>☐ ACEPTO</strong> haber leído, comprendido y aceptado las <a href=\"index.html#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Políticas de Reserva, Cancelación y Reembolso</a> de Travesía Paine.",
+        policyAgreeText: "<strong>☐ ACEPTO</strong> haber leído, comprendido y aceptado las <a href=\"/#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Políticas de Reserva, Cancelación y Reembolso</a> de Travesía Paine.",
         btnPayText: "Pagar con Webpay Plus (Tarjetas)",
         securityBadgeText: "Pago 100% seguro y encriptado por Transbank Webpay Plus. Emisión automática de Pasaje Digital oficial.",
 
@@ -140,13 +148,13 @@ const siteTranslations = {
         pol1Body: "<p>El cliente podrá realizar la reserva y/o compra de nuestros servicios a través de nuestra página web o mediante los enlaces de reserva disponibles en ella.</p><p>Para realizar una reserva, el cliente deberá proporcionar la siguiente información:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Excursión o servicio que desea contratar.</li><li>Fecha de la excursión.</li><li>Cantidad de pasajeros.</li><li>Nombre y datos de contacto del responsable de la reserva.</li><li>Lugar de alojamiento en Puerto Natales, cuando corresponda, para coordinar el horario y lugar de pick-up.</li></ul><p>Una vez realizada la reserva, el cliente deberá revisar y verificar que los datos proporcionados sean correctos.</p>",
 
         pol2Header: "2. Política de Cancelaciones & Condiciones de Transporte",
-        pol2Body: "<p>El cliente podrá cancelar su reserva según las siguientes condiciones:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Más de 3 días de anticipación:</strong> Devolución del 60% del valor pagado.</li><li><strong>Menos de 24 horas:</strong> Sin devolución (0%).</li><li><strong>No Show:</strong> Sin devolución (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Servicio exclusivo de transporte. Pick-up desde 06:30 AM en hostales de Natales (alojados fuera esperan en Plaza de Armas). En Centro de Bienvenida se espera a los pasajeros hasta las 19:00 hrs.</p></div><p>Cierre de reservas web: 17:00 hrs del día anterior. Cupos completos o solicitudes de última hora se derivan a WhatsApp.</p>",
+        pol2Body: "<p>El cliente podrá cancelar su reserva según las siguientes condiciones:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Más de 3 días de anticipación:</strong> Devolución del 60% del valor pagado.</li><li><strong>Menos de 24 horas:</strong> Sin devolución (0%).</li><li><strong>No Show:</strong> Sin devolución (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres (Solo Transporte Regular sin Guía):</h4><p style=\"margin: 0; font-size: 0.86rem;\">Servicio exclusivo de transporte de ida y regreso. Se pasa a recoger a los pasajeros a sus alojamientos y al regresar se les deja en sus hostales (todo dentro del radio urbano de Puerto Natales). Si se hospedan fuera de la ciudad, deberán presentarse en el punto de encuentro en la Plaza de Armas. En el Centro de Bienvenida se espera hasta las 19:00 hrs para el retorno.</p></div><p><strong>Cierre de reservas web:</strong> 20:00 hrs del día anterior a la salida. Temporada activa: 1 de Noviembre al 30 de Abril.</p>",
 
         pol3Header: "3. Política de Reembolso por Condiciones Climáticas",
         pol3Body: "<p>En caso de que una excursión sea cancelada por condiciones climáticas adversas, y dicha cancelación sea determinada por el proveedor del servicio antes del inicio de la actividad, se realizará el reembolso del 100% del valor pagado, según corresponda.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Trekking Base Torres:</strong> En el caso específico del Trekking Base Torres, si la actividad es cancelada por condiciones climáticas o de seguridad por CONAF durante el desarrollo de la excursión, no se realizará reembolso. Esta situación puede producirse in situ, en un punto del sendero determinado por la autoridad competente, sin previo aviso y una vez que la actividad ya se encuentra en desarrollo. En estos casos, la decisión corresponde a CONAF y está fuera del control de nuestra empresa.</div><p>Los reembolsos que correspondan serán gestionados en un plazo de hasta 7 días, de acuerdo con el medio de pago utilizado y las condiciones aplicables.</p>",
 
         pol4Header: "4. Medios de Pago Online",
-        pol4Body: "<p>Nuestros servicios podrán ser pagados mediante:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Tarjetas de crédito y débito (vía Webpay Plus).</li><li>Transferencia bancaria.</li><li>PayPal.</li></ul>",
+        pol4Body: "<p>Nuestros servicios podrán ser pagados mediante:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Tarjetas de crédito y débito (vía Webpay Plus).</li><li>Transferencia bancaria (en caso de transferencia, coordinar previamente por WhatsApp al +56 9 9632 991).</li></ul><p style=\"font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem;\"><em>Nota: No aceptamos pagos vía PayPal.</em></p>",
 
         pol5Header: "5. No Presentación (No Show)",
         pol5Body: "<p>Si el pasajero no se presenta, no se encuentra disponible o no está preparado para realizar el tour en el horario previamente informado y coordinado por nuestra agencia, el servicio será considerado como No Presentación (No Show) y no tendrá derecho a reembolso.</p><p>El pasajero deberá encontrarse preparado y disponible en el lugar de recogida y dentro del horario informado previamente por nuestra agencia. Cualquier retraso ocasionado por el pasajero que impida realizar el servicio, incluyendo no encontrarse disponible al momento del pick-up, será registrado como No Presentación (No Show).</p>",
@@ -193,7 +201,15 @@ const siteTranslations = {
         searchPill3: "Instant Digital Ticket",
         searchPill4: "Van Max. 16 Passengers",
 
-        // Stats
+        // Stats / Hero Benefits
+        featB1Title: "Cutoff at 20:00 hrs",
+        featB1Desc: "Day prior to departure",
+        featB2Title: "Season Nov 1 – Apr 30",
+        featB2Desc: "Guaranteed regular departures",
+        featB3Title: "Self-guided Transfers",
+        featB3Desc: "Direct regular transport",
+        featB4Title: "Hotel Pick-up",
+        featB4Desc: "Urban area (or Plaza de Armas)",
         stat1Num: "07:00 AM",
         stat1Text: "Pick-up at your Accommodation",
         stat2Num: "100%",
@@ -249,7 +265,7 @@ const siteTranslations = {
         bookingStep1Title: "1. Select Tour & Date",
         labelTour: "Excursion or Service:",
         labelDate: "Excursion Date (Choose in Calendar):",
-        dateInfoAvailable: "📅 Available dates for the current season.",
+        dateInfoAvailable: "📅 Available dates for the current season (Daily cutoff at 20:00 hrs on the day prior to departure).",
 
         bookingStep2Title: "2. Number of Passengers / Tickets (Van Max. 16 Passengers)",
         timerText: "Time remaining to complete your booking:",
@@ -291,7 +307,7 @@ const siteTranslations = {
         summaryDateLabel: "Date & Pick-up:",
         summaryTotalLabel: "Total Amount:",
         
-        policyAgreeText: "<strong>☐ I AGREE</strong> to have read, understood, and accepted Travesía Paine's <a href=\"index.html#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Booking, Cancellation, and Refund Policies</a>.",
+        policyAgreeText: "<strong>☐ I AGREE</strong> to have read, understood, and accepted Travesía Paine's <a href=\"/#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Booking, Cancellation, and Refund Policies</a>.",
         btnPayText: "Pay with Webpay Plus (Cards)",
         securityBadgeText: "100% secure encrypted payment via Transbank Webpay Plus. Instant digital ticket issuance.",
 
@@ -304,13 +320,13 @@ const siteTranslations = {
         pol1Body: "<p>Customers can book or purchase our services directly through our website.</p><p>To make a booking, the customer must provide:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Excursion or service to hire.</li><li>Date of excursion.</li><li>Number of passengers.</li><li>Lead passenger contact details.</li><li>Hotel name & address in Puerto Natales for pick-up.</li></ul><p>Once booked, please verify that all submitted details are accurate.</p>",
 
         pol2Header: "2. Cancellation Policy & Transport Terms",
-        pol2Body: "<p>Bookings can be cancelled under the following commercial terms:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>More than 3 days prior:</strong> 60% refund.</li><li><strong>Less than 24 hours prior:</strong> Non-refundable (0%).</li><li><strong>No Show:</strong> Non-refundable (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Base Torres Shuttle:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Roundtrip transport service only. Pick-up from 06:30 AM at Natales hostels (outside town: Plaza de Armas meeting point). At the Welcome Center, the van waits until 19:00 hrs for the return.</p></div><p>Online booking cutoff: 17:00 hrs on the day prior. Fully booked dates or late inquiries are handled via WhatsApp.</p>",
+        pol2Body: "<p>Bookings can be cancelled under the following commercial terms:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>More than 3 days prior:</strong> 60% refund.</li><li><strong>Less than 24 hours prior:</strong> Non-refundable (0%).</li><li><strong>No Show:</strong> Non-refundable (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Base Torres Shuttle (Transport Only, No Guide):</h4><p style=\"margin: 0; font-size: 0.86rem;\">Roundtrip transport service only. Passengers are picked up from their hotels/hostels in Puerto Natales and dropped off at their hostels upon return. If staying outside town, meeting point is Plaza de Armas. At the Welcome Center, the van waits until 19:00 hrs for the return.</p></div><p><strong>Online booking cutoff:</strong> 20:00 hrs on the day prior to departure. Official season: Nov 1 to Apr 30.</p>",
 
         pol3Header: "3. Weather & Force Majeure Refund Policy",
         pol3Body: "<p>If an excursion is cancelled due to adverse weather conditions decided by the operator prior to departure, a 100% full refund will be processed.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Base Torres Trekking:</strong> If CONAF closes trail access during the hike for safety/weather reasons, no refund applies as the decision is made on-trail by park authorities outside our control.</div><p>Refunds will be processed within 7 business days to the original payment method.</p>",
 
         pol4Header: "4. Online Payment Methods",
-        pol4Body: "<p>Our services can be paid via:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Credit & Debit Cards (via Webpay Plus).</li><li>Bank wire transfer.</li><li>PayPal.</li></ul>",
+        pol4Body: "<p>Our services can be paid via:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Credit & Debit Cards (via Webpay Plus).</li><li>Bank wire transfer (coordinate via WhatsApp at +56 9 9632 991).</li></ul><p style=\"font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem;\"><em>Note: We do not accept PayPal.</em></p>",
 
         pol5Header: "5. No Show Policy",
         pol5Body: "<p>If a passenger fails to appear or is not ready at the coordinated pick-up time, the service will be classified as No Show and will not be eligible for a refund.</p><p>Passengers must be ready in the lobby during the scheduled morning pick-up window. Any delay that prevents departure will be logged as No Show.</p>",
@@ -357,9 +373,17 @@ const siteTranslations = {
         searchPill3: "Passagem Digital Imediata",
         searchPill4: "Van Máx. 16 Passageiros",
 
-        // Stats
+        // Stats / Hero Benefits
+        featB1Title: "Encerramento 20:00 hrs",
+        featB1Desc: "Do dia anterior à saída",
+        featB2Title: "Temporada 1 Nov – 30 Abr",
+        featB2Desc: "Saídas regulares garantidas",
+        featB3Title: "Transfers sem guia",
+        featB3Desc: "Transporte direto regular",
+        featB4Title: "Pick-up no seu hotel",
+        featB4Desc: "Área urbana (ou Plaza de Armas)",
         stat1Num: "07:00 AM",
-        stat1Text: "Pick-up no seu Alojamento",
+        stat1Text: "Pick-up no seu Alojamiento",
         stat2Num: "100%",
         stat2Text: "Empresa Familiar Local",
         stat3Num: "Econômico",
@@ -413,7 +437,7 @@ const siteTranslations = {
         bookingStep1Title: "1. Selecione Passeio e Data",
         labelTour: "Passeio ou Serviço:",
         labelDate: "Data do Passeio (Escolha no Calendário):",
-        dateInfoAvailable: "📅 Datas disponíveis para a temporada atual.",
+        dateInfoAvailable: "📅 Datas disponíveis para a temporada atual (Encerramento diário às 20:00 hrs do dia anterior).",
 
         bookingStep2Title: "2. Quantidade de Passageiros / Vagas (Van Máx. 16 Passageiros)",
         timerText: "Tempo restante para concluir sua compra:",
@@ -455,7 +479,7 @@ const siteTranslations = {
         summaryDateLabel: "Data & Pick-up:",
         summaryTotalLabel: "Total a Pagar:",
         
-        policyAgreeText: "<strong>☐ ACEPTO</strong> ter lido, compreendido e aceito as <a href=\"index.html#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Políticas de Reserva, Cancelamento e Reembolso</a> da Travesía Paine.",
+        policyAgreeText: "<strong>☐ ACEPTO</strong> ter lido, compreendido e aceito as <a href=\"/#politicas\" target=\"_blank\" style=\"color: var(--color-accent); text-decoration: underline;\">Políticas de Reserva, Cancelamento e Reembolso</a> da Travesía Paine.",
         btnPayText: "Pagar com Webpay Plus (Cartões)",
         securityBadgeText: "Pagamento 100% seguro e criptografado via Transbank Webpay Plus. Emissão instantânea de passagem digital.",
 
@@ -468,13 +492,13 @@ const siteTranslations = {
         pol1Body: "<p>O cliente poderá realizar a reserva ou compra através do nosso site.</p><p>Para efetuar a reserva, informe:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Passeio ou serviço desejado.</li><li>Data do passeio.</li><li>Quantidade de passageiros.</li><li>Nome e contato do responsável.</li><li>Hotel em Puerto Natales para o pick-up.</li></ul><p>Revise todos os dados antes de finalizar.</p>",
 
         pol2Header: "2. Política de Cancelamento & Condições de Transporte",
-        pol2Body: "<p>Cancelamentos seguem as seguintes condições comerciais:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Mais de 3 dias de antecedência:</strong> Reembolso de 60% do valor pago.</li><li><strong>Menos de 24 horas:</strong> Sem reembolso (0%).</li><li><strong>No Show:</strong> Sem reembolso (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres:</h4><p style=\"margin: 0; font-size: 0.86rem;\">Serviço exclusivo de transporte. Pick-up a partir das 06:30 AM nos hotéis de Natales (fora da cidade: ponto de encontro na Plaza de Armas). No Centro de Boas-Vindas a van aguarda até as 19:00 hrs.</p></div><p>Encerramento web: 17:00 hrs do dia anterior. Vagas esgotadas ou reservas de última hora são consultadas pelo WhatsApp.</p>",
+        pol2Body: "<p>Cancelamentos seguem as seguintes condições comerciais:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li><strong>Mais de 3 dias de antecedência:</strong> Reembolso de 60% do valor pago.</li><li><strong>Menos de 24 horas:</strong> Sem reembolso (0%).</li><li><strong>No Show:</strong> Sem reembolso (0%).</li></ul><div style=\"background: rgba(30, 90, 64, 0.06); border-left: 4px solid var(--color-primary); padding: 0.8rem 1rem; margin: 0.8rem 0;\"><h4 style=\"color: var(--color-primary); font-size: 0.92rem; margin-bottom: 0.3rem;\">🚐 Traslado Base Torres (Apenas Transporte Regular sem Guia):</h4><p style=\"margin: 0; font-size: 0.86rem;\">Serviço exclusivo de transporte de ida e volta. Os passageiros são buscados em suas hospedagens e deixados em seus hostels (dentro do perímetro urbano de Puerto Natales). Se estiverem fora da cidade, o ponto de encontro é na Plaza de Armas. No Centro de Boas-Vindas, a van aguarda até as 19:00 hrs.</p></div><p><strong>Encerramento de reservas web:</strong> 20:00 hrs do dia anterior. Temporada ativa: 1 de Novembro a 30 de Abril.</p>",
 
         pol3Header: "3. Reembolso por Condições Climáticas",
         pol3Body: "<p>Se o passeio for cancelado por condições climáticas pela operadora antes da saída, 100% do valor será reembolsado.</p><div style=\"background: var(--color-bg-dark); padding: 0.9rem; border-radius: var(--radius-sm); margin: 0.8rem 0;\"><strong style=\"color: var(--color-accent);\">Trekking Base Torres:</strong> Se a CONAF fechar a trilha durante o percurso por segurança/clima, não haverá reembolso, pois é uma decisão local fora do controle da empresa.</div><p>Reembolsos serão processados em até 7 dias úteis.</p>",
 
         pol4Header: "4. Meios de Pagamento Online",
-        pol4Body: "<p>Nossos serviços podem ser pagos via:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Cartões de Crédito e Débito (Webpay Plus).</li><li>Transferência Bancária.</li><li>PayPal.</li></ul>",
+        pol4Body: "<p>Nossos serviços podem ser pagos via:</p><ul style=\"padding-left: 1.2rem; margin: 0.5rem 0;\"><li>Cartões de Crédito e Débito (Webpay Plus).</li><li>Transferência Bancária (coordenar via WhatsApp no +56 9 9632 991).</li></ul><p style=\"font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem;\"><em>Nota: Não aceitamos PayPal.</em></p>",
 
         pol5Header: "5. Não Comparecimento (No Show)",
         pol5Body: "<p>Se o passageiro não estiver pronto no horário e hotel coordenados, o serviço será considerado No Show sem direito a reembolso.</p><p>O passageiro deve aguardar na recepção dentro da janela informada.</p>",

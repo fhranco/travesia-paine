@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // 3. Marquesina Continua Automática para Servicios Privados
+    initPrivateServicesMarquee();
+
     // 4. Clima en Vivo en Torres del Paine (Open-Meteo API)
     fetchPaineWeather();
 
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p style="color: var(--color-text-muted); max-width: 500px; margin: 0 auto 2rem;">
                             Uno de nuestros guías certificados revisará la disponibilidad de fechas y se pondrá en contacto contigo vía WhatsApp / Email en menos de 24 horas.
                         </p>
-                        <a href="index.html" class="btn btn-primary">Volver al Inicio</a>
+                        <a href="/" class="btn btn-primary">Volver al Inicio</a>
                     </div>
                 `;
             }, 1000);
@@ -242,14 +245,68 @@ function prevFleetImage(unitKey) {
 }
 
 // ==========================================================================
-// Control de Carrusel de Servicios Privados (Fila Única)
+// Marquesina Continua Infinita para Servicios Privados
 // ==========================================================================
+let isPrivateMarqueePaused = false;
+let privateMarqueeTimer = null;
+
+function initPrivateServicesMarquee() {
+    const track = document.getElementById('private-services-track');
+    if (!track) return;
+
+    // Duplicar tarjetas para garantizar loop infinito continuo sin saltos
+    if (!track.dataset.marqueeCloned) {
+        const initialCards = Array.from(track.children);
+        initialCards.forEach(c => {
+            const clone = c.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            track.appendChild(clone);
+        });
+        track.dataset.marqueeCloned = 'true';
+    }
+
+    // Pausar en interacción del usuario (hover o touch)
+    track.addEventListener('mouseenter', () => { isPrivateMarqueePaused = true; });
+    track.addEventListener('mouseleave', () => { isPrivateMarqueePaused = false; });
+    track.addEventListener('touchstart', () => { isPrivateMarqueePaused = true; }, { passive: true });
+    track.addEventListener('touchend', () => {
+        clearTimeout(privateMarqueeTimer);
+        privateMarqueeTimer = setTimeout(() => { isPrivateMarqueePaused = false; }, 2500);
+    }, { passive: true });
+
+    let lastTime = null;
+    const speedPxPerSec = 45; // Desplazamiento fluido y legible
+
+    function marqueeTick(time) {
+        if (!lastTime) lastTime = time;
+        const delta = (time - lastTime) / 1000;
+        lastTime = time;
+
+        if (!isPrivateMarqueePaused && track.scrollWidth > track.clientWidth) {
+            const halfScroll = track.scrollWidth / 2;
+            track.scrollLeft += speedPxPerSec * delta;
+            if (track.scrollLeft >= halfScroll) {
+                track.scrollLeft -= halfScroll;
+            }
+        }
+        requestAnimationFrame(marqueeTick);
+    }
+    requestAnimationFrame(marqueeTick);
+}
+
 function scrollPrivateServices(direction) {
     const track = document.getElementById('private-services-track');
     if (!track) return;
+
+    isPrivateMarqueePaused = true;
     const card = track.querySelector('.private-service-card');
-    const scrollAmount = (card ? card.offsetWidth + 24 : 374) * direction;
+    const scrollAmount = (card ? card.offsetWidth + 20 : 340) * direction;
     track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+    clearTimeout(privateMarqueeTimer);
+    privateMarqueeTimer = setTimeout(() => {
+        isPrivateMarqueePaused = false;
+    }, 3500);
 }
 
 // ==========================================================================

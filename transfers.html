@@ -2,70 +2,31 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Reserva - Travesía Paine | Torres del Paine</title>
-    <meta name="description" content="Formulario de reserva directa de asientos en van ejecutiva para Full Day Bajo Costo y Trekking Base Torres con Webpay Plus.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Reserva tu Traslado - Travesía Paine | Torres del Paine</title>
+    <meta name="description" content="Reserva directa, rápida y mobile-friendly de traslados a Torres del Paine. Full Day y Trekking Base Torres en vans de 16 asientos con Webpay Plus.">
+    
+    <!-- Favicon Oficial Travesía Paine -->
+    <link rel="icon" type="image/webp" href="Logos/favicon.webp">
+    <link rel="apple-touch-icon" href="Logos/favicon.webp">
+    
+    <!-- Estilos Globales -->
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .form-section-title {
-            color: var(--color-accent);
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid var(--color-border);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .policy-check-box {
-            background: var(--color-bg-dark);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: 1.2rem;
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-        }
-        .policy-check-box input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--color-accent);
-            cursor: pointer;
-            margin-top: 2px;
-        }
-        .policy-check-box label {
-            font-size: 0.88rem;
-            color: var(--color-text-light);
-            cursor: pointer;
-            line-height: 1.5;
-        }
-    </style>
 </head>
-<body>
+<body class="booking-suite-page has-mobile-booking-bar">
 
-    <!-- Header / Navigation -->
-    <header id="main-header">
-        <a href="index.html" class="logo-container" id="logo">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
-                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
-            </svg>
-            <div class="logo-text">
-                Travesía
-                <span>Paine</span>
-            </div>
+    <!-- Header / Navigation Simplificado y Limpio -->
+    <header id="main-header" style="position: relative; background: #FFFFFF; border-bottom: 1px solid #E2E8F0; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+        <a href="/" class="logo-container" id="logo" aria-label="Turismo Travesía Paine">
+            <img src="Logos/logo-color.webp" alt="Turismo Travesía Paine" class="brand-logo" style="height: 38px; width: auto;">
         </a>
         
         <nav id="main-nav">
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#excursiones">Excursiones</a></li>
-                <li><a href="index.html#empresa-familiar">Quiénes Somos</a></li>
-                <li><a href="index.html#politicas">Políticas</a></li>
-                <li><a href="transfers.html" class="active">Reservar Online</a></li>
+                <li><a href="/">← Volver al Inicio</a></li>
+                <li><a href="/#excursiones">Excursiones</a></li>
+                <li><a href="/#politicas">Políticas</a></li>
+                <li><a href="/transfers" class="active" style="color: var(--color-primary); font-weight: 800;">Reservar Online</a></li>
             </ul>
         </nav>
         
@@ -77,8 +38,8 @@
                 <button type="button" class="lang-btn" data-lang="pt">PT</button>
             </div>
             
-            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú" style="color: #0E1A16;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -90,287 +51,362 @@
     <!-- Barra Superior Sticky con Reloj de Reserva (10 Min) -->
     <div id="lock-timer" class="sticky-reservation-timer">
         <div class="sticky-timer-content">
-            <span class="timer-pulse-icon">⏱️</span>
-            <span class="timer-msg">Tus cupos están temporalmente reservados. Tiempo restante para pagar:</span>
+            <span>⏱️ Cupos temporalmente reservados. Tiempo restante:</span>
             <span id="timer-display" class="timer-badge">10:00</span>
         </div>
     </div>
 
-    <!-- Page Banner -->
-    <section class="page-banner" style="background-image: url('background.jpg'); padding: 7.5rem 5% 3rem;">
-        <div class="page-banner-content">
-            <span class="section-tag" style="color: #fff; background: rgba(255,255,255,0.15);" data-i18n="bookingBannerTag">Reserva Directa Online</span>
-            <h1 data-i18n="bookingBannerTitle">Formulario de Reserva & Asientos</h1>
-            <p data-i18n="bookingBannerDesc">Selecciona tu excursión, elige tu asiento en la van y completa los datos de tus pasajeros y alojamiento para coordinar tu pick-up en Puerto Natales.</p>
-        </div>
-    </section>
+    <!-- Contenedor Principal de la Suite Mobile-First -->
+    <main class="booking-suite-container">
+        
+        <!-- Encabezado Compacto y Claro -->
+        <div class="booking-top-hero">
+            <span class="booking-hero-badge">🚐 Vans Ejecutivas de 16 Asientos · Reserva Directa</span>
+            <h1>Tu Traslado a Torres del Paine</h1>
+            <p>Confirma tus asientos en solo 4 pasos. Pick-up directo en tu alojamiento en Puerto Natales.</p>
 
-    <!-- Main Booking View -->
-    <main class="main-wrapper" style="margin-top: 2rem; margin-bottom: 4rem;">
-        <div class="booking-layout">
-            
-            <!-- Left Column: Tour Selection & Van Seat Map -->
-            <div class="card-box">
-                <h2 class="step-title" data-i18n="bookingStep1Title">1. Selecciona tu Excursión y Fecha</h2>
-
-                <!-- Selector Visual Directo con Pestañas/Tarjetas -->
-                <label style="font-weight: 700; font-size: 0.95rem; color: var(--color-text-light); margin-bottom: 0.6rem; display: block;">
-                    Selecciona tu Servicio Regular:
-                </label>
-                <div class="tour-tabs-segmented" id="tour-tabs-container">
-                    <button type="button" class="tour-tab-btn active" id="tab-tour-basetorres" onclick="selectTourTab(2)">
-                        <span class="tab-btn-badge">Transporte Directo</span>
-                        <div class="tab-btn-title">🏔️ Trekking Base Torres</div>
-                        <div class="tab-btn-sub">$35.000 CLP · Salida 06:30 AM</div>
-                    </button>
-                    <button type="button" class="tour-tab-btn" id="tab-tour-fullday" onclick="selectTourTab(1)">
-                        <span class="tab-btn-badge" style="background: rgba(30,90,64,0.15); color: #2e8b57;">Bajo Costo</span>
-                        <div class="tab-btn-title">🚐 Full Day Torres del Paine</div>
-                        <div class="tab-btn-sub">$38.000 CLP · Salida 07:00 AM</div>
-                    </button>
-                </div>
-                
-                <div class="form-group" style="margin-top: 1rem;">
-                    <label for="tour-select" style="font-size: 0.85rem; color: var(--color-text-muted);" data-i18n="labelTour">Lista de excursiones:</label>
-                    <select id="tour-select" class="form-select">
-                        <option value="" disabled selected>Cargando excursiones disponibles...</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="date-picker" data-i18n="labelDate">Fecha de la Excursión (Selecciona en el Calendario):</label>
-                    <div style="position: relative;">
-                        <input type="date" id="date-picker" class="form-input" style="color-scheme: dark; font-size: 1rem; cursor: pointer;">
-                    </div>
-                    <small id="date-available-info" style="display: block; margin-top: 0.4rem; color: #4ADE80; font-size: 0.82rem;" data-i18n="dateInfoAvailable">
-                        📅 Fechas disponibles para la temporada actual (Cierre diario a las 17:00 hrs del día anterior).
-                    </small>
-                </div>
-
-                <!-- Info Tour Box -->
-                <div id="tour-info-card" style="background: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 1.1rem; margin-top: 1rem; font-size: 0.88rem; color: var(--color-text-muted);">
-                    <div style="font-weight: 700; color: var(--color-accent); margin-bottom: 0.3rem;" id="tour-info-name">-</div>
-                    <div id="tour-info-desc">-</div>
-                </div>
-
-                <div style="margin-top: 2rem;">
-                    <h2 class="step-title">2. Asientos Disponibles</h2>
-
-                    <!-- Tarjeta Simple y Directa de Disponibilidad -->
-                    <div class="simple-availability-card">
-                        <!-- Indicador destacado de asientos que quedan -->
-                        <div class="seats-remaining-banner" id="seats-remaining-banner">
-                            <span class="seats-dot" id="seats-dot">🟢</span>
-                            <span class="seats-remaining-text" id="quota-text">Quedan 16 asientos disponibles</span>
-                            <span class="van-tag">Capacidad Van: 16 Asientos</span>
-                        </div>
-
-                        <!-- WhatsApp Overflow Box (Cuando se completan los cupos o pasa el horario 17:00) -->
-                        <div id="whatsapp-overflow-box" class="whatsapp-overflow-card" style="display: none;">
-                            <div class="overflow-header">
-                                <span class="overflow-icon">💬</span>
-                                <strong id="wa-overflow-title">Consulta de Disponibilidad por WhatsApp</strong>
-                            </div>
-                            <p id="wa-overflow-desc">
-                                Cuando los cupos web se completan o el horario cierra a las 17:00 hrs del día previo, derivamos las solicitudes a WhatsApp para evaluar factibilidad operativa o cupos adicionales.
-                            </p>
-                            <a id="wa-overflow-btn" href="https://wa.me/56982690081?text=Hola%20Travesía%20Paine,%20quisiera%20consultar%20disponibilidad" target="_blank" rel="noopener noreferrer" class="btn-wa-overflow">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
-                                <span>Consultar Disponibilidad en WhatsApp</span>
-                            </a>
-                        </div>
-
-                        <!-- Control de aumento / disminución de pasajeros 1 a 1 -->
-                        <div class="form-group" style="margin-top: 1.4rem; margin-bottom: 1rem;">
-                            <label style="font-weight: 700; font-size: 0.95rem; color: var(--color-text-light); margin-bottom: 0.6rem; display: block;">
-                                Cantidad de Pasajeros:
-                            </label>
-                            
-                            <div class="stepper-counter-container">
-                                <button type="button" class="stepper-btn" id="btn-qty-minus" aria-label="Disminuir pasajero" disabled>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                </button>
-                                <div class="stepper-value-box">
-                                    <span id="qty-number" class="stepper-number">1</span>
-                                    <span class="stepper-label" id="qty-label">Pasajero</span>
-                                </div>
-                                <button type="button" class="stepper-btn" id="btn-qty-plus" aria-label="Aumentar pasajero">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Nota breve y directa de ubicación libre -->
-                        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 1rem; margin-bottom: 0; line-height: 1.5; background: #fbf9f5; border: 1px solid var(--color-border); border-radius: 8px; padding: 0.75rem 1rem;">
-                            🚐 <strong>Ubicación libre en la van:</strong> Los pasajeros se ubican libremente por orden de recogida en su alojamiento en Puerto Natales.
-                        </p>
-
-                        <!-- Total calculado -->
-                        <div style="margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 0.92rem; color: var(--color-text-muted); font-weight: 600;">Total a pagar:</span>
-                            <span id="subtotal-display" style="font-size: 1.45rem; font-weight: 800; color: var(--color-primary);">$38.000 CLP</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Reloj Oficial Magallanes UTC-3 (Transparencia Total de Horario) -->
+            <div class="official-time-banner" id="official-time-banner" title="Hora Oficial sincronizada con el servidor (Magallanes UTC-3)">
+                <div class="time-live-dot"></div>
+                <span class="time-label">🕒 Hora Oficial Puerto Natales:</span>
+                <span class="time-value" id="official-time-display">--:--:--</span>
+                <span class="time-cutoff-badge" id="official-cutoff-badge">Cierre diario reservas: 20:00 hrs</span>
             </div>
+        </div>
 
-            <!-- Right Column: Passenger & Pick-up Details Form -->
-            <div class="card-box">
-                <h2 class="step-title" data-i18n="bookingStep3Title">3. Formulario de Reserva & Datos del Pasajero</h2>
+        <form id="checkout-form" novalidate>
 
-                <form id="checkout-form">
-                    
-                    <!-- Dynamic Multi-Passenger Forms Container -->
-                    <div id="passengers-forms-container">
-                        <!-- Generado dinámicamente según los asientos seleccionados -->
-                        <div style="background: var(--color-bg-dark); border: 1px dashed var(--color-border); border-radius: 12px; padding: 2rem; text-align: center; color: var(--color-text-muted); margin-bottom: 1.5rem;" data-i18n="emptySeatsNotice">
-                            👈 <strong>Por favor haz clic en uno o más asientos en el mapa del bus</strong> para habilitar los datos individuales de cada pasajero.
+            <!-- ========================================================
+                 PASO 1: SELECCIÓN DE TOUR Y FECHA
+            ======================================================== -->
+            <section class="booking-step-card" id="step-card-tour">
+                <div class="step-header-flex">
+                    <div class="step-num-pill">1</div>
+                    <div>
+                        <div class="step-title-text">Elige tu Excursión y Fecha de Viaje</div>
+                        <span class="step-subtitle-hint">Servicios regulares de transporte desde Puerto Natales</span>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de selección táctiles de alto contraste -->
+                <div class="tour-selection-grid" id="tour-tabs-container">
+                    <!-- Opción A: Base Torres -->
+                    <button type="button" class="tour-card-select active" id="tab-tour-basetorres" onclick="selectTourTab(2)">
+                        <div>
+                            <span class="card-tag">Transporte Directo</span>
+                            <div class="card-title">🏔️ Transfer Trekking Base Torres</div>
+                            <div style="font-size: 0.8rem; color: #475569; line-height: 1.35; margin-bottom: 0.35rem;">
+                                Para hacer la caminata al Mirador Base por tu cuenta. Retorno 19:00 hrs.
+                            </div>
+                        </div>
+                        <div class="card-meta">
+                            <span>$45.000 CLP · 06:30 AM</span>
+                            <span class="card-check">✓</span>
+                        </div>
+                    </button>
+
+                    <!-- Opción B: Full Day -->
+                    <button type="button" class="tour-card-select" id="tab-tour-fullday" onclick="selectTourTab(1)">
+                        <div>
+                            <span class="card-tag">Bajo Costo</span>
+                            <div class="card-title">🚐 Full Day Torres del Paine</div>
+                            <div style="font-size: 0.8rem; color: #475569; line-height: 1.35; margin-bottom: 0.35rem;">
+                                Recorrido panorámico con paradas en miradores, lagos y Milodón.
+                            </div>
+                        </div>
+                        <div class="card-meta">
+                            <span>$45.000 CLP · 07:00 AM</span>
+                            <span class="card-check">✓</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Select nativo oculto sincronizado con la API -->
+                <select id="tour-select" class="hidden-tour-select" aria-label="Selecciona tu excursión">
+                    <option value="" disabled selected>Cargando excursiones...</option>
+                </select>
+
+                <!-- Selector de Fecha Táctil e Intuitivo (Clic en cualquier parte abre el calendario) -->
+                <div class="date-selector-wrapper" id="date-selector-box" onclick="openDatePickerCalendar(event)">
+                    <div class="date-label-row">
+                        <label for="date-picker" style="cursor: pointer;">📅 ¿Qué día viajas?</label>
+                        <span class="tap-calendar-hint">Toca cualquier parte para abrir calendario 🗓️</span>
+                    </div>
+                    <div class="date-input-container">
+                        <input type="date" id="date-picker" class="date-input-touch" aria-label="Fecha de la excursión">
+                        <div class="calendar-icon-indicator" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
                         </div>
                     </div>
-
-                    <!-- Datos de Alojamiento en Puerto Natales (Común para la reserva) -->
-                    <div class="form-section-title" data-i18n="hotelSectionTitle">
-                        📍 Datos de Alojamiento en Puerto Natales (Pick-up)
+                    <div class="date-info-hint" id="date-available-info">
+                        <span>ℹ️</span>
+                        <span>Cierre diario de reservas online a las <strong>20:00 hrs</strong> del día anterior.</span>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem;" data-i18n="hotelSectionSubtitle">
-                        La información del alojamiento es necesaria para coordinar correctamente el horario y lugar de pick-up de todos los pasajeros.
+                </div>
+
+                <!-- Ficha Descriptiva del Tour Seleccionado -->
+                <div class="tour-specs-card" id="tour-info-card">
+                    <div class="tour-specs-title" id="tour-info-name">🏔️ Transfer Trekking Base Torres</div>
+                    <div id="tour-info-desc">
+                        Pick-up desde las 06:30 AM en tu alojamiento. Retorno desde Centro de Bienvenida a las 19:00 hrs. Traslado regular sin guía de montaña.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 PASO 2: CANTIDAD DE PASAJEROS & DISPONIBILIDAD
+            ======================================================== -->
+            <section class="booking-step-card" id="step-card-seats">
+                <div class="step-header-flex">
+                    <div class="step-num-pill">2</div>
+                    <div>
+                        <div class="step-title-text">Cantidad de Pasajeros</div>
+                        <span class="step-subtitle-hint">Ubicación libre en la van según orden de recogida</span>
+                    </div>
+                </div>
+
+                <div class="stepper-quantity-row">
+                    <!-- Stepper Táctil 1 a 1 -->
+                    <div class="stepper-touch-box">
+                        <button type="button" class="btn-stepper-touch" id="btn-qty-minus" aria-label="Restar un pasajero" disabled>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                        <div class="stepper-count-display">
+                            <span id="qty-number" class="stepper-count-number">1</span>
+                            <span id="qty-label" class="stepper-count-label">Pasajero</span>
+                        </div>
+                        <button type="button" class="btn-stepper-touch" id="btn-qty-plus" aria-label="Sumar un pasajero">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+
+                    <!-- Subtotal en vivo -->
+                    <div class="stepper-subtotal-side">
+                        <div class="label">Subtotal estimado</div>
+                        <div class="val" id="subtotal-display">$45.000 CLP</div>
+                    </div>
+                </div>
+
+                <!-- Indicador de Asientos en Vivo -->
+                <div class="seats-remaining-banner" id="seats-remaining-banner">
+                    <span id="seats-dot">🟢</span>
+                    <span id="quota-text">Quedan 16 asientos disponibles</span>
+                    <span class="van-tag">Capacidad van: 16 Asientos</span>
+                </div>
+
+                <!-- Alerta de derivación a WhatsApp si se llena o cierra a las 20:00 -->
+                <div id="whatsapp-overflow-box" class="whatsapp-overflow-card" style="display: none;">
+                    <div class="overflow-header">
+                        <span>💬</span>
+                        <strong id="wa-overflow-title">Consulta de Disponibilidad por WhatsApp</strong>
+                    </div>
+                    <p id="wa-overflow-desc">
+                        Por horario operativo o capacidad completada, derivamos a WhatsApp para evaluar cupos adicionales o listas de espera.
+                    </p>
+                    <a id="wa-overflow-btn" href="https://wa.me/5699632991" target="_blank" rel="noopener noreferrer" class="btn-wa-overflow">
+                        <span>Consultar Disponibilidad por WhatsApp</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 PASO 3: DATOS DE PASAJEROS & ALOJAMIENTO EN NATALES
+            ======================================================== -->
+            <section class="booking-step-card" id="step-card-passengers">
+                <div class="step-header-flex">
+                    <div class="step-num-pill">3</div>
+                    <div>
+                        <div class="step-title-text">Pasajeros y Lugar de Recogida</div>
+                        <span class="step-subtitle-hint">Datos de contacto para el pasaje y coordinación del chofer</span>
+                    </div>
+                </div>
+
+                <!-- Formularios Dinámicos de Pasajeros (Titular completo + Acompañantes ágiles) -->
+                <div id="passengers-forms-container">
+                    <div style="text-align: center; padding: 1.5rem; color: #64748B;">
+                        Cargando formulario de pasajeros...
+                    </div>
+                </div>
+
+                <!-- Alojamiento y Recogida en Puerto Natales -->
+                <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #E2E8F0;">
+                    <div style="font-weight: 800; font-size: 1rem; color: #0E1A16; margin-bottom: 0.35rem;">
+                        📍 Lugar de Recogida en Puerto Natales
+                    </div>
+                    <p style="font-size: 0.82rem; color: #64748B; margin-bottom: 0.85rem;">
+                        El chofer pasará a recogerte en la mañana en la dirección indicada.
                     </p>
 
-                    <div class="form-group">
-                        <label for="hotel-name" data-i18n="labelHotelName">Nombre del Alojamiento / Hotel / Hostal *</label>
-                        <input type="text" id="hotel-name" class="form-input" placeholder="Ej: Hotel Costaustralis / Hostal Patagonia" data-i18n-placeholder="placeholderHotelName" required>
+                    <!-- Banner de Cobertura y Plaza de Armas -->
+                    <div class="hotel-callout-banner">
+                        <strong>🚐 Cobertura urbana y punto de encuentro:</strong>
+                        • Recogemos y dejamos en hostales/hoteles <strong>dentro del radio urbano de Puerto Natales</strong>.<br>
+                        • Si te hospedas <em>fuera de la ciudad</em>, tu punto de recogida oficial será la <strong>Plaza de Armas de Puerto Natales</strong>.<br>
+                        • Los servicios son <strong>traslados regulares de transporte</strong> (no incluyen guía turístico ni entradas).
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0.85rem;">
+                        <label for="hotel-name">Nombre del Hotel, Hostal o Alojamiento *</label>
+                        <input type="text" id="hotel-name" class="form-input" placeholder="Ej: Hotel Costaustralis / Hostal Patagonia" autocomplete="organization" required>
+                    </div>
+
+                    <div class="hotel-inputs-grid">
                         <div class="form-group">
-                            <label for="hotel-street" data-i18n="labelStreet">Calle *</label>
-                            <input type="text" id="hotel-street" class="form-input" placeholder="Ej: Pedro Montt" data-i18n-placeholder="placeholderStreet" required>
+                            <label for="hotel-street">Calle o Dirección *</label>
+                            <input type="text" id="hotel-street" class="form-input" placeholder="Ej: Pedro Montt" autocomplete="street-address" required>
                         </div>
                         <div class="form-group">
-                            <label for="hotel-number" data-i18n="labelNumber">Número *</label>
-                            <input type="text" id="hotel-number" class="form-input" placeholder="Ej: 160" data-i18n-placeholder="placeholderNumber" required>
+                            <label for="hotel-number">Número *</label>
+                            <input type="text" id="hotel-number" class="form-input" placeholder="Ej: 160 (o s/n)" required>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    <!-- Resumen de Compra -->
-                    <div class="checkout-summary">
-                        <div class="summary-row">
-                            <span>Pasajeros / Cupos:</span>
-                            <strong id="summary-seats" style="color: var(--color-primary); font-size: 1.05rem;">1 Pasajero (Ubicación libre)</strong>
-                        </div>
-                        <div class="summary-row">
-                            <span>Excursión:</span>
-                            <span id="summary-tour" style="text-align: right; max-width: 260px; font-weight: 600; color: var(--color-text-light);">-</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Fecha & Pick-up:</span>
-                            <span id="summary-date" style="font-weight: 600; color: var(--color-text-light);">-</span>
-                        </div>
-                        <div class="summary-total">
-                            <span>Total a Pagar:</span>
-                            <span id="summary-total">$38.000 CLP</span>
-                        </div>
+            <!-- ========================================================
+                 PASO 4: TICKET RESUMEN & PAGO WEBPAY PLUS
+            ======================================================== -->
+            <section class="booking-step-card" id="step-card-checkout">
+                <div class="step-header-flex">
+                    <div class="step-num-pill">4</div>
+                    <div>
+                        <div class="step-title-text">Resumen del Viaje y Pago</div>
+                        <span class="step-subtitle-hint">Revisa los detalles antes de ir a Webpay Plus</span>
+                    </div>
+                </div>
+
+                <!-- Recibo estilo Boarding Pass / Ticket Digital -->
+                <div class="summary-ticket-receipt">
+                    <div class="receipt-header">
+                        <span class="receipt-header-title">🎫 Pasaje Travesía Paine</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: #166534; background: #DCFCE7; padding: 0.2rem 0.55rem; border-radius: 6px;">Cupos confirmados</span>
                     </div>
 
-                    <!-- Checkbox Aceptación de Políticas -->
-                    <div class="policy-check-box">
-                        <input type="checkbox" id="policy-agree" required checked>
-                        <label for="policy-agree">
-                            <strong>ACEPTO</strong> haber leído y aceptado las <a href="index.html#politicas" target="_blank" style="color: var(--color-accent); text-decoration: underline; font-weight: 700;">Políticas de Reserva y Cancelación</a> (Cancelación: más de 3 días = 60% reembolso; menos de 24 hrs = 0%. Base Torres: pick-up 06:30, espera de retorno en Centro de Bienvenida hasta 19:00 hrs. Pasajeros fuera del radio urbano punto de encuentro en Plaza de Armas).
-                        </label>
+                    <div class="receipt-row">
+                        <span>Excursión:</span>
+                        <strong id="summary-tour">Transfer Trekking Base Torres</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Fecha y Salida:</span>
+                        <strong id="summary-date">-</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Pasajeros:</span>
+                        <strong id="summary-seats">1 Pasajero</strong>
                     </div>
 
-                    <!-- Botón de Pago con Webpay -->
-                    <button type="submit" id="btn-submit-booking" class="btn-webpay">
-                        <svg style="width: 22px; height: 22px; fill: currentColor;" viewBox="0 0 24 24">
-                            <path d="M20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z"/>
-                        </svg>
-                        <span>Pagar con Webpay Plus</span>
-                    </button>
+                    <div class="receipt-divider"></div>
 
-                    <div class="security-badge" style="text-align: center; margin-top: 0.9rem; font-size: 0.8rem; color: var(--color-text-muted);">
-                        🛡️ Pago 100% seguro y encriptado por Transbank Webpay Plus. Emisión automática de Pasaje Digital oficial.
+                    <div class="receipt-total-row">
+                        <span class="receipt-total-label">Total a Pagar:</span>
+                        <span class="receipt-total-amount" id="summary-total">$45.000 CLP</span>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+
+                <!-- Checkbox de Políticas -->
+                <div class="policy-card-agreement">
+                    <input type="checkbox" id="policy-agree" required checked>
+                    <label for="policy-agree">
+                        <strong>Acepto las condiciones del traslado:</strong> Cierre de reserva a las 20:00 hrs del día anterior. Cancelaciones con más de 3 días = 60% reembolso; menos de 24 hrs = sin devolución. Traslados regulares sin guía turístico. Recogida dentro de Puerto Natales (alojamientos exteriores esperan en Plaza de Armas). No aceptamos PayPal.
+                    </label>
+                </div>
+
+                <!-- Botón Principal Webpay Plus -->
+                <button type="submit" id="btn-submit-booking" class="btn-webpay-full">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z"/>
+                    </svg>
+                    <span>🔒 Pagar $45.000 CLP con Webpay Plus</span>
+                </button>
+
+                <div class="webpay-assurance-notes">
+                    🛡️ Pago 100% seguro y encriptado por Transbank Webpay Plus (Tarjetas de Débito y Crédito chilenas e internacionales). Emisión automática de Pasaje Digital.
+                </div>
+
+                <!-- Alternativa de Pago por Transferencia Bancaria -->
+                <div class="bank-transfer-alternative">
+                    ¿Prefieres pagar con <strong>transferencia bancaria</strong>? <a href="https://wa.me/5699632991?text=Hola%20Travesía%20Paine,%20quisiera%20reservar%20y%20pagar%20mediante%20transferencia%20bancaria" target="_blank" rel="noopener noreferrer">Coordinar por WhatsApp al +56 9 9632 991</a>
+                </div>
+            </section>
+
+        </form>
+
     </main>
 
-    <!-- Footer (2 Columnas: Marca & Reserva Directa / WhatsApp) -->
+    <!-- Barra Inferior Fija para Móviles (<= 768px) -->
+    <div class="mobile-sticky-checkout-bar" id="mobile-sticky-bar">
+        <div class="mobile-bar-info">
+            <span class="mobile-bar-label">Total a pagar</span>
+            <span class="mobile-bar-total" id="mobile-bar-total">$45.000 CLP</span>
+            <span class="mobile-bar-seats" id="mobile-bar-seats">1 Pasajero</span>
+        </div>
+        <button type="button" class="mobile-bar-cta-btn" id="mobile-bar-action-btn" onclick="handleMobileBottomAction()">
+            <span>Pagar Webpay</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+    </div>
+
+    <!-- Barra Informativa de Clima en Vivo Torres del Paine (Al final de la página, sin flotar) -->
+    <div class="bottom-weather-bar-section">
+        <div class="container">
+            <div class="bottom-weather-inner" id="weather-paine-badge" title="Clima en tiempo real en Torres del Paine (Open-Meteo)">
+                <div class="weather-status-left">
+                    <span class="weather-dot"></span>
+                    <span class="floating-weather-badge">En Vivo</span>
+                    <span class="weather-label-title">Torres del Paine:</span>
+                </div>
+                <div class="weather-metrics-row">
+                    <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #22c55e;">7°C</span>
+                    <span class="weather-divider">|</span>
+                    <span class="weather-item" id="weather-wind">💨 22 km/h</span>
+                    <span class="weather-divider">|</span>
+                    <span class="weather-item" id="weather-status" style="font-weight: 600;">🌤️ Parcialmente nublado</span>
+                </div>
+                <div class="weather-source-hint">
+                    <span>Monitoreo meteorológico en tiempo real</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Oficial Travesía Paine -->
     <footer>
         <div class="container">
             <div class="footer-top">
                 <!-- Columna 1: Marca & Propósito -->
                 <div class="footer-brand">
-                    <a href="index.html" class="logo-container">
-                        <svg class="logo-svg" viewBox="0 0 100 100">
-                            <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
-                            <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                            <polygon points="65,40 40,85 90,85" fill="currentColor"/>
-                        </svg>
-                        <div class="logo-text">
-                            Travesía
-                            <span>Paine</span>
-                        </div>
+                    <a href="/" class="logo-container" aria-label="Turismo Travesía Paine">
+                        <img src="Logos/logo-white.webp" alt="Turismo Travesía Paine" class="brand-logo footer-brand-logo" style="height: 38px; width: auto;">
                     </a>
-                    <p data-i18n="footerAboutText">
+                    <p>
                         Empresa familiar de turismo en Puerto Natales. Excursiones y traslados de bajo costo al Parque Nacional Torres del Paine.
                     </p>
-                    <div style="font-size: 0.88rem; color: var(--color-text-muted);" data-i18n="footerHours">
-                        ⏱ Atención diaria: 07:00 - 21:00 hrs
+                    <div style="font-size: 0.88rem; color: var(--color-text-muted);">
+                        ⏱ Atención diaria: 07:00 - 21:00 hrs · WhatsApp: +56 9 9632 991
                     </div>
                 </div>
 
                 <!-- Columna 2: Reserva Directa & WhatsApp -->
                 <div class="footer-contact-card" style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
-                    <a href="transfers.html" class="btn btn-accent" style="text-align: center; padding: 0.95rem 1.5rem; font-size: 1rem; width: 100%;" data-i18n="navBookTransfer">
-                        🚐 Reservar Asiento en Bus
-                    </a>
-                    
-                    <a href="https://wa.me/56987654321?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="footer-whatsapp-btn" data-i18n="btnFooterWa">
+                    <a href="https://wa.me/5699632991?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="footer-whatsapp-btn">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
-                        <span>WhatsApp Directo Chofer / Base</span>
+                        <span>WhatsApp Chofer / Base (+56 9 9632 991)</span>
                     </a>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <div data-i18n="footerCopy">&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS. EMPRESA FAMILIAR DE TURISMO.</div>
-                <div class="footer-socials">
-                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" fill="currentColor" stroke-width="2"/></svg>
-                    </a>
-                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    </a>
-                </div>
+                <div>&copy; 2026 TRAVESÍA PAINE. TODOS LOS DERECHOS RESERVADOS. EMPRESA FAMILIAR DE TURISMO.</div>
             </div>
         </div>
     </footer>
 
-    <!-- Widget Flotante de WhatsApp en Vivo -->
-    <div class="floating-whatsapp-widget">
-        <span class="floating-whatsapp-badge" data-i18n="floatingWaBadge">💬 ¿Dudas? Escríbenos</span>
-        <a href="https://wa.me/56987654321?text=Hola,%20quisiera%20consultar%20por%20las%20excursiones%20y%20asientos%20a%20Torres%20del%20Paine" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Contactar por WhatsApp">
-            <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.058.376-.058c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.115.546 4.105 1.503 5.839l-1.503 5.589 5.727-1.502c1.677.915 3.597 1.434 5.637 1.434 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12zm0 22c-1.834 0-3.551-.502-5.029-1.375l-.36-.214-3.742.981.999-3.648-.235-.374c-.961-1.53-1.47-3.315-1.47-5.184 0-5.404 4.397-9.801 9.801-9.801 5.405 0 9.801 4.397 9.801 9.801 0 5.404-4.396 9.801-9.801 9.801z"/></svg>
-        </a>
-    </div>
-
-    <!-- Burbuja Flotante de Clima en Vivo Torres del Paine -->
-    <div class="floating-weather-widget">
-        <div class="floating-weather-bubble" id="weather-paine-badge" title="Clima en tiempo real en Torres del Paine (Open-Meteo)">
-            <span class="weather-dot"></span>
-            <span class="floating-weather-badge">En Vivo</span>
-            <span class="weather-item weather-item-location">🏔️ Paine:</span>
-            <span class="weather-item" id="weather-temp" style="font-weight: 800; color: #4ADE80;">7°C</span>
-            <span class="weather-divider">|</span>
-            <span class="weather-item" id="weather-wind">💨 22 km/h</span>
-            <span class="weather-divider">|</span>
-            <span class="weather-item" id="weather-status" style="font-weight: 600;">🌤️ Parcialmente nublado</span>
-        </div>
-    </div>
-
-    <!-- Hidden form for Webpay POST redirection -->
+    <!-- Formulario oculto para redirección POST a Webpay -->
     <form id="webpay-form" method="POST" style="display: none;">
         <input type="hidden" name="token_ws" id="webpay-token-input">
     </form>

@@ -5,13 +5,13 @@ const LOCK_TIMEOUT_MINUTES = 10;
 
 /**
  * Comprueba si la reserva web para una fecha está cerrada.
- * Regla oficial: Cierre a las 17:00 hrs del día anterior (D-1) en huso Chile/Magallanes (UTC-3).
+ * Regla oficial: Cierre a las 20:00 hrs del día anterior (D-1) en huso Chile/Magallanes (UTC-3).
  */
 function isBookingCutoffPassed(travelDateStr) {
     if (!travelDateStr) return false;
     const [year, month, day] = travelDateStr.split('-').map(Number);
-    // Víspera a las 17:00 hrs en UTC-3 = 20:00 UTC
-    const cutoffDateUTC = new Date(Date.UTC(year, month - 1, day - 1, 20, 0, 0));
+    // Víspera a las 20:00 hrs en UTC-3 = 23:00 UTC
+    const cutoffDateUTC = new Date(Date.UTC(year, month - 1, day - 1, 23, 0, 0));
     const now = new Date();
     return now.getTime() >= cutoffDateUTC.getTime();
 }
@@ -147,10 +147,10 @@ function lockQuantity(tourDateId, quantity, sessionId) {
         const expMs = now.getTime() + LOCK_TIMEOUT_MINUTES * 60 * 1000;
         const lockedUntil = new Date(expMs).toISOString();
 
-        // 0. Validar corte de reserva (17:00 hrs del día anterior)
+        // 0. Validar corte de reserva (20:00 hrs del día anterior)
         const tourDate = db.prepare(`SELECT travel_date FROM tour_dates WHERE id = ?`).get(tourDateId);
         if (tourDate && isBookingCutoffPassed(tourDate.travel_date)) {
-            throw new Error('Las reservas web para esta salida cerraron a las 17:00 hrs del día anterior. Por favor consulta disponibilidad directamente por WhatsApp.');
+            throw new Error('Las reservas web para esta salida cerraron a las 20:00 hrs del día anterior. Por favor consulta disponibilidad directamente por WhatsApp.');
         }
 
         // 1. Obtener todos los asientos de la fecha
@@ -316,7 +316,7 @@ function createPendingOrder({
     const orderTransaction = db.transaction(() => {
         const tourDate = db.prepare(`SELECT travel_date FROM tour_dates WHERE id = ?`).get(tourDateId);
         if (tourDate && isBookingCutoffPassed(tourDate.travel_date)) {
-            throw new Error('Las reservas web para esta fecha cerraron a las 17:00 hrs del día anterior. Por favor contáctanos directamente por WhatsApp.');
+            throw new Error('Las reservas web para esta fecha cerraron a las 20:00 hrs del día anterior. Por favor contáctanos directamente por WhatsApp.');
         }
 
         const createdBookings = [];

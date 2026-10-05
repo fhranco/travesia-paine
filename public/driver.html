@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Portal Chofer & Escáner QR - Travesía Paine</title>
-    <meta name="theme-color" content="#12241E">
+    <meta name="theme-color" content="#081C36">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon Oficial Travesía Paine -->
+    <link rel="icon" type="image/webp" href="Logos/favicon.webp">
+    <link rel="apple-touch-icon" href="Logos/favicon.webp">
     <!-- html5-qrcode library for mobile camera QR scanning -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
@@ -45,19 +48,19 @@
 <body>
 
     <header class="driver-header">
-        <a href="index.html" class="logo-brand">
-            <svg class="logo-icon" viewBox="0 0 100 100">
-                <polygon points="50,15 15,85 85,85" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
-                <polygon points="50,15 35,85 65,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                <polygon points="65,40 40,85 90,85" fill="currentColor"/>
-            </svg>
-            <div class="logo-title">
-                Travesía Paine
-                <span>Portal Chofer / Asistente</span>
+        <a href="/" class="logo-brand">
+            <img src="Logos/logo-color.webp" alt="Travesía Paine" class="brand-app-logo">
+            <div class="logo-title" style="margin-left: 0.4rem;">
+                <span style="font-size: 0.68rem; color: #D97706; font-weight: 800; letter-spacing: 1.5px;">PORTAL CHOFER / ASISTENTE</span>
             </div>
         </a>
-        <div style="font-size: 0.75rem; color: #4ADE80; font-weight: 700;">
-            ● En Línea
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <div id="driver-clock-display" style="font-size: 0.85rem; font-weight: 700; color: #F59E0B; background: rgba(245, 158, 11, 0.1); padding: 0.35rem 0.8rem; border-radius: 999px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                🕒 Hora Natales: --:--:--
+            </div>
+            <div style="font-size: 0.75rem; color: #16A34A; font-weight: 700; background: rgba(22, 163, 74, 0.12); padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid rgba(22, 163, 74, 0.3);">
+                ● En Línea
+            </div>
         </div>
     </header>
 
@@ -73,9 +76,12 @@
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label for="driver-date-picker">Fecha del Recorrido (Calendario):</label>
-                    <input type="date" id="driver-date-picker" class="form-input" style="color-scheme: dark; font-size: 1rem; cursor: pointer;">
+                <div class="form-group" style="margin-bottom: 0; cursor: pointer;" onclick="document.getElementById('driver-date-picker')?.showPicker?.()">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                        <label for="driver-date-picker" style="cursor: pointer; margin-bottom: 0;">📅 Fecha del Recorrido:</label>
+                        <span style="font-size: 0.72rem; color: #D97706; font-weight: 700;">Toca para abrir calendario</span>
+                    </div>
+                    <input type="date" id="driver-date-picker" class="form-input" style="color-scheme: dark; font-size: 1rem; cursor: pointer; width: 100%;">
                 </div>
             </div>
             <small id="driver-date-info" style="display: block; margin-top: 0.6rem; color: #4ADE80; font-size: 0.85rem;">
@@ -84,14 +90,18 @@
         </div>
 
         <!-- Live Statistics Counter -->
-        <div class="driver-stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="driver-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
             <div class="driver-stat-box">
-                <div class="driver-stat-val" id="stat-capacity">12</div>
-                <div class="driver-stat-label">Capacidad Minibús</div>
+                <div class="driver-stat-val" id="stat-capacity">16</div>
+                <div class="driver-stat-label">Capacidad Van (16 Asientos)</div>
             </div>
             <div class="driver-stat-box">
                 <div class="driver-stat-val" id="stat-paid" style="color: #4ADE80;">0</div>
                 <div class="driver-stat-label">Pasajeros Confirmados</div>
+            </div>
+            <div class="driver-stat-box">
+                <div class="driver-stat-val" id="stat-checkedin" style="color: #38BDF8;">0</div>
+                <div class="driver-stat-label">Pasajeros a Bordo</div>
             </div>
         </div>
 
@@ -105,6 +115,9 @@
                     </p>
                 </div>
                 <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <button type="button" id="btn-send-email-now" class="btn-action" style="background: #10B981;" onclick="sendManifestEmailNow()">
+                        📧 Enviar por Correo
+                    </button>
                     <a id="btn-export-pdf" href="#" class="btn-action" style="background: #DC2626;" target="_blank">
                         📄 Exportar PDF (Ancho Completo)
                     </a>
@@ -123,11 +136,12 @@
                             <th>RUT / Pasaporte</th>
                             <th>Teléfono / WhatsApp</th>
                             <th>Alojamiento (Lugar de Pick-up)</th>
+                            <th style="width: 140px; text-align: center;">Abordaje</th>
                         </tr>
                     </thead>
                     <tbody id="manifest-tbody">
                         <tr>
-                            <td colspan="5" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">
+                            <td colspan="6" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">
                                 Selecciona un tour para cargar el manifiesto.
                             </td>
                         </tr>
