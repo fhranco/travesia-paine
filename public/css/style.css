@@ -603,3 +603,103 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   FIRMA DE AUTOR & SELLO EDITORIAL: AGENCIA PATAGONIACOACH
+   ========================================================================== */
+.footer-patagoniacoach-colophon {
+    padding-top: 1.5rem;
+    margin-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.colophon-seal-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.colophon-statement {
+    margin: 0;
+    font-size: 0.77rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: rgba(255, 255, 255, 0.48);
+    line-height: 1.4;
+    transition: color 0.25s ease;
+}
+
+.colophon-signature {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    font-size: 0.70rem;
+    letter-spacing: 0.035em;
+    color: rgba(255, 255, 255, 0.34);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.25s ease;
+    cursor: pointer;
+}
+
+.colophon-agency {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.58);
+    transition: color 0.25s ease;
+}
+
+.colophon-sep {
+    opacity: 0.35;
+    font-weight: 300;
+}
+
+.colophon-disciplines {
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.colophon-arrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    line-height: 1;
+    margin-left: 0.1rem;
+    opacity: 0.45;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, color 0.25s ease;
+}
+
+.colophon-signature:hover {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.colophon-signature:hover .colophon-agency {
+    color: #FFFFFF;
+}
+
+.colophon-signature:hover .colophon-arrow {
+    opacity: 0.95;
+    color: var(--color-accent, #ED5D28);
+    transform: translate(2px, -2px);
+}
+
+@media (min-width: 992px) {
+    .colophon-seal-wrapper {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .colophon-statement::after {
+        content: "·";
+        margin-left: 0.75rem;
+        opacity: 0.35;
+        display: inline-block;
+    }
+}
+
