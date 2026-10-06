@@ -276,6 +276,7 @@ async function loadDatesForTour(tourId) {
 
 async function onDateSelected(tourDateId) {
     currentTourDateId = tourDateId;
+    renderPassengerForms();
     await checkAndLockQuantity(selectedQuantity);
     startAvailabilityPolling();
 }
@@ -961,6 +962,8 @@ async function initiateWebpayPayment() {
                     number: hotelNumber
                 }
             })
+        });
+
         const textResponse = await res.text();
         let json;
         try {
