@@ -20,7 +20,7 @@ router.get('/time', (req, res) => {
                 utcOffset: -3,
                 timeString: timeInfo.timeStr,
                 dateString: timeInfo.dateStr,
-                cutoffHour: 20,
+                cutoffHour: 22,
                 cutoffMinute: 0,
                 isCutoffPassedToday: timeInfo.isCutoffPassedToday,
                 secondsUntilCutoffToday: timeInfo.secondsUntilCutoffToday,

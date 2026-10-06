@@ -28,10 +28,10 @@ function getNatalesTimeInfo() {
     const timeStr = formatterTime.format(now); // HH:MM:SS
     const [hh, mm, ss] = timeStr.split(':').map(Number);
 
-    // Temporalmente extendido a 23:59 hrs para finalizar acreditación técnica Transbank
-    const isCutoffPassedToday = false;
+    // Cierre diario extendido a las 22:00 hrs Magallanes (UTC-3)
+    const isCutoffPassedToday = (hh > 22) || (hh === 22 && (mm > 0 || ss > 0));
     const secondsNow = hh * 3600 + mm * 60 + ss;
-    const cutoffSeconds = 24 * 3600;
+    const cutoffSeconds = 22 * 3600; // 22:00:00
     const secondsUntilCutoffToday = Math.max(0, cutoffSeconds - secondsNow);
 
     return {
@@ -183,8 +183,8 @@ async function dispatchManifestForTourDate(tourDateId, customRecipient = null) {
 async function checkAndTriggerDailyCutoffCron() {
     const timeInfo = getNatalesTimeInfo();
 
-    // Solo se activa a partir de las 23:00 hrs si aún no se ha ejecutado hoy
-    if (timeInfo.hours >= 23 && lastDispatchedDateStr !== timeInfo.dateStr) {
+    // Solo se activa a partir de las 22:00 hrs si aún no se ha ejecutado hoy
+    if (timeInfo.hours >= 22 && lastDispatchedDateStr !== timeInfo.dateStr) {
         console.log(`[Cron 20:00] ⏰ Hora oficial 20:00 hrs alcanzada en Puerto Natales (${timeInfo.timeStr}).`);
         console.log(`[Cron 20:00] Iniciando generación automática de manifiestos para mañana...`);
 

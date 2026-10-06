@@ -96,12 +96,12 @@ function checkLiveCutoffTransition(currentServerMs) {
         }).format(new Date(currentServerMs)).split(':').map(Number);
 
         const secondsNow = hh * 3600 + mm * 60 + ss;
-        const cutoffSeconds = 20 * 3600;
+        const cutoffSeconds = 22 * 3600;
 
         const infoEl = document.getElementById('date-available-info');
         if (secondsNow >= cutoffSeconds) {
             if (infoEl) {
-                infoEl.innerHTML = `🔒 <strong>Reservas cerradas para mañana:</strong> Límite oficial de las 20:00 hrs alcanzado.`;
+                infoEl.innerHTML = `🔒 <strong>Reservas cerradas para mañana:</strong> Límite oficial de las 22:00 hrs alcanzado.`;
                 infoEl.style.color = '#F59E0B';
             }
         } else {
@@ -111,7 +111,7 @@ function checkLiveCutoffTransition(currentServerMs) {
             const sRem = diff % 60;
             const timeText = hRem > 0 ? `${hRem}h ${mRem}m ${sRem}s` : `${mRem}m ${sRem}s`;
             if (infoEl) {
-                infoEl.innerHTML = `⏱️ <strong>Salida para mañana:</strong> Quedan <strong>${timeText}</strong> antes del cierre oficial de las 20:00 hrs.`;
+                infoEl.innerHTML = `⏱️ <strong>Salida para mañana:</strong> Quedan <strong>${timeText}</strong> antes del cierre oficial de las 22:00 hrs.`;
                 infoEl.style.color = '#166534';
             }
         }
@@ -456,7 +456,7 @@ function updateAvailabilityBadge(data) {
     const remainingAfterSelection = Math.max(0, totalFreeInVan - selectedQuantity);
 
     if (isClosed) {
-        textEl.textContent = 'Reservas web cerradas (Límite: 20:00 hrs del día anterior)';
+        textEl.textContent = 'Reservas web cerradas (Límite: 22:00 hrs del día anterior)';
         if (dotEl) dotEl.textContent = '🔒';
         if (bannerEl) {
             bannerEl.style.borderColor = '#F59E0B';
@@ -473,13 +473,13 @@ function updateAvailabilityBadge(data) {
             waOverflowBox.style.display = 'block';
             const dateStr = document.getElementById('date-picker') ? document.getElementById('date-picker').value : '';
             const tourName = currentTour ? currentTour.name : 'Excursión';
-            const waMsg = encodeURIComponent(`Hola Travesía Paine, las reservas web para ${tourName} el día ${dateStr} están cerradas por horario (20:00 hrs). ¿Aún tienen cupos de última hora disponibles?`);
+            const waMsg = encodeURIComponent(`Hola Travesía Paine, las reservas web para ${tourName} el día ${dateStr} están cerradas por horario (22:00 hrs). ¿Aún tienen cupos de última hora disponibles?`);
             const waBtn = document.getElementById('wa-overflow-btn');
             if (waBtn) waBtn.href = `https://wa.me/5699632991?text=${waMsg}`;
             const waTitle = document.getElementById('wa-overflow-title');
-            if (waTitle) waTitle.textContent = '⏰ Cierre diario de reservas online (20:00 hrs)';
+            if (waTitle) waTitle.textContent = '⏰ Cierre diario de reservas online (22:00 hrs)';
             const waDesc = document.getElementById('wa-overflow-desc');
-            if (waDesc) waDesc.textContent = 'Por políticas operativas, el sistema web cierra a las 20:00 hrs del día previo para coordinar las hojas de ruta y pick-ups. Contáctanos directo a WhatsApp para ver cupos de última hora.';
+            if (waDesc) waDesc.textContent = 'Por políticas operativas, el sistema web cierra a las 22:00 hrs del día previo para coordinar las hojas de ruta y pick-ups. Contáctanos directo a WhatsApp para ver cupos de última hora.';
         }
     } else if (isSoldOut) {
         textEl.textContent = 'No quedan asientos disponibles para esta fecha (Agotado)';

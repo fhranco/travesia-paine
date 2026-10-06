@@ -5,12 +5,15 @@ const LOCK_TIMEOUT_MINUTES = 10;
 
 /**
  * Comprueba si la reserva web para una fecha está cerrada.
- * Regla oficial: Cierre a las 20:00 hrs del día anterior (D-1) en huso Chile/Magallanes (UTC-3).
+ * Regla oficial extendida: Cierre a las 22:00 hrs del día anterior (D-1) en huso Chile/Magallanes (UTC-3).
  */
 function isBookingCutoffPassed(travelDateStr) {
     if (!travelDateStr) return false;
-    // Temporalmente extendido para pruebas de acreditación Transbank
-    return false;
+    const [year, month, day] = travelDateStr.split('-').map(Number);
+    // Víspera a las 22:00 hrs en UTC-3 = 01:00 UTC del día de viaje
+    const cutoffDateUTC = new Date(Date.UTC(year, month - 1, day, 1, 0, 0));
+    const now = new Date();
+    return now.getTime() >= cutoffDateUTC.getTime();
 }
 
 /**
